@@ -18,13 +18,14 @@ public class Robot extends IterativeRobot
 	
 	Driver driver;
 	
-	Gyro gyro;
+	// Only is we have a gyro
+	// Gyro gyro;
 	
     public void robotInit()
     {
     	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
     	driver = new Driver(1, 2, 3, 4);
-    	gyro = new Gyro(1);
+    	// gyro = new Gyro(1);
     }
     
     public void autonomousInit()

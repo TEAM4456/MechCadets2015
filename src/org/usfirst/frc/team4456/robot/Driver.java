@@ -6,18 +6,20 @@ public class Driver
 {
 	RobotDrive robotDrive;
 	
-	public Driver(int FL, int RL, int FR, int RR) //FrontLeft RearLeft FrontRear RearRight
+	public Driver(int FL, int RL, int FR, int RR) //FrontLeft, RearLeft, FrontRear, RearRight
 	{
 		robotDrive = new RobotDrive(FL, RL, FR, RR);
 	}
 	
+	// This will be used if we do not have a gyroscope
 	public void drivePolar(double m, double d, double r) //magnitude, direction, rotation
 	{
 		robotDrive.mecanumDrive_Polar(m, d, r);
 	}
 	
-	public void driveCartesian(double x, double y, double r, double g)
+	// This will be used if we do have a gyroscope
+	public void driveCartesian(double xAxis, double yAxis, double r, double g) // x, y, rotation, gyroAngle
 	{
-		robotDrive.mecanumDrive_Cartesian(x, y, r, g);
+		robotDrive.mecanumDrive_Cartesian(xAxis, yAxis, r, g);
 	}
 }
