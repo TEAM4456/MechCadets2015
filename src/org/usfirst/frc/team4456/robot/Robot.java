@@ -18,14 +18,13 @@ public class Robot extends IterativeRobot
 	
 	Driver driver;
 	
-	// Only is we have a gyro
-	// Gyro gyro;
+	Gyro gyro;
 	
     public void robotInit()
     {
     	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
     	driver = new Driver(1, 2, 3, 4);
-    	// gyro = new Gyro(1);
+    	//gyro = new Gyro(1);
     }
     
     public void autonomousInit()
@@ -61,18 +60,15 @@ public class Robot extends IterativeRobot
      */
     public void teleopPeriodic()
     {
-    	// Un-tab one of these two actions based on whether or not we have a gyroscope
-        /*
-    	 *	driver.drivePolar(xboxController.getMagnitude(),
-         *			xboxController.getDirectionDegrees(),
-         *			xboxController.getRawAxis(Constants.axis_rightStick_X));
-         */
+    	driver.drivePolar(xboxController.getMagnitude(),
+    			xboxController.getDirectionDegrees(),
+    			xboxController.getRawAxis(Constants.axis_rightStick_X));
     	/*
-         *	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
-         *			xboxController.getRawAxis(Constants.axis_leftStick_Y),
-         *			xboxController.getRawAxis(Constants.axis_rightStick_X),
-         *			gyro.getAngle());
-		 */
+    	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
+    			xboxController.getRawAxis(Constants.axis_leftStick_Y),
+    			xboxController.getRawAxis(Constants.axis_rightStick_X),
+    			gyro.getAngle());		
+		*/
     }
     
     public void disabledPeriodic()
