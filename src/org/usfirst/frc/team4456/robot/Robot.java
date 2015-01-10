@@ -63,16 +63,16 @@ public class Robot extends IterativeRobot
     {
     	// Un-tab one of these two actions based on whether or not we have a gyroscope
         /*
-    		driver.drivePolar(xboxController.getMagnitude(),
-        			xboxController.getDirectionDegrees(),
-        			xboxController.getRawAxis(Constants.axis_rightStick_X));
-        */
+    	 *	driver.drivePolar(xboxController.getMagnitude(),
+         *			xboxController.getDirectionDegrees(),
+         *			xboxController.getRawAxis(Constants.axis_rightStick_X));
+         */
     	/*
-        	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
-        			xboxController.getRawAxis(Constants.axis_leftStick_Y),
-        			xboxController.getRawAxis(Constants.axis_rightStick_X),
-        			gyro.getAngle());
-		*/
+         *	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
+         *			xboxController.getRawAxis(Constants.axis_leftStick_Y),
+         *			xboxController.getRawAxis(Constants.axis_rightStick_X),
+         *			gyro.getAngle());
+		 */
     }
     
     public void disabledPeriodic()
