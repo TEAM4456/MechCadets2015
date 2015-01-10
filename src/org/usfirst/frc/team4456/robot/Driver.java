@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.PWM;
 
 public class Driver
 {
