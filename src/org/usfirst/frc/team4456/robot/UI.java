@@ -6,14 +6,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class UI
 {
 
-	private SmartDashboard smartdashboard;
 	private DriverStation outputBox;
 	private int printCounter;
     
     public UI()
     {
-            outputBox = DriverStation.getInstance();
-            printCounter = 0;
+    	SmartDashboard.putNumber("Hello Santa", 2.7);
+        outputBox = DriverStation.getInstance();
+        printCounter = 0;
     }
 	
 }
