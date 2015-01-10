@@ -22,4 +22,11 @@ public class Driver
 	{
 		robotDrive.mecanumDrive_Cartesian(xAxis, yAxis, r, g);
 	}
+	
+	/*
+	public void driveTank(double xAxis, double yAxis, double r, double g) // x, y, rotation, gyroAngle
+	{
+		robotDrive.tankDrive(leftValue, rightValue);
+	}
+	*/
 }
