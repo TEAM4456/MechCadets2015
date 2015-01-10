@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team4456.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
@@ -15,15 +16,17 @@ import edu.wpi.first.wpilibj.Joystick;
 public class Robot extends IterativeRobot
 {
 	Joystick xboxController;
-	
+	UI ui;
 	Driver driver;
-	
+	Compressor compressor;
 	Gyro gyro;
 	
     public void robotInit()
     {
     	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
     	driver = new Driver(1, 2, 3, 4);
+    	ui = new UI();
+    	compressor = new Compressor();
     	//gyro = new Gyro(1);
     }
     
@@ -60,6 +63,7 @@ public class Robot extends IterativeRobot
      */
     public void teleopPeriodic()
     {
+    	compressor.start();
     	driver.drivePolar(xboxController.getMagnitude(),
     			xboxController.getDirectionDegrees(),
     			xboxController.getRawAxis(Constants.axis_rightStick_X));
