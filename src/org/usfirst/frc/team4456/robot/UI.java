@@ -12,10 +12,15 @@ public class UI
     
     public UI(Robot robot)
     {
+    	//encoder
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
+    	SmartDashboard.putBoolean("Reset", false);
+    	
     	SmartDashboard.putNumber("Hello Santa", 2.7);
+    	
     	SmartDashboard.putBoolean("test", false);
+    	
         outputBox = DriverStation.getInstance();
         printCounter = 0;
         System.out.println("UI running");
@@ -29,8 +34,17 @@ public class UI
     		System.out.println("test running");
     	}
     	
+    	if (SmartDashboard.getBoolean("Reset"))
+    	{
+    		robot.encoder.reset();
+    		SmartDashboard.putBoolean("Reset", false);
+    	}
+    	
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
+    	
+    	
+    	SmartDashboard.putNumber("Accelerometer X", robot.accelerometer.getX());
     }
 	
 }
