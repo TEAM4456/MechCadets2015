@@ -28,6 +28,9 @@ public class UI
     	{
     		System.out.println("test running");
     	}
+    	
+    	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
+    	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     }
 	
 }

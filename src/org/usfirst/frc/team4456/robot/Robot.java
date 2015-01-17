@@ -23,12 +23,18 @@ public class Robot extends IterativeRobot
 	
 	Encoder encoder;
 	
+	UI ui;
+	
     public void robotInit()
     {
-    	encoder = new Encoder(1, 2, false, CounterBase.EncodingType.k1X);
+    	//encoder init
+    	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/750);
+        
     	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
-    	driver = new Driver(1, 2, 3, 4);
+    	driver = new Driver(0, 1, 2, 3);
+    	
+    	ui = new UI(this);
     	//gyro = new Gyro(1);
     }
     
@@ -68,6 +74,8 @@ public class Robot extends IterativeRobot
     	driver.drivePolar(xboxController.getMagnitude(),
     			xboxController.getDirectionDegrees(),
     			xboxController.getRawAxis(Constants.axis_rightStick_X));
+    	
+    	ui.update(this);
     	/*
     	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
     			xboxController.getRawAxis(Constants.axis_leftStick_Y),
@@ -79,6 +87,7 @@ public class Robot extends IterativeRobot
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
+    	ui.update(this);
     }
     
     /**
