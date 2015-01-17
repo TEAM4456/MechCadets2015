@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
@@ -25,34 +27,41 @@ public class Robot extends IterativeRobot
 	Encoder encoder;
 	UI ui;
 	DigitalInput limitSwitch;
-	//ADXL345_I2C accelerometer;
-	//I2C lightR
+	ADXL345_I2C accelerometer;
+	I2C lidar;
+	
+	Talon testMotor;
+	PIDController pidController;
+	
+	double pValue;
 	
     public void robotInit()
     {
+    	//PID
+    	pValue = -.5;
+    	testMotor = new Talon(1);
+    	pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
+    	
     	//encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
         
     	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
-    	driver = new Driver(0, 1, 2, 3);
+    	driver = new Driver(0, 4, 2, 3);
     	
     	ui = new UI(this);
     	
-    	//accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+    	lidar = new I2C(I2C.Port.kOnboard, 1);
     	
-    	//limitSwitch = new DigitalInput(2);
+    	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+    	
+    	limitSwitch = new DigitalInput(9);
     	//gyro = new Gyro(1);
     }
     
     public void autonomousInit()
     {
     	super.autonomousInit();
-    }
-    
-    public void teleopInit()
-    {
-    	super.teleopInit();
     }
     
     public void disabledInit()
@@ -72,19 +81,25 @@ public class Robot extends IterativeRobot
     {
     	super.autonomousPeriodic();
     }
-
-    /**
-     * This function is called periodically during operator control
-     */
+    
+    //----------------
+    //TELEOP
+    //----------------
+    public void teleopInit()
+    {
+    	super.teleopInit();
+    	pidController.enable();
+    }
+    
     public void teleopPeriodic()
     {
     	driver.drivePolar(xboxController.getMagnitude(),
     			xboxController.getDirectionDegrees(),
     			xboxController.getRawAxis(Constants.axis_rightStick_X));
     	
+    	pidController.setSetpoint(10);
+    	
     	ui.update(this);
-    	
-    	
     	
     	/*
     	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),

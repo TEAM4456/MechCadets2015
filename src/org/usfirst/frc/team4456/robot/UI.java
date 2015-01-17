@@ -15,12 +15,12 @@ public class UI
     	//encoder
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
-    	SmartDashboard.putBoolean("Reset", false);
+    	SmartDashboard.putBoolean("resetEncoder", false);
     	
-    	SmartDashboard.putNumber("Hello Santa", 2.7);
+    	SmartDashboard.putNumber("pValue", robot.pValue);
+    	SmartDashboard.putBoolean("setPValue", false);
     	
-    	SmartDashboard.putBoolean("test", false);
-    	
+    	SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
         outputBox = DriverStation.getInstance();
         printCounter = 0;
         System.out.println("UI running");
@@ -29,22 +29,28 @@ public class UI
     public void update(Robot robot)
     {
     	SmartDashboard.putBoolean("Enabled", robot.isEnabled());
-    	if (SmartDashboard.getBoolean("test"))
+    	
+    	if (SmartDashboard.getBoolean("setPValue"))
     	{
-    		System.out.println("test running");
+    		robot.pidController.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
+    		SmartDashboard.putBoolean("Reset", false);
     	}
     	
-    	if (SmartDashboard.getBoolean("Reset"))
+    	if (SmartDashboard.getBoolean("resetEncoder"))
     	{
     		robot.encoder.reset();
-    		SmartDashboard.putBoolean("Reset", false);
+    		SmartDashboard.putBoolean("resetEncoder", false);
     	}
     	
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
+    	SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
     	
+    	//!!!
+    	//TODO gotta figure lidar out
+    	byte[] byteArray = {1, 2, 3};
+    	System.out.println("lidar value: " + robot.lidar.read(1, 1, byteArray));
     	
-    	SmartDashboard.putNumber("Accelerometer X", robot.accelerometer.getX());
     }
 	
 }
