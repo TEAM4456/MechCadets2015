@@ -25,7 +25,8 @@ public class Robot extends IterativeRobot
 	Encoder encoder;
 	UI ui;
 	DigitalInput limitSwitch;
-	ADXL345_I2C accelerometer;
+	//ADXL345_I2C accelerometer;
+	//I2C lightR
 	
     public void robotInit()
     {
@@ -38,7 +39,7 @@ public class Robot extends IterativeRobot
     	
     	ui = new UI(this);
     	
-    	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+    	//accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
     	//limitSwitch = new DigitalInput(2);
     	//gyro = new Gyro(1);
