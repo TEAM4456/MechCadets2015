@@ -67,11 +67,14 @@ public class Robot extends IterativeRobot
     	driver.drivePolar(xboxController.getMagnitude(),
     			xboxController.getDirectionDegrees(),
     			xboxController.getRawAxis(Constants.axis_rightStick_X));
+    	
+    	ui.update(this);
+    	
     	/*
     	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
     			xboxController.getRawAxis(Constants.axis_leftStick_Y),
     			xboxController.getRawAxis(Constants.axis_rightStick_X),
-    			gyro.getAngle());		
+    			gyro.getAngle());
 		*/
     }
     
