@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team4456.robot;
-
-import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,17 +16,19 @@ import edu.wpi.first.wpilibj.Joystick;
 public class Robot extends IterativeRobot
 {
 	Joystick xboxController;
-	UI ui;
+	
 	Driver driver;
-	Compressor compressor;
+	
 	Gyro gyro;
+	
+	Encoder encoder;
 	
     public void robotInit()
     {
+    	encoder = new Encoder(1, 2, false, CounterBase.EncodingType.k1X);
+        encoder.setDistancePerPulse(1.0/750);
     	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
     	driver = new Driver(1, 2, 3, 4);
-    	ui = new UI();
-    	compressor = new Compressor();
     	//gyro = new Gyro(1);
     }
     
@@ -63,25 +65,20 @@ public class Robot extends IterativeRobot
      */
     public void teleopPeriodic()
     {
-    	compressor.start();
     	driver.drivePolar(xboxController.getMagnitude(),
     			xboxController.getDirectionDegrees(),
     			xboxController.getRawAxis(Constants.axis_rightStick_X));
-    	
-    	ui.update(this);
-    	
     	/*
     	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
     			xboxController.getRawAxis(Constants.axis_leftStick_Y),
     			xboxController.getRawAxis(Constants.axis_rightStick_X),
-    			gyro.getAngle());
+    			gyro.getAngle());		
 		*/
     }
     
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
-    	ui.update(this);
     }
     
     /**
