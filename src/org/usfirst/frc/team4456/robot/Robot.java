@@ -81,6 +81,7 @@ public class Robot extends IterativeRobot
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
+    	ui.update(this);
     }
     
     /**

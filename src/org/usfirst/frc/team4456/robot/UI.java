@@ -13,13 +13,19 @@ public class UI
     public UI()
     {
     	SmartDashboard.putNumber("Hello Santa", 2.7);
+    	SmartDashboard.putBoolean("test", false);
         outputBox = DriverStation.getInstance();
         printCounter = 0;
+        System.out.println("UI running");
     }
     
     public void update(RobotBase robotBase)
     {
     	SmartDashboard.putBoolean("Enabled", robotBase.isEnabled());
+    	if (SmartDashboard.getBoolean("test"))
+    	{
+    		System.out.println("test running");
+    	}
     }
 	
 }
