@@ -28,14 +28,17 @@ public class UI
     
     public void update(Robot robot)
     {
+    	//enabled red/green light
     	SmartDashboard.putBoolean("Enabled", robot.isEnabled());
     	
+    	//sets pValue to number in pValue widget
     	if (SmartDashboard.getBoolean("setPValue"))
     	{
     		robot.pidController.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
     		SmartDashboard.putBoolean("Reset", false);
     	}
     	
+    	//resets encoder
     	if (SmartDashboard.getBoolean("resetEncoder"))
     	{
     		robot.encoder.reset();
@@ -46,11 +49,7 @@ public class UI
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
     	
-    	//!!!
-    	//TODO gotta figure lidar out
-    	byte[] byteArray = {1, 2, 3};
-    	System.out.println("lidar value: " + robot.lidar.read(1, 1, byteArray));
-    	
+    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     }
 	
 }

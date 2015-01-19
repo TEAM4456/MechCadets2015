@@ -28,7 +28,8 @@ public class Robot extends IterativeRobot
 	UI ui;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	I2C lidar;
+	
+	Lidar lidar;
 	
 	Talon testMotor;
 	PIDController pidController;
@@ -47,16 +48,17 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
         
     	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
+    	
     	driver = new Driver(0, 4, 2, 3);
     	
     	ui = new UI(this);
-    	
-    	lidar = new I2C(I2C.Port.kOnboard, 1);
     	
     	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
     	limitSwitch = new DigitalInput(9);
     	//gyro = new Gyro(1);
+    	
+    	lidar = new Lidar();
     }
     
     public void autonomousInit()
