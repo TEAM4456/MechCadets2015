@@ -37,6 +37,9 @@ public class Robot extends IterativeRobot
 	
     public void robotInit()
     {
+    	//gyro = new Gyro(1);
+    	useGyro = false;
+    	
     	// PID init
     	pValue = -.5;
     	testMotor = new Talon(1);
@@ -58,9 +61,6 @@ public class Robot extends IterativeRobot
     	
     	// Lidar init
     	lidar = new Lidar();
-    	
-    	//gyro = new Gyro(1);
-    	useGyro = false;
     }
     
     public void autonomousInit()

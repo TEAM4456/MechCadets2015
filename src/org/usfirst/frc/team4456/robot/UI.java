@@ -6,9 +6,6 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 public class UI
 {
-	private DriverStation outputBox;
-	private int printCounter;
-    
     public UI(Robot robot)
     {
     	// Encoder
@@ -20,9 +17,10 @@ public class UI
     	SmartDashboard.putBoolean("setPValue", false);
     	
     	SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
-        outputBox = DriverStation.getInstance();
-        printCounter = 0;
         System.out.println("UI running");
+        
+        // Button for whether or not we use a gyroscope
+        SmartDashboard.putBoolean("Using Gyro", false);
     }
     
     public void update(Robot robot)
@@ -43,6 +41,8 @@ public class UI
     		robot.encoder.reset();
     		SmartDashboard.putBoolean("resetEncoder", false);
     	}
+    	
+    	robot.useGyro = SmartDashboard.getBoolean("Using Gyro");
     	
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
