@@ -14,28 +14,28 @@ public class Driver
 	}
 	
 	// This will be used if we do not have a gyroscope
-	public void drivePolar(Joystick xboxController)
+	public void drivePolar(Joystick controller)
 	{
 		// Magnitude, Direction, Rotation
-		robotDrive.mecanumDrive_Polar(xboxController.getMagnitude(),
-    			xboxController.getDirectionDegrees(),
-    			xboxController.getRawAxis(Constants.axis_rightStick_X));
+		robotDrive.mecanumDrive_Polar(controller.getMagnitude(), 
+    			controller.getDirectionDegrees(), 
+    			controller.getRawAxis(Constants.axis_rightStick_X));
 	}
 	
 	// This will be used if we do have a gyroscope
-	public void driveCartesian(Joystick xboxController, Gyro gyro)
+	public void driveCartesian(Joystick controller, Gyro gyro)
 	{
 		// X, Y, Rotation, Gyro Angle
-		robotDrive.mecanumDrive_Cartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
-    			xboxController.getRawAxis(Constants.axis_leftStick_Y),
-    			xboxController.getRawAxis(Constants.axis_rightStick_X),
+		robotDrive.mecanumDrive_Cartesian(controller.getRawAxis(Constants.axis_leftStick_X),
+    			controller.getRawAxis(Constants.axis_leftStick_Y),
+    			controller.getRawAxis(Constants.axis_rightStick_X),
     			gyro.getAngle());	
 	}
 	
 	// This will be used if we are using TankDrive instead of Mechanum
-	public void driveTank(Joystick xboxController)
+	public void driveTank(Joystick controller)
 	{
-		robotDrive.tankDrive(xboxController.getRawAxis(Constants.axis_leftStick_Y),
-				xboxController.getRawAxis(Constants.axis_rightStick_Y));
+		robotDrive.tankDrive(controller.getRawAxis(Constants.axis_leftStick_Y),
+				controller.getRawAxis(Constants.axis_rightStick_Y));
 	}
 }

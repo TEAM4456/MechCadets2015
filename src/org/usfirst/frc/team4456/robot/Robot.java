@@ -1,5 +1,5 @@
-
 package org.usfirst.frc.team4456.robot;
+
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.CounterBase;
@@ -37,17 +37,19 @@ public class Robot extends IterativeRobot
 	
     public void robotInit()
     {
-    	//gyro = new Gyro(1);
+    	gyro = new Gyro(0);
     	useGyro = false;
+    	
+    	xboxController = new Joystick(1);
+    	
+    	// Encoder init
+    	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
+        encoder.setDistancePerPulse(1.0/360);
     	
     	// PID init
     	pValue = -.5;
     	testMotor = new Talon(1);
     	pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
-    	
-    	// Encoder init
-    	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
-        encoder.setDistancePerPulse(1.0/360);
     	
         // Driver init
     	driver = new Driver(0, 4, 2, 3);
