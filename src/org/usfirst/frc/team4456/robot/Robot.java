@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot
 	PIDController pidController;
 	
 	double pValue;
+	boolean useGyro;
 	
     public void robotInit()
     {
@@ -46,9 +47,8 @@ public class Robot extends IterativeRobot
     	//encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
-        
-    	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
     	
+        //driver init
     	driver = new Driver(0, 4, 2, 3);
     	
     	ui = new UI(this);
@@ -56,9 +56,11 @@ public class Robot extends IterativeRobot
     	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
     	limitSwitch = new DigitalInput(9);
-    	//gyro = new Gyro(1);
     	
     	lidar = new Lidar();
+    	
+    	//gyro = new Gyro(1);
+    	useGyro = false;
     }
     
     public void autonomousInit()
@@ -95,20 +97,19 @@ public class Robot extends IterativeRobot
     
     public void teleopPeriodic()
     {
-    	driver.drivePolar(xboxController.getMagnitude(),
-    			xboxController.getDirectionDegrees(),
-    			xboxController.getRawAxis(Constants.axis_rightStick_X));
-    	
     	pidController.setSetpoint(10);
     	
     	ui.update(this);
     	
-    	/*
-    	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
-    			xboxController.getRawAxis(Constants.axis_leftStick_Y),
-    			xboxController.getRawAxis(Constants.axis_rightStick_X),
-    			gyro.getAngle());		
-		*/
+    	if(useGyro)
+    	{
+    		driver.driveCartesian(xboxController, gyro);
+    	}
+    	else
+    	{
+    		driver.drivePolar(xboxController);
+    	}
+    	// Make button on UI later to shift between gyro and no gyro modes
     }
     
     public void disabledPeriodic()
