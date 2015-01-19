@@ -1,1 +1,4 @@
+# don't try to synchronize builds or dist
+build/
+dist/
 *.class
