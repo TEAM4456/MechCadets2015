@@ -28,9 +28,7 @@ public class Robot extends IterativeRobot
 	UI ui;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	
 	Lidar lidar;
-	
 	Talon testMotor;
 	PIDController pidController;
 	
@@ -39,24 +37,26 @@ public class Robot extends IterativeRobot
 	
     public void robotInit()
     {
-    	//PID
+    	// PID init
     	pValue = -.5;
     	testMotor = new Talon(1);
     	pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
     	
-    	//encoder init
+    	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
     	
-        //driver init
+        // Driver init
     	driver = new Driver(0, 4, 2, 3);
     	
+    	// UI init
     	ui = new UI(this);
     	
     	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
     	limitSwitch = new DigitalInput(9);
     	
+    	// Lidar init
     	lidar = new Lidar();
     	
     	//gyro = new Gyro(1);
@@ -101,6 +101,10 @@ public class Robot extends IterativeRobot
     	
     	ui.update(this);
     	
+    	/*
+    	 * Switches between Cartesian and Polar based on whether or 
+    	 * not we are using a gyro.
+    	 */
     	if(useGyro)
     	{
     		driver.driveCartesian(xboxController, gyro);
@@ -109,7 +113,6 @@ public class Robot extends IterativeRobot
     	{
     		driver.drivePolar(xboxController);
     	}
-    	// Make button on UI later to shift between gyro and no gyro modes
     }
     
     public void disabledPeriodic()

@@ -6,13 +6,12 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 public class UI
 {
-
 	private DriverStation outputBox;
 	private int printCounter;
     
     public UI(Robot robot)
     {
-    	//encoder
+    	// Encoder
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	SmartDashboard.putBoolean("resetEncoder", false);
@@ -28,17 +27,17 @@ public class UI
     
     public void update(Robot robot)
     {
-    	//enabled red/green light
+    	// Enabled red/green light
     	SmartDashboard.putBoolean("Enabled", robot.isEnabled());
     	
-    	//sets pValue to number in pValue widget
+    	// Sets pValue to the number in pValue widget
     	if (SmartDashboard.getBoolean("setPValue"))
     	{
     		robot.pidController.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
     		SmartDashboard.putBoolean("Reset", false);
     	}
     	
-    	//resets encoder
+    	// Resets encoder
     	if (SmartDashboard.getBoolean("resetEncoder"))
     	{
     		robot.encoder.reset();
