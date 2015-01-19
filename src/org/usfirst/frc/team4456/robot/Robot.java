@@ -1,10 +1,16 @@
 
 package org.usfirst.frc.team4456.robot;
-
-import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.I2C;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -16,28 +22,50 @@ import edu.wpi.first.wpilibj.Joystick;
 public class Robot extends IterativeRobot
 {
 	Joystick xboxController;
-	UI ui;
 	Driver driver;
-	Compressor compressor;
 	Gyro gyro;
+	Encoder encoder;
+	UI ui;
+	DigitalInput limitSwitch;
+	ADXL345_I2C accelerometer;
+	Lidar lidar;
+	Talon testMotor;
+	PIDController pidController;
+	
+	double pValue;
+	boolean useGyro;
 	
     public void robotInit()
     {
-    	xboxController = new Joystick(1); //instantiate xbCtrlr for USB port 1
-    	driver = new Driver(1, 2, 3, 4);
-    	ui = new UI();
-    	compressor = new Compressor();
     	//gyro = new Gyro(1);
+    	useGyro = false;
+    	
+    	// PID init
+    	pValue = -.5;
+    	testMotor = new Talon(1);
+    	pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
+    	
+    	// Encoder init
+    	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
+        encoder.setDistancePerPulse(1.0/360);
+    	
+        // Driver init
+    	driver = new Driver(0, 4, 2, 3);
+    	
+    	// UI init
+    	ui = new UI(this);
+    	
+    	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+    	
+    	limitSwitch = new DigitalInput(9);
+    	
+    	// Lidar init
+    	lidar = new Lidar();
     }
     
     public void autonomousInit()
     {
     	super.autonomousInit();
-    }
-    
-    public void teleopInit()
-    {
-    	super.teleopInit();
     }
     
     public void disabledInit()
@@ -57,27 +85,40 @@ public class Robot extends IterativeRobot
     {
     	super.autonomousPeriodic();
     }
-
-    /**
-     * This function is called periodically during operator control
-     */
+    
+    //----------------
+    //TELEOP
+    //----------------
+    public void teleopInit()
+    {
+    	super.teleopInit();
+    	pidController.enable();
+    }
+    
     public void teleopPeriodic()
     {
-    	compressor.start();
-    	driver.drivePolar(xboxController.getMagnitude(),
-    			xboxController.getDirectionDegrees(),
-    			xboxController.getRawAxis(Constants.axis_rightStick_X));
+    	pidController.setSetpoint(10);
+    	
+    	ui.update(this);
+    	
     	/*
-    	driver.driveCartesian(xboxController.getRawAxis(Constants.axis_leftStick_X),
-    			xboxController.getRawAxis(Constants.axis_leftStick_Y),
-    			xboxController.getRawAxis(Constants.axis_rightStick_X),
-    			gyro.getAngle());		
-		*/
+    	 * Switches between Cartesian and Polar based on whether or 
+    	 * not we are using a gyro.
+    	 */
+    	if(useGyro)
+    	{
+    		driver.driveCartesian(xboxController, gyro);
+    	}
+    	else
+    	{
+    		driver.drivePolar(xboxController);
+    	}
     }
     
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
+    	ui.update(this);
     }
     
     /**
