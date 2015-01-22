@@ -21,6 +21,10 @@ public class UI
         
         // Button for whether or not we use a gyroscope
         SmartDashboard.putBoolean("Using Gyro", false);
+        
+        //GYRO
+        SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());
+    	SmartDashboard.putNumber("gyroRate", robot.gyro.getRate());
     }
     
     public void update(Robot robot)
@@ -49,6 +53,10 @@ public class UI
     	SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
     	
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	
+    	//GYRO
+    	SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());
+    	SmartDashboard.putNumber("gyroRate", robot.gyro.getRate());
     }
 	
 }
