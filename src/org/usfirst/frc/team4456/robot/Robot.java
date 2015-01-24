@@ -103,18 +103,7 @@ public class Robot extends IterativeRobot
     	
     	ui.update(this);
     	
-    	/*
-    	 * Switches between Cartesian and Polar based on whether or 
-    	 * not we are using a gyro.
-    	 */
-    	if(useGyro)
-    	{
-    		driver.driveCartesian(xboxController, gyro);
-    	}
-    	else
-    	{
-    		driver.drivePolar(xboxController);
-    	}
+    	driver.drive(xboxController, gyro, this);
     }
     
     public void disabledPeriodic()

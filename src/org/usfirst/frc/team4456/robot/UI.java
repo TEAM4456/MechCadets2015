@@ -1,8 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotBase;
 
 public class UI
 {

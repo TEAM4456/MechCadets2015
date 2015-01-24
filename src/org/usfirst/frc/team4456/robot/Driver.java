@@ -13,8 +13,21 @@ public class Driver
 		robotDrive = new RobotDrive(FL, RL, FR, RR);
 	}
 	
+	// Drive method executes both Polar and Cartesian methods based on the useGyro boolean
+	public void drive(Joystick controller, Gyro gyro, Robot robot)
+	{
+		if(robot.useGyro)
+    	{
+    		this.driveCartesian(controller, gyro);
+    	}
+    	else
+    	{
+    		this.drivePolar(controller);
+    	}
+	}
+	
 	// This will be used if we do not have a gyroscope
-	public void drivePolar(Joystick controller)
+	private void drivePolar(Joystick controller)
 	{
 		// Magnitude, Direction, Rotation
 		robotDrive.mecanumDrive_Polar(lowerSensitivity(controller.getMagnitude()), 
@@ -23,7 +36,7 @@ public class Driver
 	}
 	
 	// This will be used if we do have a gyroscope
-	public void driveCartesian(Joystick controller, Gyro gyro)
+	private void driveCartesian(Joystick controller, Gyro gyro)
 	{
 		// X, Y, Rotation, Gyro Angle
 		robotDrive.mecanumDrive_Cartesian(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_X)),
@@ -33,12 +46,13 @@ public class Driver
 	}
 	
 	// This will be used if we are using TankDrive instead of Mechanum
-	public void driveTank(Joystick controller)
+	private void driveTank(Joystick controller)
 	{
 		robotDrive.tankDrive(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_Y)),
 				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_Y)));
 	}
 	
+	// This 
 	private double lowerSensitivity(double value)
 	{
 		if(Math.abs(value) < .1)
