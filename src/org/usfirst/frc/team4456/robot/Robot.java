@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
@@ -29,33 +28,34 @@ public class Robot extends IterativeRobot
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
-	Talon testMotor;
 	PIDController pidController;
 	Vision vision;
 	
 	double pValue;
-	boolean useGyro;
+	boolean useGyro, useMechanum;
 	
 	boolean buttonBPress;
 	
     public void robotInit()
     {
+    	// Driver init
+    	driver = new Driver();
+    	
+    	// Gyro init
     	gyro = new Gyro(0);
+    	
+    	// Mechanum and Gyro booleans for Driver
+    	useMechanum = true;
     	useGyro = false;
+    	
+    	// Controller init
+    	xboxController = new Joystick(1);
     	
     	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
         
-    	xboxController = new Joystick(1);
-    	
-    	// PID init
-    	pValue = -.5;
-    	testMotor = new Talon(1);
-    	pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
-    	
-        // Driver init
-    	driver = new Driver(0, 4, 2, 3);
+    	   	
     	
     	// UI init
     	ui = new UI(this);
@@ -69,7 +69,6 @@ public class Robot extends IterativeRobot
     	
     	vision = new Vision();
     	
-    	xboxController = new Joystick(1);
     	
     	buttonBPress = false;
     }
@@ -92,7 +91,7 @@ public class Robot extends IterativeRobot
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic()
+    public void autonomousPeriodic() // We could make some code that is executed by both the autonomous mode and the teleop mode so that we can continue the autonomous part
     {
     	super.autonomousPeriodic();
     }
@@ -103,12 +102,12 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
     	super.teleopInit();
-    	pidController.enable();
+    	//pidController.enable();
     }
     
     public void teleopPeriodic()
     {
-    	pidController.setSetpoint(10);
+    	//pidController.setSetpoint(10);
     	
     	ui.update(this);
     	
@@ -116,14 +115,7 @@ public class Robot extends IterativeRobot
     	 * Switches between Cartesian and Polar based on whether or 
     	 * not we are using a gyro.
     	 */
-    	if(useGyro)
-    	{
-    		driver.driveCartesian(xboxController, gyro);
-    	}
-    	else
-    	{
-    		driver.drivePolar(xboxController);
-    	}
+    	driver.drive(xboxController, gyro, this);
     	
     	vision.cycle();
     	
