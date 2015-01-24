@@ -13,6 +13,11 @@ public class UI
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	SmartDashboard.putBoolean("resetEncoder", false);
     	
+    	SmartDashboard.putNumber("Magnitude", robot.xboxController.getMagnitude());
+    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));
+    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_Y));
+    	SmartDashboard.putNumber("Rotation", robot.xboxController.getRawAxis(Constants.axis_rightStick_X));
+    	
     	SmartDashboard.putNumber("pValue", robot.pValue);
     	SmartDashboard.putBoolean("setPValue", false);
     	
@@ -53,6 +58,11 @@ public class UI
     	SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
     	
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	
+    	SmartDashboard.putNumber("Magnitude", robot.xboxController.getMagnitude());
+    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));
+    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_Y));
+    	SmartDashboard.putNumber("Rotation", robot.xboxController.getRawAxis(Constants.axis_rightStick_X));
     	
     	//GYRO
     	SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());

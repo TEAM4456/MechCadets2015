@@ -31,9 +31,12 @@ public class Robot extends IterativeRobot
 	Lidar lidar;
 	Talon testMotor;
 	PIDController pidController;
+	Vision vision;
 	
 	double pValue;
 	boolean useGyro;
+	
+	boolean buttonBPress;
 	
     public void robotInit()
     {
@@ -64,7 +67,11 @@ public class Robot extends IterativeRobot
     	// Lidar init
     	lidar = new Lidar();
     	
+    	vision = new Vision();
+    	
     	xboxController = new Joystick(1);
+    	
+    	buttonBPress = false;
     }
     
     public void autonomousInit()
@@ -116,6 +123,16 @@ public class Robot extends IterativeRobot
     	else
     	{
     		driver.drivePolar(xboxController);
+    	}
+    	
+    	vision.cycle();
+    	
+    	if (xboxController.getRawButton(Constants.button_B))
+    		buttonBPress = true;
+    	if (buttonBPress == true && !xboxController.getRawButton(Constants.button_B))
+    	{
+    		vision.writeThresholdImg();
+    		buttonBPress = false;
     	}
     	
     	if (xboxController.getRawButton(Constants.button_A))
