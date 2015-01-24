@@ -29,14 +29,21 @@ public class Driver
 	// Drive method executes both Polar and Cartesian methods based on the useGyro boolean
 	public void drive(Joystick controller, Gyro gyro, Robot robot)
 	{
-		if(robot.useGyro)
-    	{
-    		this.driveCartesian(controller, gyro);
-    	}
-    	else
-    	{
-    		this.drivePolar(controller);
-    	}
+		if(robot.useMechanum)
+		{
+			if(robot.useGyro)
+	    	{
+	    		this.driveCartesian(controller, gyro);
+	    	}
+	    	else
+	    	{
+	    		this.drivePolar(controller);
+	    	}
+		}
+		else
+		{
+			this.driveTank(controller);
+		}
 	}
 	
 	// This will be used if we do not have a gyroscope

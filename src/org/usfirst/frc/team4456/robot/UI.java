@@ -25,6 +25,9 @@ public class UI
         // Button for whether or not we use a gyroscope
         SmartDashboard.putBoolean("Using Gyro", false);
         
+        // Button for whether we use mechanum or tank
+        SmartDashboard.putBoolean("Using Mechanum", true);
+        
         //GYRO
         SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());
     	SmartDashboard.putNumber("gyroRate", robot.gyro.getRate());
@@ -52,6 +55,7 @@ public class UI
     	}
     	
     	robot.useGyro = SmartDashboard.getBoolean("Using Gyro");
+    	robot.useMechanum = SmartDashboard.getBoolean("Using Mechanum");
     	
     	SmartDashboard.putNumber("Current Magnitude", robot.xboxController.getMagnitude());
     	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));

@@ -34,11 +34,12 @@ public class Robot extends IterativeRobot
 	PIDController pidController;
 	
 	double pValue;
-	boolean useGyro;
+	boolean useGyro, useMechanum;
 	
     public void robotInit()
     {
     	gyro = new Gyro(0);
+    	useMechanum = true;
     	useGyro = false;
     	
     	// Encoder init
