@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot
     	// Driver init
     	driver = new Driver();
     	
-    	// Gyro init
+    	// Gyro init 
     	gyro = new Gyro(0);
     	
     	// Mechanum and Gyro booleans for Driver
