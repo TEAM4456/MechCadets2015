@@ -71,7 +71,7 @@ public class UI
     	
     	// SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
     	
-    	// Lidar Values
+    	// Lidar Values 
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     	
     	SmartDashboard.putNumber("Magnitude", robot.xboxController.getMagnitude());
