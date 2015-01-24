@@ -23,6 +23,6 @@ public class Constants
 	public static final int axis_rightStick_X = 4;
 	public static final int axis_rightStick_Y = 5;
 	public static final int axis_dPad_X = 6;
-	
+
 	public static final String filePathRoborio = "/home/lvuser/";
 }

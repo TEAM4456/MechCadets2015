@@ -2,6 +2,7 @@ package org.usfirst.frc.team4456.robot;
 
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -33,8 +34,9 @@ public class Robot extends IterativeRobot
 	
 	double pValue;
 	boolean useGyro, useMechanum;
-	
+
 	boolean buttonBPress;
+
 	
     public void robotInit()
     {
@@ -42,6 +44,7 @@ public class Robot extends IterativeRobot
     	driver = new Driver();
     	
     	// Gyro init 
+
     	gyro = new Gyro(0);
     	
     	// Mechanum and Gyro booleans for Driver
@@ -54,22 +57,20 @@ public class Robot extends IterativeRobot
     	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
-        
-    	   	
     	
     	// UI init
     	ui = new UI(this);
-    	
+
+    	// Accelerometer init
     	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
+    	// Limit switch init
     	limitSwitch = new DigitalInput(9);
     	
     	// Lidar init
     	lidar = new Lidar();
     	
     	vision = new Vision();
-    	
-    	
     	buttonBPress = false;
     }
     
@@ -129,7 +130,6 @@ public class Robot extends IterativeRobot
     	
     	if (xboxController.getRawButton(Constants.button_A))
     	{
-    		testMotor.set(0.5);
     		xboxController.setRumble(Joystick.RumbleType.kLeftRumble, 1);
     		xboxController.setRumble(Joystick.RumbleType.kRightRumble, 1);
     	}
