@@ -50,12 +50,12 @@ public class Robot extends IterativeRobot
     	// Controller init
     	xboxController = new Joystick(1);
     	
-    	// UI init
-    	ui = new UI(this);
-    	
     	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
+    	
+    	// UI init
+    	ui = new UI(this);
 
     	// Accelerometer init
     	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);

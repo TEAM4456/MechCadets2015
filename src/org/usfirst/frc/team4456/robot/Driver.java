@@ -68,6 +68,15 @@ public class Driver
 	// This sets the sensitivity exponentially
 	private double lowerSensitivity(double value)
 	{
-		return Math.pow(value, 3);
+		value = Math.pow(value, 3);
+		if(value > 1)
+		{
+			value = 1;
+		}
+		if(value < 0)
+		{
+			value = 0;
+		}
+		return value;
 	}
 }
