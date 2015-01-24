@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
@@ -84,7 +83,7 @@ public class Robot extends IterativeRobot
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic()
+    public void autonomousPeriodic() // We could make some code that is executed by both the autonomous mode and the teleop mode so that we can continue the autonomous part
     {
     	super.autonomousPeriodic();
     }

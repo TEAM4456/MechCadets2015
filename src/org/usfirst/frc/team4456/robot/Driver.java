@@ -12,17 +12,10 @@ public class Driver
 	
 	public Driver()
 	{
-		try
-		{
-			talon1 = new CANTalon(11);
-			talon2 = new CANTalon(13);
-			talon3 = new CANTalon(15);
-			talon4 = new CANTalon(22);
-		}
-		catch(Exception ex)
-		{
-			System.err.println(ex);
-		}
+		talon1 = new CANTalon(11);
+		talon2 = new CANTalon(13);
+		talon3 = new CANTalon(15);
+		talon4 = new CANTalon(22);
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
 	}
 	
@@ -72,7 +65,7 @@ public class Driver
 				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_Y)));
 	}
 	
-	// This 
+	// This sets the sensitivity
 	private double lowerSensitivity(double value)
 	{
 		return Math.pow(value, 3);
