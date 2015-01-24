@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -7,10 +8,22 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class Driver
 {
 	RobotDrive robotDrive;
+	CANTalon talon1, talon2, talon3, talon4;
 	
-	public Driver(int FL, int RL, int FR, int RR) //FrontLeft, RearLeft, FrontRear, RearRight
+	public Driver()
 	{
-		robotDrive = new RobotDrive(FL, RL, FR, RR);
+		try
+		{
+			talon1 = new CANTalon(11);
+			talon2 = new CANTalon(13);
+			talon3 = new CANTalon(15);
+			talon4 = new CANTalon(22);
+		}
+		catch(Exception ex)
+		{
+			System.err.println(ex);
+		}
+		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
 	}
 	
 	// Drive method executes both Polar and Cartesian methods based on the useGyro boolean
@@ -55,10 +68,6 @@ public class Driver
 	// This 
 	private double lowerSensitivity(double value)
 	{
-		if(Math.abs(value) < .1)
-		{
-			value = 0;
-		}
-		return value;
+		return Math.pow(value, 3);
 	}
 }

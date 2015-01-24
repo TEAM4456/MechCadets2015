@@ -2,6 +2,7 @@ package org.usfirst.frc.team4456.robot;
 
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -29,7 +30,7 @@ public class Robot extends IterativeRobot
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
-	Talon testMotor;
+	CANTalon canTalon1, canTalon2, canTalon3, canTalon4;
 	PIDController pidController;
 	
 	double pValue;
@@ -47,12 +48,11 @@ public class Robot extends IterativeRobot
     	xboxController = new Joystick(1);
     	
     	// PID init
-    	pValue = -.5;
-    	testMotor = new Talon(1);
-    	pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
+    	// pValue = -.5;
+    	// pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
     	
         // Driver init
-    	driver = new Driver(0, 4, 2, 3);
+    	driver = new Driver();
     	
     	// UI init
     	ui = new UI(this);
@@ -63,8 +63,6 @@ public class Robot extends IterativeRobot
     	
     	// Lidar init
     	lidar = new Lidar();
-    	
-    	xboxController = new Joystick(1);
     }
     
     public void autonomousInit()
@@ -96,23 +94,16 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
     	super.teleopInit();
-    	pidController.enable();
+    	//pidController.enable();
     }
     
     public void teleopPeriodic()
     {
-    	pidController.setSetpoint(10);
+    	//pidController.setSetpoint(10);
     	
     	ui.update(this);
     	
     	driver.drive(xboxController, gyro, this);
-    	
-    	if (xboxController.getRawButton(Constants.button_A))
-    	{
-    		testMotor.set(0.5);
-    		xboxController.setRumble(Joystick.RumbleType.kLeftRumble, 1);
-    		xboxController.setRumble(Joystick.RumbleType.kRightRumble, 1);
-    	}
     }
     
     public void disabledPeriodic()

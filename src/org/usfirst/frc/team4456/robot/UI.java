@@ -11,15 +11,15 @@ public class UI
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	SmartDashboard.putBoolean("resetEncoder", false);
     	
-    	SmartDashboard.putNumber("pValue", robot.pValue);
-    	SmartDashboard.putBoolean("setPValue", false);
+    	// SmartDashboard.putNumber("pValue", robot.pValue);
+    	// SmartDashboard.putBoolean("setPValue", false);
     	
     	SmartDashboard.putNumber("Current Magnitude", robot.xboxController.getMagnitude());
     	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));
     	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_Y));
     	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getRawAxis(Constants.axis_rightStick_X));
     	
-    	SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
+    	// SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
         System.out.println("UI running");
         
         // Button for whether or not we use a gyroscope
@@ -36,11 +36,13 @@ public class UI
     	SmartDashboard.putBoolean("Enabled", robot.isEnabled());
     	
     	// Sets pValue to the number in pValue widget
+    	/*
     	if (SmartDashboard.getBoolean("setPValue"))
     	{
     		robot.pidController.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
     		SmartDashboard.putBoolean("Reset", false);
     	}
+    	*/
     	
     	// Resets encoder
     	if (SmartDashboard.getBoolean("resetEncoder"))
@@ -58,7 +60,7 @@ public class UI
     	
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
-    	SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
+    	// SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
     	
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     	
