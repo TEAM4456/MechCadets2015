@@ -17,25 +17,34 @@ public class Driver
 	public void drivePolar(Joystick controller)
 	{
 		// Magnitude, Direction, Rotation
-		robotDrive.mecanumDrive_Polar(controller.getMagnitude(), 
+		robotDrive.mecanumDrive_Polar(lowerSensitivity(controller.getMagnitude()), 
     			controller.getDirectionDegrees(), 
-    			controller.getRawAxis(Constants.axis_rightStick_X));
+    			lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)));
 	}
 	
 	// This will be used if we do have a gyroscope
 	public void driveCartesian(Joystick controller, Gyro gyro)
 	{
 		// X, Y, Rotation, Gyro Angle
-		robotDrive.mecanumDrive_Cartesian(controller.getRawAxis(Constants.axis_leftStick_X),
-    			controller.getRawAxis(Constants.axis_leftStick_Y),
-    			controller.getRawAxis(Constants.axis_rightStick_X),
+		robotDrive.mecanumDrive_Cartesian(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_X)),
+				lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_Y)),
+				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)),
     			gyro.getAngle());	
 	}
 	
 	// This will be used if we are using TankDrive instead of Mechanum
 	public void driveTank(Joystick controller)
 	{
-		robotDrive.tankDrive(controller.getRawAxis(Constants.axis_leftStick_Y),
-				controller.getRawAxis(Constants.axis_rightStick_Y));
+		robotDrive.tankDrive(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_Y)),
+				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_Y)));
+	}
+	
+	public double lowerSensitivity(double value)
+	{
+		if(Math.abs(value) < .1)
+		{
+			value = 0;
+		}
+		return value;
 	}
 }
