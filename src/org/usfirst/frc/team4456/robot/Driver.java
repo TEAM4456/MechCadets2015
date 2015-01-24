@@ -39,7 +39,7 @@ public class Driver
 				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_Y)));
 	}
 	
-	public double lowerSensitivity(double value)
+	private double lowerSensitivity(double value)
 	{
 		if(Math.abs(value) < .1)
 		{
