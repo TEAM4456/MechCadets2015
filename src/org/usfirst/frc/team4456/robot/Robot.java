@@ -40,11 +40,11 @@ public class Robot extends IterativeRobot
     	gyro = new Gyro(0);
     	useGyro = false;
     	
-    	xboxController = new Joystick(1);
-    	
     	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
+        
+    	xboxController = new Joystick(1);
     	
     	// PID init
     	pValue = -.5;
@@ -63,6 +63,8 @@ public class Robot extends IterativeRobot
     	
     	// Lidar init
     	lidar = new Lidar();
+    	
+    	xboxController = new Joystick(1);
     }
     
     public void autonomousInit()
@@ -114,6 +116,13 @@ public class Robot extends IterativeRobot
     	else
     	{
     		driver.drivePolar(xboxController);
+    	}
+    	
+    	if (xboxController.getRawButton(Constants.button_A))
+    	{
+    		testMotor.set(0.5);
+    		xboxController.setRumble(Joystick.RumbleType.kLeftRumble, 1);
+    		xboxController.setRumble(Joystick.RumbleType.kRightRumble, 1);
     	}
     }
     
