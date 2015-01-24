@@ -19,7 +19,7 @@ public class Driver
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
 	}
 	
-	// Drive method executes both Polar and Cartesian methods based on the useGyro boolean
+	// Executes the Polar, Cartesian, or Tank method based on the useMechanum and useGyro booleans
 	public void drive(Joystick controller, Gyro gyro, Robot robot)
 	{
 		if(robot.useMechanum)
@@ -65,7 +65,7 @@ public class Driver
 				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_Y)));
 	}
 	
-	// This sets the sensitivity
+	// This sets the sensitivity exponentially
 	private double lowerSensitivity(double value)
 	{
 		return Math.pow(value, 3);

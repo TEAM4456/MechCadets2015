@@ -10,7 +10,7 @@ public class Lidar
 	
 	public Lidar()
 	{
-		i2cLidar = new I2C(I2C.Port.kOnboard, 0x62); //lidar i2c address = 0x62
+		i2cLidar = new I2C(I2C.Port.kOnboard, 0x62); // Lidar i2c address = 0x62
 	}
 	
 	// Returns lidar distance in centimeters

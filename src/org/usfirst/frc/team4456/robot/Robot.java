@@ -37,32 +37,38 @@ public class Robot extends IterativeRobot
 	
     public void robotInit()
     {
+    	// Driver init
+    	driver = new Driver();
+    	
+    	// Gyro init
     	gyro = new Gyro(0);
+    	
+    	// Mechanum and Gyro booleans for Driver
     	useMechanum = true;
     	useGyro = false;
     	
-    	// Encoder init
-    	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
-        encoder.setDistancePerPulse(1.0/360);
-        
+    	// Controller init
     	xboxController = new Joystick(1);
-    	
-    	// PID init
-    	// pValue = -.5;
-    	// pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
-    	
-        // Driver init
-    	driver = new Driver();
     	
     	// UI init
     	ui = new UI(this);
     	
+    	// Encoder init
+    	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
+        encoder.setDistancePerPulse(1.0/360);
+
+    	// Accelerometer init
     	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
+    	// Limit switch init
     	limitSwitch = new DigitalInput(9);
     	
     	// Lidar init
     	lidar = new Lidar();
+    	
+    	// PID init
+    	// pValue = -.5;
+    	// pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
     }
     
     public void autonomousInit()
