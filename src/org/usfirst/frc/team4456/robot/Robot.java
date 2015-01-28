@@ -29,8 +29,6 @@ public class Robot extends IterativeRobot
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
-	CANTalon canTalon1, canTalon2, canTalon3, canTalon4;
-	PIDController pidController;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -67,8 +65,9 @@ public class Robot extends IterativeRobot
     	lidar = new Lidar();
     	
     	// PID init
-    	// pValue = -.5;
-    	// pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
+    	pValue = -.5;
+    	driver.talon2.setPID(pValue, 0, 0);
+    	driver.talon2.setPosition(10);
     }
     
     public void autonomousInit()
@@ -100,13 +99,10 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
     	super.teleopInit();
-    	//pidController.enable();
     }
     
     public void teleopPeriodic()
     {
-    	//pidController.setSetpoint(10);
-    	
     	ui.update(this);
     	
     	driver.drive(xboxController, gyro, this);

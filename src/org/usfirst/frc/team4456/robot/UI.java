@@ -17,9 +17,9 @@ public class UI
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	SmartDashboard.putBoolean("resetEncoder", false);
     	
-    	// SmartDashboard.putNumber("pValue", robot.pValue);
-    	// SmartDashboard.putBoolean("setPValue", false);
-    	// SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
+    	SmartDashboard.putNumber("pValue", robot.pValue);
+    	SmartDashboard.putBoolean("setPValue", false);
+    	SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
     	
         System.out.println("UI running");
         
@@ -57,19 +57,17 @@ public class UI
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	
     	// Sets pValue to the number in pValue widget
-    	/*
     	if (SmartDashboard.getBoolean("setPValue"))
     	{
-    		robot.pidController.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
+    		robot.driver.talon2.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
     		SmartDashboard.putBoolean("Reset", false);
     	}
-    	*/
     	
     	// Toggles Gyro and Mechanum Buttons
     	robot.useGyro = SmartDashboard.getBoolean("Using Gyro");
     	robot.useMechanum = SmartDashboard.getBoolean("Using Mechanum");
     	
-    	// SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
+    	SmartDashboard.putNumber("PIDController Get", robot.driver.talon2.get());
     	
     	// Lidar Values
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
