@@ -21,6 +21,10 @@ public class UI
     	SmartDashboard.putBoolean("setPValue", false);
     	SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
     	
+    	// SmartDashboard.putNumber("pValue", robot.pValue);
+    	// SmartDashboard.putBoolean("setPValue", false);
+    	// SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
+    	
         System.out.println("UI running");
         
         // Button for whether or not we use a gyroscope
@@ -69,8 +73,14 @@ public class UI
     	
     	SmartDashboard.putNumber("PIDController Get", robot.driver.talon2.get());
     	
-    	// Lidar Values
+    	// Lidar Values 
+
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	
+    	SmartDashboard.putNumber("Magnitude", robot.xboxController.getMagnitude());
+    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));
+    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_Y));
+    	SmartDashboard.putNumber("Rotation", robot.xboxController.getRawAxis(Constants.axis_rightStick_X));
     	
     	// Gyro Values
     	SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());

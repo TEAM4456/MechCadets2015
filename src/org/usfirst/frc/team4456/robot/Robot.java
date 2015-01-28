@@ -29,16 +29,22 @@ public class Robot extends IterativeRobot
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
+	PIDController pidController;
+	Vision vision;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
+
+	boolean buttonBPress;
+
 	
     public void robotInit()
     {
     	// Driver init
     	driver = new Driver();
     	
-    	// Gyro init
+    	// Gyro init 
+
     	gyro = new Gyro(0);
     	
     	// Mechanum and Gyro booleans for Driver
@@ -65,9 +71,8 @@ public class Robot extends IterativeRobot
     	lidar = new Lidar();
     	
     	// PID init
-    	pValue = -.5;
-    	driver.talon2.setPID(pValue, 0, 0);
-    	driver.talon2.setPosition(10);
+    	// pValue = -.5;
+    	// pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
     }
     
     public void autonomousInit()
@@ -105,7 +110,27 @@ public class Robot extends IterativeRobot
     {
     	ui.update(this);
     	
+    	/*
+    	 * Switches between Cartesian and Polar based on whether or 
+    	 * not we are using a gyro.
+    	 */
     	driver.drive(xboxController, gyro, this);
+    	
+    	vision.cycle();
+    	
+    	if (xboxController.getRawButton(Constants.button_B))
+    		buttonBPress = true;
+    	if (buttonBPress == true && !xboxController.getRawButton(Constants.button_B))
+    	{
+    		vision.writeThresholdImg();
+    		buttonBPress = false;
+    	}
+    	
+    	if (xboxController.getRawButton(Constants.button_A))
+    	{
+    		xboxController.setRumble(Joystick.RumbleType.kLeftRumble, 1);
+    		xboxController.setRumble(Joystick.RumbleType.kRightRumble, 1);
+    	}
     }
     
     public void disabledPeriodic()
