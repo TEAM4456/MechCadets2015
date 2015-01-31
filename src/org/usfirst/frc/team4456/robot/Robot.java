@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -125,15 +126,11 @@ public class Robot extends IterativeRobot
     	
     	if (buttonBPress == true && !xboxController.getRawButton(Constants.button_B))
     	{
+    		Timer.delay(0.005);
     		vision.writeThresholdImg();
     		buttonBPress = false;
     	}
     	
-    	if (xboxController.getRawButton(Constants.button_A))
-    	{
-    		xboxController.setRumble(Joystick.RumbleType.kLeftRumble, 1);
-    		xboxController.setRumble(Joystick.RumbleType.kRightRumble, 1);
-    	}
     }
     
     public void disabledPeriodic()
