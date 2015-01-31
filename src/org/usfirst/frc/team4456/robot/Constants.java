@@ -24,5 +24,10 @@ public class Constants
 	public static final int axis_rightStick_Y = 5;
 	public static final int axis_dPad_X = 6;
 
+	// Lidar Stuff
+	public static final int LIDAR_ADDR = 0x62;
+	public static final int LIDAR_CONFIG_REGISTER = 0x00;
+	public static final int LIDAR_DISTANCE_REGISTER = 0x8f;
+	
 	public static final String filePathRoborio = "/home/lvuser/";
 }

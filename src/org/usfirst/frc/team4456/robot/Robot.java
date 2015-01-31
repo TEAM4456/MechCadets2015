@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -59,6 +60,10 @@ public class Robot extends IterativeRobot
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
     	
+        // Lidar init
+    	//lidar = new Lidar(Port.kOnboard);
+    	lidar = new Lidar(Port.kMXP);
+        
     	// UI init
     	ui = new UI(this);
 
@@ -68,12 +73,8 @@ public class Robot extends IterativeRobot
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
     	
-    	// Lidar init
-    	lidar = new Lidar();
-    	
     	// PID init
-    	// pValue = -.5;
-    	// pidController = new PIDController(pValue, 0, 0, encoder, testMotor);
+    	pValue = -.5;
     }
     
     public void autonomousInit()
@@ -84,6 +85,7 @@ public class Robot extends IterativeRobot
     public void disabledInit()
     {
     	super.disabledInit();
+    	lidar.stop();
     }
     
     public void testInit()
@@ -105,11 +107,14 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
     	super.teleopInit();
+    	lidar.start(500);
     }
     
     public void teleopPeriodic()
     {
     	ui.update(this);
+    	
+    	//lidar.getDistance();
     	
     	/*
     	 * Switches between Cartesian and Polar based on whether or 
@@ -117,14 +122,40 @@ public class Robot extends IterativeRobot
     	 */
     	driver.drive(xboxController, gyro, this);
     	
-    	vision.cycle();
+    	// Mechanum and Gyro toggle temporary buttons
+    	/*
+    	if(xboxController.getRawButton(Constants.button_Y))
+    	{
+    		if(useMechanum)
+    		{
+    			useMechanum = false;
+    		}
+    		else
+    		{
+    			useMechanum = true;
+    		}
+    	}
+    	if(xboxController.getRawButton(Constants.button_X))
+    	{
+    		if(useGyro)
+    		{
+    			useGyro = false;
+    		}
+    		else
+    		{
+    			useGyro = true;
+    		}
+    	}
+    	*/
+    	
+    	// vision.cycle();
     	
     	if (xboxController.getRawButton(Constants.button_B))
     	{
     		buttonBPress = true;
     	}
     	
-    	if (buttonBPress == true && !xboxController.getRawButton(Constants.button_B))
+    	if (buttonBPress && !xboxController.getRawButton(Constants.button_B))
     	{
     		Timer.delay(0.005);
     		vision.writeThresholdImg();

@@ -19,7 +19,6 @@ public class Vision
 	 * NOTE: if you get an Invalid Image error, check to make sure that
 	 * the image type for extracting planes is IMAGE_U8
 	 */
-	
 	int session;
     Image frame;
     Image frameDest, frameDest8;
@@ -52,7 +51,6 @@ public class Vision
     	camera.getImage(frame);
         NIVision.imaqDrawShapeOnImage(frameDest, frame, rect,
                 DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.5f);
-        
         
         CameraServer.getInstance().setImage(frameDest);
 
