@@ -31,7 +31,6 @@ public class Robot extends IterativeRobot
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
-	PIDController pidController;
 	Vision vision;
 	
 	double pValue;
@@ -68,7 +67,7 @@ public class Robot extends IterativeRobot
     	ui = new UI(this);
 
     	// Accelerometer init
-    	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+    	//accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
@@ -85,7 +84,7 @@ public class Robot extends IterativeRobot
     public void disabledInit()
     {
     	super.disabledInit();
-    	lidar.stop();
+    	//lidar.stop();
     }
     
     public void testInit()
@@ -167,7 +166,7 @@ public class Robot extends IterativeRobot
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
-    	ui.update(this);
+    	//ui.update(this);
     }
     
     /**

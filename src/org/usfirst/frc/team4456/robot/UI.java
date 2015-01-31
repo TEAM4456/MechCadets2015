@@ -82,7 +82,7 @@ public class UI
     	SmartDashboard.putNumber("gyroRate", robot.gyro.getRate());
     	
     	// Lidar
-    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	SmartDashboard.putNumber("lidar", robot.lidar.pidGet());
     }
 	
 }

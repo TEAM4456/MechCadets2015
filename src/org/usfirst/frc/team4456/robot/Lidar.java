@@ -55,13 +55,13 @@ public class Lidar implements PIDSource
 	public void update()
 	{
 		long ms0 = System.nanoTime();
-		i2cLidar.write(Constants.LIDAR_CONFIG_REGISTER,  0x04);
+		boolean wr = i2cLidar.write(Constants.LIDAR_CONFIG_REGISTER,  0x04);
 		long ms1 = System.nanoTime();
-		System.out.println("write time: " + (ms1-ms0));
-		Timer.delay(0.04);
-		i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
+		System.out.println("write:" + (wr) + " time: " + (ms1-ms0));
+		Timer.delay(0.05);
+		boolean rd = i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
 		long ms2 = System.nanoTime();
-		System.out.println("read time: " + (ms2-ms1));
+		System.out.println("read" + (rd) + " time: " + (ms2-ms1));
 	    Timer.delay(0.005);
 		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
 		//System.out.println(getDistance());
@@ -71,18 +71,15 @@ public class Lidar implements PIDSource
 	{
 		public void run()
 		{
-			while(true)
-			{
-				update();
-				try
-				{
-					Thread.sleep(10);
-				}
-				catch(InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-			}
+			update();
+			//try
+			//{
+			//	Thread.sleep(10);
+			//}
+			//catch(InterruptedException e)
+			//{
+			//	e.printStackTrace();
+			//}
 		}
 	}
 	
