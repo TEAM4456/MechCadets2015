@@ -119,7 +119,7 @@ public class Robot extends IterativeRobot
     	 */
     	driver.drive(xboxController, gyro, this);
     	
-    	vision.cycle();
+    	//vision.cycle();
     	
     	if (xboxController.getRawButton(Constants.button_B))
     		buttonBPress = true;

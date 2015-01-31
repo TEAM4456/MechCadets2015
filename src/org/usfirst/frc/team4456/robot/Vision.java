@@ -13,6 +13,13 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 
+import edu.wpi.first.wpilibj.image.HSLImage;
+import edu.wpi.first.wpilibj.image.BinaryImage;
+import edu.wpi.first.wpilibj.image.ColorImage;
+import edu.wpi.first.wpilibj.image.NIVisionException;
+import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Vision
 {
 	/*
@@ -21,60 +28,93 @@ public class Vision
 	 */
 	
 	int session;
-    Image frame;
-    Image frameDest, frameDest8;
-    AxisCamera camera;
-    
-    Image tmpImgA, tmpImgB;
-    
-    NIVision.RGBValue grayVal;
-    NIVision.RGBValue rgbVal;
+	private AxisCamera camera;
+	
+	Image frame;
+	Image binaryFrame;
+	Image channel1, channel2, channel3;
+	int imaqError;
+	
+	double AREA_MINIMUM = 0.5;
+	
+	NIVision.RawData rawData;
+	
+	Range HUE = new Range(0,255);
+	Range SAT = new Range(0,60);
+	Range VAL = new Range(150,255);
+	
+	RGBValue rgbVal = new RGBValue(255, 255, 255, 1);
+	
+	NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
     
     public Vision()
     {
-    	frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-    	frameDest = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+    	//init smartDashValues
+    	SmartDashboard.putNumber("Range1min", HUE.minValue);
+    	SmartDashboard.putNumber("Range1max", HUE.maxValue);
     	
-    	tmpImgA = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_U8, 0);
-    	tmpImgB = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_U8, 0);
-    	frameDest8 = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_U8, 0);
+    	SmartDashboard.putNumber("Range2min", SAT.minValue);
+    	SmartDashboard.putNumber("Range2max", SAT.maxValue);
     	
-        camera = new AxisCamera("10.50.0.30");
-        
-        
-        rgbVal = new RGBValue(1, 1, 1, 1);
-        grayVal = new RGBValue(0, 1, 0, 1);
+    	SmartDashboard.putNumber("Range3min", VAL.minValue);
+    	SmartDashboard.putNumber("Range3max", VAL.maxValue);
+    	
+    	rawData = new NIVision.RawData();
+    	
+    	frame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+    	binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+    	criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA,AREA_MINIMUM, 100.0, 0, 0);
+    	
+    	channel1 = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+    	channel2 = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+    	channel3 = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
+    	
+    	camera = new AxisCamera("10.50.0.30");
+    	SmartDashboard.putNumber("CameraBrightness", camera.getBrightness());
+    	
     }
     
     public void cycle()
     {
-    	NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+    }
+    
+    public void updateRanges()
+    {
+    	HUE.minValue = (int)SmartDashboard.getNumber("Range1min");
+    	HUE.maxValue = (int)SmartDashboard.getNumber("Range1max");
     	
-    	camera.getImage(frame);
-        NIVision.imaqDrawShapeOnImage(frameDest, frame, rect,
-                DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.5f);
-        
-        
-        CameraServer.getInstance().setImage(frameDest);
-
-        Timer.delay(0.005);
+    	SAT.minValue = (int)SmartDashboard.getNumber("Range2min");
+    	SAT.maxValue = (int)SmartDashboard.getNumber("Range2max");
+    	
+    	VAL.minValue = (int)SmartDashboard.getNumber("Range3min");
+    	VAL.maxValue = (int)SmartDashboard.getNumber("Range3max");
+    	
+    	camera.writeBrightness((int)SmartDashboard.getNumber("CameraBrightness"));
     }
     
     public void writeThresholdImg()
     {
+    	updateRanges();
+    	
     	camera.getImage(frame);
-    	frameDest = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+    	NIVision.imaqWriteBMPFile(frame, Constants.filePathRoborio + "imgMain.bmp", 0, rgbVal);
     	
-    	NIVision.imaqExtractColorPlanes(frame, ColorMode.RGB, tmpImgA, frameDest8, tmpImgB);
+    	//threshold the image
+    	NIVision.imaqColorThreshold(binaryFrame, frame, 255, ColorMode.HSV, HUE, SAT, VAL);
     	
-    	NIVision.imaqWriteBMPFile(frameDest8, Constants.filePathRoborio + "beforeThresImg.bmp", 0, rgbVal);
+    	int numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
+    	System.out.println("Masked Particles: " + numParticles);
     	
-    	NIVision.imaqThreshold(frameDest8, frameDest8, 0.5f, 1.0f, 1, 0.5f);
+    	CameraServer.getInstance().setImage(binaryFrame);
+    	NIVision.imaqWriteBMPFile(binaryFrame, Constants.filePathRoborio + "binaryImg.bmp", 0, rgbVal);
     	
-    	NIVision.imaqWriteBMPFile(frameDest8, Constants.filePathRoborio + "thresImg.bmp", 10, rgbVal);
-    	System.out.println("img written to: " + Constants.filePathRoborio + "thresImg.bmp");
+    	//extract planes
+    	NIVision.imaqExtractColorPlanes(frame, ColorMode.RGB, channel1, channel2, channel3);
     	
-    	frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+    	NIVision.imaqWriteJPEGFile(channel1, Constants.filePathRoborio + "channel1.jpg", 99, (NIVision.RawData)rawData);
+    	NIVision.imaqWriteJPEGFile(channel2, Constants.filePathRoborio + "channel2.jpg", 99, (NIVision.RawData)rawData);
+    	NIVision.imaqWriteJPEGFile(channel3, Constants.filePathRoborio + "channel3.jpg", 99, (NIVision.RawData)rawData);
+
     	
     	Timer.delay(0.005);
     }
