@@ -16,7 +16,12 @@ public class UI
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	SmartDashboard.putBoolean("resetEncoder", false);
-    	    	
+    	
+    	// PID
+    	SmartDashboard.putNumber("pValue", robot.pValue);
+    	SmartDashboard.putBoolean("setPValue", false);
+    	SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
+    	
     	// SmartDashboard.putNumber("pValue", robot.pValue);
     	// SmartDashboard.putBoolean("setPValue", false);
     	// SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
@@ -32,6 +37,9 @@ public class UI
         
         // Button for whether we use mechanum or tank
         SmartDashboard.putBoolean("Using Mechanum", true);
+        
+        // Lidar Values 
+    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     }
     
     public void update(Robot robot)
@@ -57,32 +65,24 @@ public class UI
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	
     	// Sets pValue to the number in pValue widget
-    	/*
     	if (SmartDashboard.getBoolean("setPValue"))
     	{
-    		robot.pidController.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
+    		robot.driver.talon2.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
     		SmartDashboard.putBoolean("Reset", false);
     	}
-    	*/
     	
     	// Toggles Gyro and Mechanum Buttons
     	robot.useGyro = SmartDashboard.getBoolean("Using Gyro");
     	robot.useMechanum = SmartDashboard.getBoolean("Using Mechanum");
     	
-    	// SmartDashboard.putNumber("PIDController Get", robot.pidController.get());
-    	
-    	// Lidar Values 
-
-    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
-    	
-    	SmartDashboard.putNumber("Magnitude", robot.xboxController.getMagnitude());
-    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));
-    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_Y));
-    	SmartDashboard.putNumber("Rotation", robot.xboxController.getRawAxis(Constants.axis_rightStick_X));
+    	SmartDashboard.putNumber("PIDController Get", robot.driver.talon2.get());
     	
     	// Gyro Values
     	SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());
     	SmartDashboard.putNumber("gyroRate", robot.gyro.getRate());
+    	
+    	// Lidar
+    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     }
 	
 }

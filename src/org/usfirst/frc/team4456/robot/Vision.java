@@ -26,7 +26,6 @@ public class Vision
 	 * NOTE: if you get an Invalid Image error, check to make sure that
 	 * the image type for extracting planes is IMAGE_U8
 	 */
-	
 	int session;
 	private AxisCamera camera;
 	
@@ -72,6 +71,8 @@ public class Vision
     	camera = new AxisCamera("10.50.0.30");
     	SmartDashboard.putNumber("CameraBrightness", camera.getBrightness());
     	
+        camera = new AxisCamera("10.50.0.30");
+        
     }
     
     public void cycle()
@@ -90,6 +91,10 @@ public class Vision
     	VAL.maxValue = (int)SmartDashboard.getNumber("Range3max");
     	
     	camera.writeBrightness((int)SmartDashboard.getNumber("CameraBrightness"));
+
+    	camera.getImage(frame);
+
+        Timer.delay(0.005);
     }
     
     public void writeThresholdImg()
