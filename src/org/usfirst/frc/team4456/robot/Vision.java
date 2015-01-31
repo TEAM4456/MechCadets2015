@@ -27,7 +27,6 @@ public class Vision
     	
         camera = new AxisCamera("10.50.0.30");
         
-        
         rgbVal = new RGBValue(1, 1, 1, 1);
     }
     

@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Lidar
 {
-	
 	private I2C i2cLidar;
+	byte[] toSend = new byte[1];
 	
 	public Lidar()
 	{

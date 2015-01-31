@@ -119,7 +119,10 @@ public class Robot extends IterativeRobot
     	vision.cycle();
     	
     	if (xboxController.getRawButton(Constants.button_B))
+    	{
     		buttonBPress = true;
+    	}
+    	
     	if (buttonBPress == true && !xboxController.getRawButton(Constants.button_B))
     	{
     		vision.writeThresholdImg();
