@@ -31,7 +31,6 @@ public class Robot extends IterativeRobot
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
-	PIDController pidController;
 	Vision vision;
 	
 	double pValue;
@@ -61,14 +60,13 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
     	
         // Lidar init
-    	//lidar = new Lidar(Port.kOnboard);
     	lidar = new Lidar(Port.kMXP);
         
     	// UI init
     	ui = new UI(this);
 
     	// Accelerometer init
-    	accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
+    	//accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
     	
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
@@ -86,7 +84,7 @@ public class Robot extends IterativeRobot
     public void disabledInit()
     {
     	super.disabledInit();
-    	lidar.stop();
+    	//lidar.stop();
     }
     
     public void testInit()
@@ -118,37 +116,11 @@ public class Robot extends IterativeRobot
     	//lidar.getDistance();
     	
     	/*
-    	 * Switches between Cartesian and Polar based on whether or 
-    	 * not we are using a gyro.
+    	 * Switches between Mechanum and Tank based on what wheels we are using.
+    	 * It also switches between Cartesian and Polar Mechanum Drives based on 
+    	 * whether or not we are using a gyro.
     	 */
     	driver.drive(xboxController, gyro, this);
-    	
-    	//vision.cycle();
-    	// Mechanum and Gyro toggle temporary buttons
-    	/*
-    	if(xboxController.getRawButton(Constants.button_Y))
-    	{
-    		if(useMechanum)
-    		{
-    			useMechanum = false;
-    		}
-    		else
-    		{
-    			useMechanum = true;
-    		}
-    	}
-    	if(xboxController.getRawButton(Constants.button_X))
-    	{
-    		if(useGyro)
-    		{
-    			useGyro = false;
-    		}
-    		else
-    		{
-    			useGyro = true;
-    		}
-    	}
-    	*/
     	
     	// vision.cycle();
     	
@@ -169,7 +141,7 @@ public class Robot extends IterativeRobot
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
-    	ui.update(this);
+    	//ui.update(this);
     }
     
     /**
