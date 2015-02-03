@@ -12,10 +12,18 @@ public class Driver
 	
 	public Driver()
 	{
+		/*
 		talon1 = new CANTalon(11);
 		talon2 = new CANTalon(13);
 		talon3 = new CANTalon(15);
 		talon4 = new CANTalon(22);
+		*/
+		
+		talon1 = new CANTalon(17);
+		talon2 = new CANTalon(18);
+		talon3 = new CANTalon(20);
+		talon4 = new CANTalon(19);
+		
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
 	}
 	
@@ -45,7 +53,7 @@ public class Driver
 		// Magnitude, Direction, Rotation
 		robotDrive.mecanumDrive_Polar(lowerSensitivity(controller.getMagnitude()), 
     			controller.getDirectionDegrees(), 
-    			lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)));
+    			lowerSensitivity(controller.getRawAxis(Constants.axis_triggers)));
 	}
 	
 	// This will be used if we do have a gyroscope
@@ -54,7 +62,7 @@ public class Driver
 		// X, Y, Rotation, Gyro Angle
 		robotDrive.mecanumDrive_Cartesian(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_X)),
 				lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_Y)),
-				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)),
+				lowerSensitivity(controller.getRawAxis(Constants.axis_triggers)),
     			gyro.getAngle());	
 	}
 	
