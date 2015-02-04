@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot
     public void robotInit()
     {
     	// Driver init
-    	driver = new Driver();
+    	driver = new Driver(true);
     	
     	// Gyro init 
 
@@ -107,6 +107,7 @@ public class Robot extends IterativeRobot
     {
     	super.teleopInit();
     	lidar.start(500);
+    	gyro.reset();
     }
     
     public void teleopPeriodic()
@@ -141,7 +142,7 @@ public class Robot extends IterativeRobot
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
-    	//ui.update(this);
+    	ui.update(this);
     }
     
     /**

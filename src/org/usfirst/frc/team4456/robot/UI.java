@@ -32,8 +32,9 @@ public class UI
         SmartDashboard.putBoolean("Using Gyro", false);
         
         // Gyro Values
-        SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());
+        SmartDashboard.putNumber("gyroValue", get360Angle(robot.gyro.getAngle()));
     	SmartDashboard.putNumber("gyroRate", robot.gyro.getRate());
+    	SmartDashboard.putBoolean("Reset Gyro", false);
         
         // Button for whether we use mechanum or tank
         SmartDashboard.putBoolean("Using Mechanum", true);
@@ -81,8 +82,30 @@ public class UI
     	SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());
     	SmartDashboard.putNumber("gyroRate", robot.gyro.getRate());
     	
+    	if(SmartDashboard.getBoolean("Reset Gyro"))
+    	{
+    		robot.gyro.reset();
+    		SmartDashboard.putBoolean("Reset Gyro", false);
+    	}
+    	
     	// Lidar
     	SmartDashboard.putNumber("lidar", robot.lidar.pidGet());
+    }
+    
+    private double get360Angle(double value)
+    {
+    	while((value < 0 || value > 360))
+    	{
+    		if(value < 0)
+    		{
+    			value = value + 360;
+    		}
+    		if(value > 360)
+    		{
+    			value = value - 360;
+    		}
+    	}
+    	return value;
     }
 	
 }

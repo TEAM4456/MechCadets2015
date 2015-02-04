@@ -17,9 +17,10 @@ public class Constants
 	public static final int button_Start = 8;
 	public static final int button_leftStick = 9;
 	public static final int button_rightStick = 10;
-	public static final int axis_leftStick_X = 1;
-	public static final int axis_leftStick_Y = 2;
-	public static final int axis_triggers = 3;
+	public static final int axis_leftStick_X = 0;
+	public static final int axis_leftStick_Y = 1;
+	public static final int axis_leftTrigger = 2;
+	public static final int axis_rightTrigger = 3;
 	public static final int axis_rightStick_X = 4;
 	public static final int axis_rightStick_Y = 5;
 	public static final int axis_dPad_X = 6;
