@@ -12,7 +12,7 @@ public class Driver
 	
 	public Driver(boolean useTest)
 	{
-		if (useTest)
+		if(useTest)
 		{
 			talon1 = new CANTalon(11);
 			talon2 = new CANTalon(13);

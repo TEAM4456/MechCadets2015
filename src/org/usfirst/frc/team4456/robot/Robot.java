@@ -71,7 +71,6 @@ public class Robot extends IterativeRobot
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
     	
-    	
     	vision = new Vision();
     	buttonBPress = false;
     }
