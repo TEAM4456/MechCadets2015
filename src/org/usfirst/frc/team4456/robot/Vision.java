@@ -120,7 +120,6 @@ public class Vision
     	NIVision.imaqWriteJPEGFile(channel2, Constants.filePathRoborio + "channel2.jpg", 99, (NIVision.RawData)rawData);
     	NIVision.imaqWriteJPEGFile(channel3, Constants.filePathRoborio + "channel3.jpg", 99, (NIVision.RawData)rawData);
 
-    	
     	Timer.delay(0.005);
     }
 }
