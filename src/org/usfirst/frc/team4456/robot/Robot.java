@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
     	super.teleopInit();
-    	lidar.start(500);
+    	lidar.start(1000);
     	gyro.reset();
     }
     
@@ -113,7 +113,7 @@ public class Robot extends IterativeRobot
     {
     	ui.update(this);
     	
-    	//lidar.getDistance();
+    	lidar.getDistance();
     	
     	/*
     	 * Switches between Mechanum and Tank based on what wheels we are using.

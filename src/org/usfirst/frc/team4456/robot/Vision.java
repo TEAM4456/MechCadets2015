@@ -48,7 +48,7 @@ public class Vision
     
     public Vision()
     {
-    	//init smartDashValues
+    	// Init smartDashValues
     	SmartDashboard.putNumber("Range1min", HUE.minValue);
     	SmartDashboard.putNumber("Range1max", HUE.maxValue);
     	
