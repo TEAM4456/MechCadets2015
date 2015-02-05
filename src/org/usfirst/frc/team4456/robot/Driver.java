@@ -9,7 +9,7 @@ public class Driver
 {
 	RobotDrive robotDrive;
 	CANTalon talon1, talon2, talon3, talon4;
-	
+
 	// Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
 	public Driver(boolean useTest)
 	{

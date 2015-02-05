@@ -22,10 +22,6 @@ public class UI
     	SmartDashboard.putBoolean("setPValue", false);
     	SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
     	
-    	// SmartDashboard.putNumber("pValue", robot.pValue);
-    	// SmartDashboard.putBoolean("setPValue", false);
-    	// SmartDashboard.putNumber("PIDControllerGet", robot.pidController.get());
-    	
         System.out.println("UI running");
         
         // Button for whether or not we use a gyroscope
@@ -94,6 +90,7 @@ public class UI
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     }
     
+    // This will just set an angle in between 0 and 360 to make it easier for the user to understand
     private double get360Angle(double value)
     {
     	while((value < 0 || value > 360))
