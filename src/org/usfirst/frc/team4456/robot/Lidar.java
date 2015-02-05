@@ -10,13 +10,9 @@ public class Lidar implements PIDSource
 {
 	private I2C i2cLidar;
 	private byte[] distance;
+	private int processedDistance;
 	private java.util.Timer updater;
-	/*
-	public Lidar()
-	{
-		i2cLidar = new I2C(I2C.Port.kOnboard, 0x62); // Lidar i2c address = 0x62
-	}
-	*/
+	
 	public Lidar(Port port)
 	{
 		i2cLidar = new I2C(port, Constants.LIDAR_ADDR);
@@ -24,11 +20,12 @@ public class Lidar implements PIDSource
 		distance[0] = 0;
 		distance[1] = 0;
 		updater = new java.util.Timer();
+		processedDistance = 1;
 	}
 	
 	public int getDistance()
 	{
-		return (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
+		return processedDistance;
 	}
 	
 	public double pidGet()
@@ -61,45 +58,42 @@ public class Lidar implements PIDSource
 		Timer.delay(0.05);
 		boolean rd = i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
 		long ms2 = System.nanoTime();
-		System.out.println("read" + (rd) + " time: " + (ms2-ms1));
+		System.out.println("read:" + (rd) + " time: " + (ms2-ms1));
 	    Timer.delay(0.005);
 		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
+		processedDistance = (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
 		//System.out.println(getDistance());
+	}
+	
+	public void updateWNackack()
+	{
+		boolean nackack = true;
+		
+		//write and wait 1ms until transaction successful
+		while(nackack)
+		{
+			nackack = i2cLidar.write(Constants.LIDAR_CONFIG_REGISTER,  0x04);
+			Timer.delay(0.001);
+		}
+		
+		nackack = true;
+		
+		//read and wait 1ms until transaction successful
+		while(nackack)
+		{
+			nackack = i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
+			Timer.delay(0.001);
+		}
+		
+		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
+		processedDistance = (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
 	}
 	
 	private class LIDARUpdater extends TimerTask
 	{
 		public void run()
 		{
-			update();
-			//try
-			//{
-			//	Thread.sleep(10);
-			//}
-			//catch(InterruptedException e)
-			//{
-			//	e.printStackTrace();
-			//}
+			updateWNackack();
 		}
 	}
-	
-	// Returns lidar distance in centimeters
-	/*
-	public int getDistance()
-	{
-		i2cLidar.write(0x00, 0x04);
-		
-		byte[] distanceMeasurements = new byte[2];
-		int finalDistance;
-		
-		// This will get a 16-bit number from the lidar.
-		// The number is split into 2 8-bit numbers(byte[] distanceMeasurements)
-		i2cLidar.read(0x8f, 2, distanceMeasurements);
-		
-		// The 2 8-bit numbers are combined. the first is bitwise shifted to the left 8 times, and is added to the second.
-		finalDistance = (distanceMeasurements[0] << 8) + distanceMeasurements[1];
-		
-		return finalDistance;
-	}
-	*/
 }
