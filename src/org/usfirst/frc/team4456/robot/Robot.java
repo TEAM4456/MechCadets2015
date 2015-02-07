@@ -71,6 +71,8 @@ public class Robot extends IterativeRobot
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
     	
+
+    	// Vision init
     	vision = new Vision();
     	buttonBPress = false;
     }
@@ -83,7 +85,7 @@ public class Robot extends IterativeRobot
     public void disabledInit()
     {
     	super.disabledInit();
-    	//lidar.stop();
+    	lidar.stop();
     }
     
     public void testInit()
@@ -94,8 +96,12 @@ public class Robot extends IterativeRobot
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() // We could make some code that is executed by both the autonomous mode and the teleop mode so that we can continue the autonomous part
+    public void autonomousPeriodic()
     {
+    	/* 
+    	 * We could make some code that is executed by both the autonomous mode 
+    	 * and the teleop mode so that we can continue the autonomous part
+    	 */
     	super.autonomousPeriodic();
     }
     

@@ -54,17 +54,18 @@ public class Lidar implements PIDSource
 		long ms0 = System.nanoTime();
 		boolean wr = i2cLidar.write(Constants.LIDAR_CONFIG_REGISTER,  0x04);
 		long ms1 = System.nanoTime();
-		System.out.println("write:" + (wr) + " time: " + (ms1-ms0));
+		System.out.println("Write:  " + (wr) + "\tTime: " + (ms1-ms0));
 		Timer.delay(0.05);
 		boolean rd = i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
 		long ms2 = System.nanoTime();
-		System.out.println("read:" + (rd) + " time: " + (ms2-ms1));
-	    Timer.delay(0.005);
+		System.out.println("Read: " + (rd) + "\tTime: " + (ms2-ms1));
+	    Timer.delay(0.05);
 		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
 		processedDistance = (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
-		//System.out.println(getDistance());
+		System.out.println("Get Distance: " + getDistance() + " cm");
 	}
 	
+	/*
 	public void updateWNackack()
 	{
 		boolean nackack = true;
@@ -88,12 +89,13 @@ public class Lidar implements PIDSource
 		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
 		processedDistance = (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
 	}
+	 */
 	
 	private class LIDARUpdater extends TimerTask
 	{
 		public void run()
 		{
-			updateWNackack();
+			update();
 		}
 	}
 }

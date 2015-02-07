@@ -9,7 +9,8 @@ public class Driver
 {
 	RobotDrive robotDrive;
 	CANTalon talon1, talon2, talon3, talon4;
-	
+
+	// Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
 	public Driver(boolean useTest)
 	{
 		if(useTest)
@@ -26,7 +27,7 @@ public class Driver
 			talon3 = new CANTalon(20);
 			talon4 = new CANTalon(19);
 		}
-		
+		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
 	}
 	
@@ -53,7 +54,8 @@ public class Driver
 	// This will be used if we do not have a gyroscope
 	private void drivePolar(Joystick controller)
 	{
-		// Magnitude, Direction, Rotation
+		// Parameters are Magnitude, Direction, Rotation
+		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
 		robotDrive.mecanumDrive_Polar(lowerSensitivity(controller.getMagnitude()), 
     			controller.getDirectionDegrees(), 
     			lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)));
@@ -62,7 +64,8 @@ public class Driver
 	// This will be used if we do have a gyroscope
 	private void driveCartesian(Joystick controller, Gyro gyro)
 	{
-		// X, Y, Rotation, Gyro Angle
+		// Parameters are X, Y, Rotation, and Gyro Angle
+		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
 		robotDrive.mecanumDrive_Cartesian(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_X)),
 				lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_Y)),
 				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)),
@@ -79,6 +82,8 @@ public class Driver
 	// This sets the sensitivity exponentially
 	private double lowerSensitivity(double value)
 	{
+		// The value should be from 0 to 1, so it makes an exponential curve
+		// This method can be used by the various drive methods
 		value = Math.pow(value, 3);
 		if(value > 1)
 		{
