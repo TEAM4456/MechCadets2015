@@ -4,6 +4,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UI
 {
+	private String arduinoBuffer = "";
+	private int arduinoBufferLength = 50;
+	
     public UI(Robot robot)
     {
     	// Driver Values
@@ -36,9 +39,9 @@ public class UI
         SmartDashboard.putBoolean("Using Mechanum", true);
         
         // Lidar Values 
-        SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
-    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
-    	
+        // SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
+    	// SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	arduinoBuffer = robot.serial.readString();
     }
     
     public void update(Robot robot)
@@ -87,8 +90,12 @@ public class UI
     	}
     	
     	// Lidar
-    	SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
-    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	// SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
+    	// SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	
+    	updateArduinoBuffer(robot.serial.readString());
+    	//System.out.println(arduinoBuffer);
+    	SmartDashboard.putNumber("Arduino", format(arduinoBuffer));
     	
     	//ultrasonic
     	SmartDashboard.putNumber("ultrasonic value", robot.ultrasonic.ultrasonicSensor.getValue());
@@ -113,5 +120,34 @@ public class UI
     	}
     	return value;
     }
+    
+    private double format(String string)
+    {
+    	String[] stringArray = string.split("\n");
+    	double[] doubleArray = new double[stringArray.length];
+    	for(int i = 0; i < stringArray.length; i++)
+    	{
+    		try 
+    		{
+        		doubleArray[i] = Double.parseDouble(stringArray[i]);
+    		}
+    		catch(Exception e)
+    		{
+    			doubleArray[i] = 1.0;
+    		}
+    	}
+    	if(doubleArray.length < 2)
+    	{
+    		return 0;
+    	}
+    	return doubleArray[doubleArray.length-2];
+    }
 	
+    private void updateArduinoBuffer(String newString)
+    {
+    	String tempString = arduinoBuffer + newString;
+    	int len = Math.min(tempString.length(), arduinoBufferLength);
+    	arduinoBuffer = tempString.substring(tempString.length() - len);
+    }
+    
 }

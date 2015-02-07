@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -33,6 +34,8 @@ public class Robot extends IterativeRobot
 	Lidar lidar;
 	Vision vision;
 	UltrasonicSensor ultrasonic;
+	SerialPort serial;
+	
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -62,7 +65,9 @@ public class Robot extends IterativeRobot
     	
         // Lidar init
     	lidar = new Lidar(Port.kMXP);
-        
+    	
+    	serial = new SerialPort(9600,SerialPort.Port.kUSB);
+    	
     	// UI init
     	ui = new UI(this);
 
@@ -123,7 +128,6 @@ public class Robot extends IterativeRobot
     	ui.update(this);
     	
     	lidar.getDistance();
-    	
     	/*
     	 * Switches between Mechanum and Tank based on what wheels we are using.
     	 * It also switches between Cartesian and Polar Mechanum Drives based on 
@@ -145,7 +149,7 @@ public class Robot extends IterativeRobot
     		buttonBPress = false;
     	}
     	
-    	System.out.println(ultrasonic.getValues());
+    	//System.out.println(ultrasonic.getValues());
     	
     }
     
