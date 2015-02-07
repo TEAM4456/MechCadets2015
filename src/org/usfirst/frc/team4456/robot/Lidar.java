@@ -73,7 +73,7 @@ public class Lidar implements PIDSource
 		while(nackack)
 		{
 			nackack = i2cLidar.write(Constants.LIDAR_CONFIG_REGISTER,  0x04);
-			Timer.delay(0.001);
+			Timer.delay(0.05);
 		}
 		
 		nackack = true;
@@ -82,7 +82,7 @@ public class Lidar implements PIDSource
 		while(nackack)
 		{
 			nackack = i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
-			Timer.delay(0.001);
+			Timer.delay(0.05);
 		}
 		
 		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
