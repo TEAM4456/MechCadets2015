@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
 	Vision vision;
+	UltrasonicSensor ultrasonic;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -75,6 +76,8 @@ public class Robot extends IterativeRobot
     	// Vision init
     	vision = new Vision();
     	buttonBPress = false;
+    	
+    	ultrasonic = new UltrasonicSensor(1);
     }
     
     public void autonomousInit()
@@ -141,6 +144,8 @@ public class Robot extends IterativeRobot
     		vision.writeThresholdImg();
     		buttonBPress = false;
     	}
+    	
+    	System.out.println(ultrasonic.getValues());
     	
     }
     

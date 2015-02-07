@@ -38,6 +38,7 @@ public class UI
         // Lidar Values 
         SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	
     }
     
     public void update(Robot robot)
@@ -88,6 +89,12 @@ public class UI
     	// Lidar
     	SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
     	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	
+    	//ultrasonic
+    	SmartDashboard.putNumber("ultrasonic value", robot.ultrasonic.ultrasonicSensor.getValue());
+    	SmartDashboard.putNumber("ultrasonic voltage", robot.ultrasonic.ultrasonicSensor.getVoltage());
+    	SmartDashboard.putNumber("ultrasonic avg voltage", robot.ultrasonic.ultrasonicSensor.getAverageVoltage());
+    	SmartDashboard.putNumber("ultrasonic avg value", robot.ultrasonic.ultrasonicSensor.getAverageValue());
     }
     
     // This will just set an angle in between 0 and 360 to make it easier for the user to understand
