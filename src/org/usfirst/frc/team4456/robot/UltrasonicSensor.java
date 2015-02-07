@@ -4,19 +4,15 @@ import edu.wpi.first.wpilibj.AnalogInput;
 
 public class UltrasonicSensor
 {
-	//TODO change this to private when done testing
-	public AnalogInput ultrasonicSensor;
+	private AnalogInput ultrasonicSensor;
 	
 	public UltrasonicSensor(int channel)
 	{
 		ultrasonicSensor = new AnalogInput(channel);
 	}
 	
-	public String getValues()
+	public double getValueInches()
 	{
-		// Gets Values
-		return  "ULTRASONIC--------------------" +
-				"\ngetValue():" + ultrasonicSensor.getValue() +
-				"\ngetVoltage():" + ultrasonicSensor.getVoltage();
+		return (ultrasonicSensor.getAverageVoltage()) * (Constants.ULTRASONIC_FACTOR_VOLTS);
 	}
 }

@@ -30,5 +30,7 @@ public class Constants
 	public static final int LIDAR_CONFIG_REGISTER = 0x00;
 	public static final int LIDAR_DISTANCE_REGISTER = 0x8f;
 	
+	public static final double ULTRASONIC_FACTOR_VOLTS = 40.2969;
+	
 	public static final String filePathRoborio = "/home/lvuser/";
 }

@@ -145,7 +145,6 @@ public class Robot extends IterativeRobot
     		buttonBPress = false;
     	}
     	
-    	System.out.println(ultrasonic.getValues());
     	
     }
     
