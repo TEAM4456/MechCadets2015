@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot
     public void disabledInit()
     {
     	super.disabledInit();
-    	//lidar.stop();
+    	lidar.stop();
     }
     
     public void testInit()
@@ -95,8 +95,12 @@ public class Robot extends IterativeRobot
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() // We could make some code that is executed by both the autonomous mode and the teleop mode so that we can continue the autonomous part
+    public void autonomousPeriodic()
     {
+    	/* 
+    	 * We could make some code that is executed by both the autonomous mode 
+    	 * and the teleop mode so that we can continue the autonomous part
+    	 */
     	super.autonomousPeriodic();
     }
     
@@ -115,6 +119,7 @@ public class Robot extends IterativeRobot
     	ui.update(this);
     	
     	lidar.getDistance();
+    	lidar.update();
     	
     	/*
     	 * Switches between Mechanum and Tank based on what wheels we are using.
