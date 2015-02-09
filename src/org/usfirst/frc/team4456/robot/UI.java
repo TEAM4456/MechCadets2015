@@ -39,8 +39,8 @@ public class UI
         SmartDashboard.putBoolean("Using Mechanum", true);
         
         // Lidar Values 
-        // SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
-    	// SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+        SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
+    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     	arduinoBuffer = robot.serial.readString();
     }
     
@@ -90,14 +90,14 @@ public class UI
     	}
     	
     	// Lidar
-    	// SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
-    	// SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+    	SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());
+    	SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
     	
     	updateArduinoBuffer(robot.serial.readString());
-    	//System.out.println(arduinoBuffer);
+    	System.out.println(arduinoBuffer);
     	SmartDashboard.putNumber("Arduino", format(arduinoBuffer));
     	
-    	//ultrasonic
+    	// Ultrasonic
     	SmartDashboard.putNumber("ultrasonic value", robot.ultrasonic.getValueInches());
     }
     
