@@ -133,17 +133,18 @@ public class Robot extends IterativeRobot
     	
     	// vision.cycle();
     	
+    	/*
     	if (xboxController.getRawButton(Constants.button_B))
     	{
     		buttonBPress = true;
     	}
-    	
     	if (buttonBPress && !xboxController.getRawButton(Constants.button_B))
     	{
     		Timer.delay(0.005);
     		vision.writeThresholdImg();
     		buttonBPress = false;
     	}
+    	*/
     	
     	
     }
