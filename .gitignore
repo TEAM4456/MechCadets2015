@@ -5,3 +5,4 @@ bin/
 *.class
 /sysProps.xml
 /build.xml
+/build.xml
