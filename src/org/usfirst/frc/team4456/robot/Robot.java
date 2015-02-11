@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.Timer;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+
 public class Robot extends IterativeRobot
 {
 	Joystick xboxController;
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot
 	Vision vision;
 	UltrasonicSensor ultrasonic;
 	SerialPort serial;
+	ArduinoLidar arduinoLidar;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -82,6 +84,8 @@ public class Robot extends IterativeRobot
     	buttonBPress = false;
     	
     	ultrasonic = new UltrasonicSensor(1);
+    	
+    	arduinoLidar = new ArduinoLidar(this);
     }
     
     public void autonomousInit()
@@ -134,6 +138,8 @@ public class Robot extends IterativeRobot
     	 * whether or not we are using a gyro.
     	 */
     	driver.drive(xboxController, gyro, this);
+    	
+    	arduinoLidar.update(this);
     	
     	// vision.cycle();
     	
