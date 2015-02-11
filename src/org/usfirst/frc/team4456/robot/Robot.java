@@ -41,16 +41,12 @@ public class Robot extends IterativeRobot
 	double pValue;
 	boolean useGyro, useMechanum;
 
-	boolean buttonBPress;
-
-	
     public void robotInit()
     {
     	// Driver init
     	driver = new Driver(true);
     	
     	// Gyro init 
-
     	gyro = new Gyro(0);
     	
     	// Mechanum and Gyro booleans for Driver
@@ -67,22 +63,19 @@ public class Robot extends IterativeRobot
         // Lidar init
     	lidar = new Lidar(Port.kMXP);
     	
+    	// Serial init
     	serial = new SerialPort(9600,SerialPort.Port.kUSB);
     	
     	// UI init
     	ui = new UI(this);
 
-    	// Accelerometer init
-    	//accelerometer = new ADXL345_I2C(I2C.Port.kOnboard, Accelerometer.Range.k4G);
-    	
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
     	
-
     	// Vision init
     	vision = new Vision();
-    	buttonBPress = false;
     	
+    	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
     	
     	arduinoLidar = new ArduinoLidar(this);
@@ -155,9 +148,6 @@ public class Robot extends IterativeRobot
     		buttonBPress = false;
     	}
     	*/
-    	
-
-    	
     }
     
     public void disabledPeriodic()
