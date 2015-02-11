@@ -6,14 +6,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDSource;
 
-public class Lidar implements PIDSource
+public class LidarBackup implements PIDSource
 {
 	private I2C i2cLidar;
 	private byte[] distance;
 	private int processedDistance;
 	private java.util.Timer updater;
 	
-	public Lidar(Port port)
+	public LidarBackup(Port port)
 	{
 		i2cLidar = new I2C(port, Constants.LIDAR_ADDR);
 		distance = new byte[2];

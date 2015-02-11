@@ -32,11 +32,11 @@ public class Robot extends IterativeRobot
 	UI ui;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	Lidar lidar;
+	LidarBackup lidar;
 	Vision vision;
 	UltrasonicSensor ultrasonic;
 	SerialPort serial;
-	ArduinoLidar arduinoLidar;
+	SLidar arduinoLidar;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
     	
         // Lidar init
-    	lidar = new Lidar(Port.kMXP);
+    	lidar = new LidarBackup(Port.kMXP);
     	
     	// Serial init
     	serial = new SerialPort(9600,SerialPort.Port.kUSB);
@@ -78,7 +78,7 @@ public class Robot extends IterativeRobot
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
     	
-    	arduinoLidar = new ArduinoLidar(this);
+    	arduinoLidar = new SLidar(this);
     }
     
     public void autonomousInit()
