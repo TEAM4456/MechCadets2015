@@ -1,19 +1,14 @@
 package org.usfirst.frc.team4456.robot;
 
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,7 +31,7 @@ public class Robot extends IterativeRobot
 	Vision vision;
 	UltrasonicSensor ultrasonic;
 	SerialPort serial;
-	SLidar arduinoLidar;
+	Lidar arduinoLidar;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -78,7 +73,7 @@ public class Robot extends IterativeRobot
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
     	
-    	arduinoLidar = new SLidar(this);
+    	arduinoLidar = new Lidar(this);
     }
     
     public void autonomousInit()

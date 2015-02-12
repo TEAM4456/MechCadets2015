@@ -4,8 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UI
 {
-	private String arduinoBuffer = "";
-	private int arduinoBufferLength = 50;
 	
     public UI(Robot robot)
     {
