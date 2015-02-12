@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
+import org.usfirst.frc.team4456.robot.SDashUI.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UI
@@ -37,6 +38,8 @@ public class UI
         
         // Button for whether we use Mechanum or Tank
         SmartDashboard.putBoolean("Using Mechanum", true);
+        
+        
         
         // Lidar Values 
         // SmartDashboard.putNumber("PID Lidar Get", robot.lidar.pidGet());

@@ -3,6 +3,7 @@ package org.usfirst.frc.team4456.robot;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -133,7 +134,6 @@ public class Robot extends IterativeRobot
     	driver.drive(xboxController, gyro, this);
     	
     	arduinoLidar.update(this);
-    	
     	// vision.cycle();
     	
     	/*
