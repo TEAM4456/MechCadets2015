@@ -1,11 +1,11 @@
 package org.usfirst.frc.team4456.robot;
 
-public class SLidar
+public class Lidar
 {
 	private String arduinoBuffer = "";
 	private int arduinoBufferLength = 50;
 	
-	public SLidar(Robot robot)
+	public Lidar(Robot robot)
 	{
 		arduinoBuffer = robot.serial.readString();
 	}
