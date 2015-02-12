@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot
 	double pValue;
 	boolean useGyro, useMechanum;
 
+	boolean buttonYPress = false;
+	
     public void robotInit()
     {
     	// Driver init
@@ -131,6 +133,24 @@ public class Robot extends IterativeRobot
     	arduinoLidar.update(this);
     	
     	// vision.cycle();
+    	
+    	// Button to set Gyro on or off. This is temporary.
+    	if(xboxController.getRawButton(Constants.button_Y))
+    	{
+    		buttonYPress = true;
+    	}
+    	if(buttonYPress && !xboxController.getRawButton(Constants.button_Y))
+    	{
+    		if(useGyro)
+    		{
+    			useGyro = false;
+    		}
+    		else
+    		{
+    			useGyro = true;
+    		}
+    		buttonYPress = false;
+    	}
     	
     	/*
     	if (xboxController.getRawButton(Constants.button_B))
