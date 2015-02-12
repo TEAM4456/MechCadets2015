@@ -84,6 +84,7 @@ public class Robot extends IterativeRobot
     public void autonomousInit()
     {
     	super.autonomousInit();
+    	driver.enableMotor();
     }
     
     public void disabledInit()

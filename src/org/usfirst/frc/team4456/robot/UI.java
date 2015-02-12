@@ -22,8 +22,8 @@ public class UI
     	
     	// PID
     	SmartDashboard.putNumber("pValue", robot.pValue);
-    	SmartDashboard.putBoolean("setPValue", false);
-    	SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
+    	SmartDashboard.putBoolean("setPID", false);
+    	//SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
     	
         System.out.println("UI running");
         
@@ -66,17 +66,20 @@ public class UI
     	SmartDashboard.putNumber("Encoder count", robot.encoder.get());
     	
     	// Sets pValue to the number in pValue widget
+    	
+    	/*
     	if (SmartDashboard.getBoolean("setPValue"))
     	{
     		robot.driver.talon2.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
     		SmartDashboard.putBoolean("Reset", false);
     	}
+    	*/
     	
     	// Toggles Gyro and Mechanum Buttons
     	robot.useGyro = SmartDashboard.getBoolean("Using Gyro");
     	robot.useMechanum = SmartDashboard.getBoolean("Using Mechanum");
     	
-    	SmartDashboard.putNumber("PIDController Get", robot.driver.talon2.get());
+    	//SmartDashboard.putNumber("PIDController Get", robot.driver.talon2.get());
     	
     	// Gyro Values
     	SmartDashboard.putNumber("gyroValue", robot.gyro.getAngle());
@@ -97,6 +100,16 @@ public class UI
     	//ultrasonic
     	SmartDashboard.putNumber("ultrasonic value", robot.ultrasonic.getValueInches());
     	SmartDashboard.putNumber("Arduino", robot.arduinoLidar.getDistance());
+    	
+    	//talon encoder
+    	SmartDashboard.putNumber("Talon Encoder Position", robot.driver.getMotorDistance());
+    	
+    	// PID
+    	
+    	SmartDashboard.putBoolean("setPValue", false);
+    	
+    	SmartDashboard.putNumber("pValue", robot.pValue);
+    	//SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
     }
     
     // This will just set an angle in between 0 and 360 to make it easier for the user to understand
