@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UI
 {
-	
     public UI(Robot robot)
     {
     	// Driver Values
