@@ -77,6 +77,7 @@ public class Vision
     
     public void cycle()
     {
+    	
     }
     
     public void updateRanges()

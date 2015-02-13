@@ -1,101 +1,52 @@
 package org.usfirst.frc.team4456.robot;
 
-import java.util.TimerTask;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.PIDSource;
-
-public class Lidar implements PIDSource
+public class Lidar
 {
-	private I2C i2cLidar;
-	private byte[] distance;
-	private int processedDistance;
-	private java.util.Timer updater;
+	private String arduinoBuffer = "";
+	private int arduinoBufferLength = 50;
 	
-	public Lidar(Port port)
+	public Lidar(Robot robot)
 	{
-		i2cLidar = new I2C(port, Constants.LIDAR_ADDR);
-		distance = new byte[2];
-		distance[0] = 0;
-		distance[1] = 0;
-		updater = new java.util.Timer();
-		processedDistance = 1;
+		arduinoBuffer = robot.serial.readString();
 	}
 	
-	public int getDistance()
+	public double getDistance()
 	{
-		return processedDistance;
+		return format(arduinoBuffer);
 	}
 	
-	public double pidGet()
+	public void update(Robot robot)
 	{
-		return (double)getDistance();
+		updateArduinoBuffer(robot.serial.readString());
+		System.out.println(arduinoBuffer);
 	}
 	
-	public void start()
-	{
-		updater.scheduleAtFixedRate(new LIDARUpdater(), 0, 100);
-	}
+	private double format(String string)
+    {
+    	String[] stringArray = string.split("\n");
+    	double[] doubleArray = new double[stringArray.length];
+    	for(int i = 0; i < stringArray.length; i++)
+    	{
+    		try 
+    		{
+        		doubleArray[i] = Double.parseDouble(stringArray[i]);
+    		}
+    		catch(Exception e)
+    		{
+    			doubleArray[i] = 1.0;
+    		}
+    	}
+    	if(doubleArray.length < 2)
+    	{
+    		return 0;
+    	}
+    	return doubleArray[doubleArray.length-2];
+    }
 	
-	public void start(int period)
-	{
-		updater.scheduleAtFixedRate(new LIDARUpdater(), 0, period);
-	}
-	
-	public void stop()
-	{
-		updater.cancel();
-		updater = new java.util.Timer();
-	}
-	
-	public void update()
-	{
-		long ms0 = System.nanoTime();
-		boolean wr = i2cLidar.write(Constants.LIDAR_CONFIG_REGISTER,  0x04);
-		long ms1 = System.nanoTime();
-		System.out.println("Write:  " + (wr) + "\tTime: " + (ms1-ms0));
-		Timer.delay(0.05);
-		boolean rd = i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
-		long ms2 = System.nanoTime();
-		System.out.println("Read: " + (rd) + "\tTime: " + (ms2-ms1));
-	    Timer.delay(0.05);
-		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
-		processedDistance = (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
-		System.out.println("Get Distance: " + getDistance() + " cm");
-	}
-	
-	/*
-	public void updateWNackack()
-	{
-		boolean nackack = true;
-		
-		//write and wait 1ms until transaction successful
-		while(nackack)
-		{
-			nackack = i2cLidar.write(Constants.LIDAR_CONFIG_REGISTER,  0x04);
-			Timer.delay(0.05);
-		}
-		
-		nackack = true;
-		
-		//read and wait 1ms until transaction successful
-		while(nackack)
-		{
-			nackack = i2cLidar.read(Constants.LIDAR_DISTANCE_REGISTER, 2, distance);
-			Timer.delay(0.05);
-		}
-		
-		System.out.println("Updating\tdistance[0]: " + distance[0] + "\tdistance[1]: " + distance[1]);
-		processedDistance = (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
-	}
-	 */
-	
-	private class LIDARUpdater extends TimerTask
-	{
-		public void run()
-		{
-			update();
-		}
-	}
+	private void updateArduinoBuffer(String newString)
+    {
+    	String tempString = arduinoBuffer + newString;
+    	int len = Math.min(tempString.length(), arduinoBufferLength);
+    	arduinoBuffer = tempString.substring(tempString.length() - len);
+    }
 }

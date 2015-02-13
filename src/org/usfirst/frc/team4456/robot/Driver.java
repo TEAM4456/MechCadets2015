@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
@@ -8,7 +9,8 @@ import edu.wpi.first.wpilibj.RobotDrive;
 public class Driver
 {
 	RobotDrive robotDrive;
-	CANTalon talon1, talon2, talon3, talon4;
+	private CANTalon talon1, talon2, talon3, talon4;
+	private CANTalon talon5;
 
 	// Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
 	public Driver(boolean useTest)
@@ -16,7 +18,7 @@ public class Driver
 		if(useTest)
 		{
 			talon1 = new CANTalon(11);
-			talon2 = new CANTalon(13);
+			talon2 = new CANTalon(10);
 			talon3 = new CANTalon(15);
 			talon4 = new CANTalon(22);
 		}
@@ -27,8 +29,28 @@ public class Driver
 			talon3 = new CANTalon(20);
 			talon4 = new CANTalon(19);
 		}
+		
+		talon5 = new CANTalon(13);
+		
+		talon5.changeControlMode(CANTalon.ControlMode.Position);
+		talon5.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		
+		talon5.setPID(.5, 0, 0);
+		
 		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
+	}
+	
+	//Talon5 GetSet
+	
+	public double getMotorDistance()
+	{
+		return talon5.getPosition();
+	}
+
+	public void enableMotor()
+	{
+		talon5.set(.4);
 	}
 	
 	// Executes the Polar, Cartesian, or Tank method based on the useMechanum and useGyro booleans

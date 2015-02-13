@@ -1,20 +1,14 @@
 package org.usfirst.frc.team4456.robot;
 
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,15 +27,18 @@ public class Robot extends IterativeRobot
 	UI ui;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	Lidar lidar;
+	LidarBackup lidar;
 	Vision vision;
 	UltrasonicSensor ultrasonic;
 	SerialPort serial;
-	ArduinoLidar arduinoLidar;
+	Lidar arduinoLidar;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
 
+
+	boolean buttonYPress = false;
+	
     public void robotInit()
     {
     	// Driver init
@@ -62,7 +59,7 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
     	
         // Lidar init
-    	lidar = new Lidar(Port.kMXP);
+    	lidar = new LidarBackup(Port.kMXP);
     	
     	// Serial init
     	serial = new SerialPort(9600,SerialPort.Port.kUSB);
@@ -79,12 +76,13 @@ public class Robot extends IterativeRobot
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
     	
-    	arduinoLidar = new ArduinoLidar(this);
+    	arduinoLidar = new Lidar(this);
     }
     
     public void autonomousInit()
     {
     	super.autonomousInit();
+    	driver.enableMotor();
     }
     
     public void disabledInit()
@@ -135,6 +133,24 @@ public class Robot extends IterativeRobot
     	
     	arduinoLidar.update(this);
     	// vision.cycle();
+    	
+    	// Button to set Gyro on or off. This is temporary.
+    	if(xboxController.getRawButton(Constants.button_Y))
+    	{
+    		buttonYPress = true;
+    	}
+    	if(buttonYPress && !xboxController.getRawButton(Constants.button_Y))
+    	{
+    		if(useGyro)
+    		{
+    			useGyro = false;
+    		}
+    		else
+    		{
+    			useGyro = true;
+    		}
+    		buttonYPress = false;
+    	}
     	
     	/*
     	if (xboxController.getRawButton(Constants.button_B))
