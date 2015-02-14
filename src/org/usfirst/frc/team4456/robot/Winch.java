@@ -14,7 +14,8 @@ public class Winch
 		talon1 = new CANTalon(id);
 		talon1.changeControlMode(CANTalon.ControlMode.Position);
 		talon1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		talon1.setPID(1, 0, 0);
+		talon1.setPID(1.00, 0.000001, 0);
+		talon1.set(talon1.get());  // don't move when started...
 		//talon1.enableControl();
 	}
 	
