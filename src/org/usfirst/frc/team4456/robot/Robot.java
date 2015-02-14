@@ -39,6 +39,7 @@ public class Robot extends IterativeRobot
 	double pValue;
 	boolean useGyro, useMechanum;
 
+
 	boolean buttonYPress = false;
 	
     public void robotInit()
@@ -136,7 +137,6 @@ public class Robot extends IterativeRobot
     	winch.doWinchStuff(xboxController);
     	
     	lidar.update(this);
-    	
     	// vision.cycle();
     	
     	/*

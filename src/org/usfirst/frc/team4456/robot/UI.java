@@ -1,10 +1,10 @@
 package org.usfirst.frc.team4456.robot;
 
+import org.usfirst.frc.team4456.robot.SDashUI.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UI
 {
-	
     public UI(Robot robot)
     {
     	// Driver Values
@@ -35,6 +35,8 @@ public class UI
         
         // Button for whether we use Mechanum or Tank
         SmartDashboard.putBoolean("Using Mechanum", true);
+        
+        
         
         // Lidar Values 
         // SmartDashboard.putNumber("Get PID Lidar", robot.lidar.pidGet());
@@ -69,7 +71,7 @@ public class UI
     	/*
     	if (SmartDashboard.getBoolean("Set P Value"))
     	{
-    		robot.driver.talon2.setPID(SmartDashboard.getNumber("P Value"), 0.0, 0.0);
+    		robot.driver.talon2.setPID(SmartDashboard.getNumber("pValue"), 0.0, 0.0);
     		SmartDashboard.putBoolean("Reset", false);
     	}
     	*/
