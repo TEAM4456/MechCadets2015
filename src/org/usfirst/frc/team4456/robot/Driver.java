@@ -10,7 +10,7 @@ public class Driver
 {
 	RobotDrive robotDrive;
 	private CANTalon talon1, talon2, talon3, talon4;
-	private CANTalon talon5;
+	public CANTalon talon5;
 
 	// Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
 	public Driver(boolean useTest)
@@ -35,13 +35,11 @@ public class Driver
 		talon5.changeControlMode(CANTalon.ControlMode.Position);
 		talon5.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		
-		talon5.setPID(.5, 0, 0);
+		talon5.setPID(1, 0, 0);
 		
 		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
 	}
-	
-	//Talon5 GetSet
 	
 	public double getMotorDistance()
 	{
@@ -50,7 +48,15 @@ public class Driver
 
 	public void enableMotor()
 	{
-		talon5.set(.4);
+		talon5.setPosition(5);
+		talon5.getPosition();
+	}
+	
+	public void testEncoder()
+	{
+		talon5.setPosition(0);
+		talon5.set(10000);
+		//System.out.println(talon5.getEncPosition());
 	}
 	
 	// Executes the Polar, Cartesian, or Tank method based on the useMechanum and useGyro booleans

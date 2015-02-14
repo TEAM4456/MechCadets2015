@@ -18,7 +18,7 @@ public class Lidar
 	public void update(Robot robot)
 	{
 		updateArduinoBuffer(robot.serial.readString());
-		System.out.println(arduinoBuffer);
+		//System.out.println(arduinoBuffer);
 	}
 	
 	private double format(String string)

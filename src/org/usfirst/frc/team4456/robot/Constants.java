@@ -30,7 +30,11 @@ public class Constants
 	public static final int LIDAR_CONFIG_REGISTER = 0x00;
 	public static final int LIDAR_DISTANCE_REGISTER = 0x8f;
 	
+	// Ultrasonic Stuff
 	public static final double ULTRASONIC_FACTOR_VOLTS = 40.2969;
+	
+	// Winch Stuff
+	public static final double[] WINCH_POSITIONS = {10000, 20000, 30000, 40000, 50000, 60000};
 	
 	public static final String filePathRoborio = "/home/lvuser/";
 }

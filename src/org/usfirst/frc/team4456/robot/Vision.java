@@ -109,7 +109,7 @@ public class Vision
     	NIVision.imaqColorThreshold(binaryFrame, frame, 255, ColorMode.HSV, HUE, SAT, VAL);
     	
     	int numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
-    	System.out.println("Masked Particles: " + numParticles);
+    	//System.out.println("Masked Particles: " + numParticles);
     	
     	CameraServer.getInstance().setImage(binaryFrame);
     	NIVision.imaqWriteBMPFile(binaryFrame, Constants.filePathRoborio + "binaryImg.bmp", 0, rgbVal);

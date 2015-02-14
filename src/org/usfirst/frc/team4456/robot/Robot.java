@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 
 /**
@@ -22,16 +23,18 @@ public class Robot extends IterativeRobot
 {
 	Joystick xboxController;
 	Driver driver;
+	Winch winch;
 	Gyro gyro;
 	Encoder encoder;
 	UI ui;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	LidarBackup lidar;
+	Lidar lidar;
 	Vision vision;
 	UltrasonicSensor ultrasonic;
 	SerialPort serial;
 	Lidar arduinoLidar;
+	PIDController pidController;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -42,6 +45,8 @@ public class Robot extends IterativeRobot
     {
     	// Driver init
     	driver = new Driver(true);
+    	
+    	winch = new Winch(13);
     	
     	// Gyro init 
     	gyro = new Gyro(0);
@@ -58,7 +63,7 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
     	
         // Lidar init
-    	lidar = new LidarBackup(Port.kMXP);
+    	//lidar = new LidarBackup(Port.kMXP);
     	
     	// Serial init
     	serial = new SerialPort(9600,SerialPort.Port.kUSB);
@@ -75,19 +80,18 @@ public class Robot extends IterativeRobot
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
     	
-    	arduinoLidar = new Lidar(this);
+    	lidar = new Lidar(this);
     }
     
     public void autonomousInit()
     {
     	super.autonomousInit();
-    	driver.enableMotor();
+    	driver.testEncoder();
     }
     
     public void disabledInit()
     {
     	super.disabledInit();
-    	lidar.stop();
     }
     
     public void testInit()
@@ -113,7 +117,6 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
     	super.teleopInit();
-    	lidar.start(1000);
     	gyro.reset();
     }
     
@@ -130,27 +133,11 @@ public class Robot extends IterativeRobot
     	 */
     	driver.drive(xboxController, gyro, this);
     	
-    	arduinoLidar.update(this);
+    	winch.doWinchStuff(xboxController);
+    	
+    	lidar.update(this);
     	
     	// vision.cycle();
-    	
-    	// Button to set Gyro on or off. This is temporary.
-    	if(xboxController.getRawButton(Constants.button_Y))
-    	{
-    		buttonYPress = true;
-    	}
-    	if(buttonYPress && !xboxController.getRawButton(Constants.button_Y))
-    	{
-    		if(useGyro)
-    		{
-    			useGyro = false;
-    		}
-    		else
-    		{
-    			useGyro = true;
-    		}
-    		buttonYPress = false;
-    	}
     	
     	/*
     	if (xboxController.getRawButton(Constants.button_B))

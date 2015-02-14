@@ -21,7 +21,7 @@ public class UI
     	// PID
     	SmartDashboard.putNumber("P Value", robot.pValue);
     	SmartDashboard.putBoolean("Set PID", false);
-    	//SmartDashboard.putNumber("Get PIDController", robot.driver.talon2.get());
+    	SmartDashboard.putNumber("Encoder Position", robot.driver.talon5.getEncPosition());
     	
         System.out.println("UI Running");
         
@@ -63,6 +63,7 @@ public class UI
     	SmartDashboard.putNumber("Encoder Distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder Count", robot.encoder.get());
     	
+    	SmartDashboard.putNumber("Encoder Position", robot.driver.talon5.getEncPosition());
     	// Sets pValue to the number in pValue widget
     	
     	/*
@@ -95,13 +96,12 @@ public class UI
     	
     	//ultrasonic
     	SmartDashboard.putNumber("Ultrasonic Value", robot.ultrasonic.getValueInches());
-    	SmartDashboard.putNumber("Arduino", robot.arduinoLidar.getDistance());
+    	SmartDashboard.putNumber("Test Lidar", robot.lidar.getDistance());
     	
     	//talon encoder
     	SmartDashboard.putNumber("Talon Encoder Position", robot.driver.getMotorDistance());
     	
     	// PID
-    	
     	SmartDashboard.putBoolean("Set P Value", false);
     	
     	SmartDashboard.putNumber("P Value", robot.pValue);
