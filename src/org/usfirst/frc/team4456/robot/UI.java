@@ -21,7 +21,7 @@ public class UI
     	// PID
     	SmartDashboard.putNumber("P Value", robot.pValue);
     	SmartDashboard.putBoolean("Set PID", false);
-    	SmartDashboard.putNumber("Encoder Position", robot.driver.talon5.getEncPosition());
+    	SmartDashboard.putNumber("Encoder Position", robot.winch.getWinchPosition());
     	
         System.out.println("UI Running");
         
@@ -65,7 +65,6 @@ public class UI
     	SmartDashboard.putNumber("Encoder Distance", robot.encoder.getDistance());
     	SmartDashboard.putNumber("Encoder Count", robot.encoder.get());
     	
-    	SmartDashboard.putNumber("Encoder Position", robot.driver.talon5.getEncPosition());
     	// Sets pValue to the number in pValue widget
     	
     	/*
@@ -101,7 +100,7 @@ public class UI
     	SmartDashboard.putNumber("Test Lidar", robot.lidar.getDistance());
     	
     	//talon encoder
-    	SmartDashboard.putNumber("Talon Encoder Position", robot.driver.getMotorDistance());
+    	SmartDashboard.putNumber("Talon Encoder Position", robot.winch.getWinchPosition());
     	
     	// PID
     	SmartDashboard.putBoolean("Set P Value", false);

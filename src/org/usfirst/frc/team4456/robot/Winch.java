@@ -59,6 +59,10 @@ public class Winch
 		}
 	}
 	
+	public double getWinchPosition() {
+		return talon1.get();
+	}
+	
 	/*
 	 *  Raises winch to closest default winch position above it 
 	 *  unless the current position is above a certain threshold. 
@@ -76,7 +80,7 @@ public class Winch
 		{
 			targetIndex = closestIndex + 1;
 		}
-		System.out.println("raise from: " + closestIndex + " @" + targetIndex + " @" + Constants.WINCH_POSITIONS[targetIndex] );
+		//System.out.println("raise from: " + closestIndex + " @" + Constants.WINCH_POSITIONS[closestIndex] + " to " +  targetIndex + " @" + Constants.WINCH_POSITIONS[targetIndex] );
 		talon1.set(Constants.WINCH_POSITIONS[targetIndex]);
 	}
 	
@@ -103,7 +107,7 @@ public class Winch
 			targetIndex = closestIndex-1;
 		}
 		talon1.set(Constants.WINCH_POSITIONS[targetIndex]);
-		System.out.println("lower: " + closestIndex + " " + targetIndex );
+		//System.out.println("lower: " + closestIndex + " " + targetIndex );
 	}
 	
 	private void lowerWinchMin()
@@ -113,8 +117,7 @@ public class Winch
 	
 	private int findClosestPosition()
 	{
-		double currentPos = talon1.getPosition();
-		System.out.println("currentPos: " + talon1.get() + " " + talon1.getEncPosition() + " " +  talon1.getPosition() + " " + talon1.getSetpoint());
+		double currentPos = talon1.get();
 		double closestDistance = 0;
 		int closestIndex = 0;
 		double highestPos = Constants.WINCH_POSITIONS[Constants.WINCH_POSITIONS.length-1];
