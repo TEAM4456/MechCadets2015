@@ -35,6 +35,7 @@ public class Constants
 	
 	// Winch Stuff
 	public static final double[] WINCH_POSITIONS = {0, 10000, 20000, 30000, 40000, 50000, 60000};
+	public static final double maxWinchNudge = 40;
 	
 	public static final String filePathRoborio = "/home/lvuser/";
 }

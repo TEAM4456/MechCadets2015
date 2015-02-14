@@ -57,6 +57,14 @@ public class Winch
 			 * Or if they're both false
 			 */
 		}
+		
+		double forwardNudge = lowerSensitivity(controller.getRawAxis(Constants.axis_rightTrigger));
+		double reverseNudge = lowerSensitivity(controller.getRawAxis(Constants.axis_leftTrigger));
+		double nudge = forwardNudge - reverseNudge;
+		talon1.set(talon1.getSetpoint() + (Constants.maxWinchNudge * nudge));
+		
+		//System.out.println("fwd:" + forwardNudge + " rev:" + reverseNudge);
+		
 	}
 	
 	public double getWinchPosition() {
@@ -144,6 +152,23 @@ public class Winch
 			}
 		}
 		return closestIndex;
+	}
+	
+	// This sets the sensitivity exponentially
+	private double lowerSensitivity(double value)
+	{
+		// The value should be from 0 to 1, so it makes an exponential curve
+		// This method can be used by the various drive methods
+		value = Math.pow(value, 3);
+		if(value > 1)
+		{
+			value = 1;
+		}
+		if(value < -1)
+		{
+			value = -1;
+		}
+		return value;
 	}
 	
 }
