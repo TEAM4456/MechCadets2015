@@ -35,7 +35,7 @@ public class Driver
 	
 	
 	// Executes the Polar, Cartesian, or Tank method based on the useMechanum and useGyro booleans
-	public void drive(Joystick controller, Gyro gyro, Robot robot)
+	public void drive(XBoxController controller, Gyro gyro, Robot robot)
 	{
 		if(robot.useMechanum)
 		{
@@ -55,31 +55,31 @@ public class Driver
 	}
 	
 	// This will be used if we do not have a gyroscope
-	private void drivePolar(Joystick controller)
+	private void drivePolar(XBoxController controller)
 	{
 		// Parameters are Magnitude, Direction, Rotation
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
 		robotDrive.mecanumDrive_Polar(lowerSensitivity(controller.getMagnitude()), 
     			controller.getDirectionDegrees(), 
-    			lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)));
+    			lowerSensitivity(controller.getAxisRStickX()));
 	}
 	
 	// This will be used if we do have a gyroscope
-	private void driveCartesian(Joystick controller, Gyro gyro)
+	private void driveCartesian(XBoxController controller, Gyro gyro)
 	{
 		// Parameters are X, Y, Rotation, and Gyro Angle
 		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
-		robotDrive.mecanumDrive_Cartesian(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_X)),
-				lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_Y)),
-				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_X)),
-    			gyro.getAngle());	
+		robotDrive.mecanumDrive_Cartesian(lowerSensitivity(controller.getAxisLStickX()),
+				lowerSensitivity(controller.getAxisLStickY()),
+				lowerSensitivity(controller.getAxisRStickX()),
+    			gyro.getAngle());
 	}
 	
 	// This will be used if we are using TankDrive instead of Mechanum
-	private void driveTank(Joystick controller)
+	private void driveTank(XBoxController controller)
 	{
-		robotDrive.tankDrive(lowerSensitivity(controller.getRawAxis(Constants.axis_leftStick_Y)),
-				lowerSensitivity(controller.getRawAxis(Constants.axis_rightStick_Y)));
+		robotDrive.tankDrive(lowerSensitivity(controller.getAxisLStickY()),
+				lowerSensitivity(controller.getAxisRStickY()));
 	}
 	
 	// This sets the sensitivity exponentially

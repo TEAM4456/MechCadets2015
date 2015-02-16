@@ -1,13 +1,20 @@
 package org.usfirst.frc.team4456.robot;
 
+import org.usfirst.frc.team4456.robot.util.Util;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class WinchLoader
 {
+	/*
+	 * controls:
+	 * LBumper, RBumper, LTrigger, RTrigger
+	 */
 	private CANTalon talon1;
 	private boolean leftBumperPress, rightBumperPress;
+	private int currentTargetIndex;
 	
 	public WinchLoader(int id)
 	{
@@ -19,10 +26,15 @@ public class WinchLoader
 		//talon1.enableControl();
 	}
 	
-	public void doWinchStuff(Joystick controller)
+	public int getCurrentTargetIndex()
+	{
+		return currentTargetIndex;
+	}
+
+	public void doWinchStuff(XBoxController controller)
 	{
 		// Left bumper lowers winch by one level
-		boolean rawLeftBumperState = controller.getRawButton(Constants.button_leftBumper);
+		boolean rawLeftBumperState = controller.getLBumper();
 		if(rawLeftBumperState && !leftBumperPress)
 		{
 			leftBumperPress = true;
@@ -41,7 +53,7 @@ public class WinchLoader
 		}
 		
 		// Right bumper raises winch by one level
-		boolean rawRightBumperState = controller.getRawButton(Constants.button_rightBumper);
+		boolean rawRightBumperState = controller.getRBumper();
 		if(rawRightBumperState && !rightBumperPress)
 		{
 			rightBumperPress = true;
@@ -59,10 +71,7 @@ public class WinchLoader
 			 */
 		}
 		
-		double forwardNudge = lowerSensitivity(controller.getRawAxis(Constants.axis_rightTrigger));
-		double reverseNudge = lowerSensitivity(controller.getRawAxis(Constants.axis_leftTrigger));
-		double nudge = forwardNudge - reverseNudge;
-		talon1.set(talon1.getSetpoint() + (Constants.maxWinchNudge * nudge));
+		talon1.set(talon1.getSetpoint() + (Constants.MAX_WINCH_NUDGE * controller.getAxisTriggers()));
 		
 		//System.out.println("fwd:" + forwardNudge + " rev:" + reverseNudge);
 		
@@ -82,21 +91,23 @@ public class WinchLoader
 	{
 		int closestIndex = findClosestPosition();
 		int targetIndex;
-		if(closestIndex >= Constants.WINCH_POSITIONS.length-1)
+		if(closestIndex >= Constants.WINCH_LOADER_POSITIONS.length-1)
 		{
-			targetIndex = Constants.WINCH_POSITIONS.length - 1;
+			targetIndex = Constants.WINCH_LOADER_POSITIONS.length - 1;
 		}
 		else
 		{
 			targetIndex = closestIndex + 1;
 		}
 		//System.out.println("raise from: " + closestIndex + " @" + Constants.WINCH_POSITIONS[closestIndex] + " to " +  targetIndex + " @" + Constants.WINCH_POSITIONS[targetIndex] );
-		talon1.set(Constants.WINCH_POSITIONS[targetIndex]);
+		talon1.set(Constants.WINCH_LOADER_POSITIONS[targetIndex]);
+		this.currentTargetIndex = targetIndex;
 	}
 	
 	private void raiseWinchMax()
 	{
-		talon1.set(Constants.WINCH_POSITIONS[Constants.WINCH_POSITIONS.length-1]);
+		talon1.set(Constants.WINCH_LOADER_POSITIONS[Constants.WINCH_LOADER_POSITIONS.length-1]);
+		this.currentTargetIndex = Constants.WINCH_LOADER_POSITIONS.length-1;
 	}
 	
 	/*
@@ -116,13 +127,15 @@ public class WinchLoader
 		{
 			targetIndex = closestIndex-1;
 		}
-		talon1.set(Constants.WINCH_POSITIONS[targetIndex]);
+		talon1.set(Constants.WINCH_LOADER_POSITIONS[targetIndex]);
 		//System.out.println("lower: " + closestIndex + " " + targetIndex );
+		this.currentTargetIndex = targetIndex;
 	}
 	
 	private void lowerWinchMin()
 	{
-		talon1.set(Constants.WINCH_POSITIONS[0]);
+		talon1.set(Constants.WINCH_LOADER_POSITIONS[0]);
+		this.currentTargetIndex = 0;
 	}
 	
 	private int findClosestPosition()
@@ -130,11 +143,11 @@ public class WinchLoader
 		double currentPos = talon1.get();
 		double closestDistance = 0;
 		int closestIndex = 0;
-		double highestPos = Constants.WINCH_POSITIONS[Constants.WINCH_POSITIONS.length-1];
-		double lowestPos = Constants.WINCH_POSITIONS[0];
+		double highestPos = Constants.WINCH_LOADER_POSITIONS[Constants.WINCH_LOADER_POSITIONS.length-1];
+		double lowestPos = Constants.WINCH_LOADER_POSITIONS[0];
 		if(currentPos > highestPos)
 		{
-			return Constants.WINCH_POSITIONS.length-1;
+			return Constants.WINCH_LOADER_POSITIONS.length-1;
 		}
 		else if(currentPos < lowestPos)
 		{
@@ -142,9 +155,9 @@ public class WinchLoader
 		}
 		else
 		{
-			for(int i = 0; i < Constants.WINCH_POSITIONS.length; i++)
+			for(int i = 0; i < Constants.WINCH_LOADER_POSITIONS.length; i++)
 			{
-				double distance = Math.abs(currentPos - Constants.WINCH_POSITIONS[i]);
+				double distance = Math.abs(currentPos - Constants.WINCH_LOADER_POSITIONS[i]);
 				//System.out.println("distance:" + distance + " i:" + i + " w[i]:" + Constants.WINCH_POSITIONS[i]);
 				if(distance < closestDistance || i == 0)
 				{
@@ -156,21 +169,6 @@ public class WinchLoader
 		return closestIndex;
 	}
 	
-	// This sets the sensitivity exponentially
-	private double lowerSensitivity(double value)
-	{
-		// The value should be from 0 to 1, so it makes an exponential curve
-		// This method can be used by the various drive methods
-		value = Math.pow(value, 3);
-		if(value > 1)
-		{
-			value = 1;
-		}
-		if(value < -1)
-		{
-			value = -1;
-		}
-		return value;
-	}
+
 	
 }

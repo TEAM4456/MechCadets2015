@@ -21,9 +21,11 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class Robot extends IterativeRobot
 {
-	Joystick xboxController;
+	Joystick oldXboxController;
+	XBoxController xboxController;
 	Driver driver;
-	WinchLoader winch;
+	WinchLoader winchLoader;
+	Ladder ladder;
 	Gyro gyro;
 	Encoder encoder;
 	UI ui;
@@ -47,7 +49,8 @@ public class Robot extends IterativeRobot
     	// Driver init
     	driver = new Driver(true);
     	
-    	winch = new WinchLoader(13);
+    	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
+    	winchLoader = new WinchLoader(13);
     	
     	// Gyro init 
     	gyro = new Gyro(0);
@@ -57,7 +60,8 @@ public class Robot extends IterativeRobot
     	useGyro = false;
     	
     	// Controller init
-    	xboxController = new Joystick(1);
+    	oldXboxController = new Joystick(1);
+    	xboxController = new XBoxController(1);
     	
     	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
@@ -133,17 +137,17 @@ public class Robot extends IterativeRobot
     	 */
     	driver.drive(xboxController, gyro, this);
     	
-    	winch.doWinchStuff(xboxController);
+    	winchLoader.doWinchStuff(xboxController);
     	
     	lidar.update(this);
     	// vision.cycle();
     	
     	/*
-    	if (xboxController.getRawButton(Constants.button_B))
+    	if (xboxController.getB())
     	{
     		buttonBPress = true;
     	}
-    	if (buttonBPress && !xboxController.getRawButton(Constants.button_B))
+    	if (buttonBPress && !xboxController.getB())
     	{
     		Timer.delay(0.005);
     		vision.writeThresholdImg();

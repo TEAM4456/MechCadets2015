@@ -8,10 +8,10 @@ public class UI
     public UI(Robot robot)
     {
     	// Driver Values
-    	SmartDashboard.putNumber("Current Magnitude", robot.xboxController.getMagnitude());
-    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));
-    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_Y));
-    	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getRawAxis(Constants.axis_rightStick_X));
+    	SmartDashboard.putNumber("Current Magnitude", robot.oldXboxController.getMagnitude());
+    	SmartDashboard.putNumber("Cartesian X Value", robot.oldXboxController.getRawAxis(Constants.axis_leftStick_X));
+    	SmartDashboard.putNumber("Cartesian Y Value", robot.oldXboxController.getRawAxis(Constants.axis_leftStick_Y));
+    	SmartDashboard.putNumber("Current Rotation", robot.oldXboxController.getRawAxis(Constants.axis_rightStick_X));
     	
     	// Encoder
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
@@ -21,7 +21,7 @@ public class UI
     	// PID
     	SmartDashboard.putNumber("P Value", robot.pValue);
     	SmartDashboard.putBoolean("Set PID", false);
-    	SmartDashboard.putNumber("Encoder Position", robot.winch.getWinchPosition());
+    	SmartDashboard.putNumber("Encoder Position", robot.winchLoader.getWinchPosition());
     	
         System.out.println("UI Running");
         
@@ -49,10 +49,10 @@ public class UI
     	SmartDashboard.putBoolean("Enabled", robot.isEnabled());
     	
     	// Driver Values
-    	SmartDashboard.putNumber("Current Magnitude", robot.xboxController.getMagnitude());
-    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_X));
-    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getRawAxis(Constants.axis_leftStick_Y));
-    	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getRawAxis(Constants.axis_rightStick_X));
+    	SmartDashboard.putNumber("Current Magnitude", robot.oldXboxController.getMagnitude());
+    	SmartDashboard.putNumber("Cartesian X Value", robot.oldXboxController.getRawAxis(Constants.axis_leftStick_X));
+    	SmartDashboard.putNumber("Cartesian Y Value", robot.oldXboxController.getRawAxis(Constants.axis_leftStick_Y));
+    	SmartDashboard.putNumber("Current Rotation", robot.oldXboxController.getRawAxis(Constants.axis_rightStick_X));
     	
     	// Resets encoder
     	if (SmartDashboard.getBoolean("Reset Encoder"))
@@ -100,7 +100,7 @@ public class UI
     	SmartDashboard.putNumber("Test Lidar", robot.lidar.getDistance());
     	
     	//talon encoder
-    	SmartDashboard.putNumber("Talon Encoder Position", robot.winch.getWinchPosition());
+    	SmartDashboard.putNumber("Talon Encoder Position", robot.winchLoader.getWinchPosition());
     	
     	// PID
     	SmartDashboard.putBoolean("Set P Value", false);
