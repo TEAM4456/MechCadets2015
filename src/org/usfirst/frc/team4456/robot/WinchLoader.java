@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Winch
+public class WinchLoader
 {
 	private CANTalon talon1;
 	private boolean leftBumperPress, rightBumperPress;
 	
-	public Winch(int id)
+	public WinchLoader(int id)
 	{
 		talon1 = new CANTalon(id);
 		talon1.changeControlMode(CANTalon.ControlMode.Position);
@@ -68,7 +68,8 @@ public class Winch
 		
 	}
 	
-	public double getWinchPosition() {
+	public double getWinchPosition()
+	{
 		return talon1.get();
 	}
 	

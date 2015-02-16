@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot
 {
 	Joystick xboxController;
 	Driver driver;
-	Winch winch;
+	WinchLoader winch;
 	Gyro gyro;
 	Encoder encoder;
 	UI ui;
@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot
     	// Driver init
     	driver = new Driver(true);
     	
-    	winch = new Winch(13);
+    	winch = new WinchLoader(13);
     	
     	// Gyro init 
     	gyro = new Gyro(0);
