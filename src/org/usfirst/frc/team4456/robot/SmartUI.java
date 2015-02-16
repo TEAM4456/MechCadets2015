@@ -3,12 +3,17 @@ package org.usfirst.frc.team4456.robot;
 import org.usfirst.frc.team4456.robot.SDashUI.SDButton;
 import org.usfirst.frc.team4456.robot.SDashUI.SDNumberR;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SmartUI
 {
 	SDButton buttonResetEncoder;
-	SDNumberR numberRGyroValue;
+	
+	SDNumberR   numberGyroValue,
+				currentMagnitude,
+				numberTestLidar;
 	
 	public SmartUI(Robot robot)
 	{
@@ -19,29 +24,45 @@ public class SmartUI
 			public void performAction()
 			{
 				super.performAction();
-				if(SmartDashboard.getBoolean(this.getKey()))
-		    	{
-		    		robot.gyro.reset();
-		    		SmartDashboard.putBoolean(this.getKey(), false);
-		    	}
+		    	robot.gyro.reset();
 			}
 		};
-		numberRGyroValue = new SDNumberR("Gyro Value")
+		numberGyroValue = new SDNumberR("Gyro Value")
 		{
 			@Override
-			public void sendSDValue()
+			public void update()
 			{
-				super.sendSDValue();
-				SmartDashboard.putNumber("Gyro Value", robot.gyro.getAngle());
+				super.update();
+				sendSDValue(robot.gyro.getAngle());
+			}
+		};
+		currentMagnitude = new SDNumberR("Current Magnitude")
+		{
+			@Override
+			public void update()
+			{
+				super.update();
+				sendSDValue(robot.xboxController.getMagnitude());
+			}
+		};
+		numberTestLidar = new SDNumberR("Test Lidar")
+		{
+			@Override
+			public void update()
+			{
+				super.update();
+				sendSDValue(robot.lidar.getDistance());
 			}
 		};
 		
 	}
 	
-	public void update()
+	public void update(Robot robot)
 	{
 		buttonResetEncoder.update();
-		numberRGyroValue.update();
+		numberGyroValue.update();
+		currentMagnitude.update();
+		numberTestLidar.update();
 	}
 
 }

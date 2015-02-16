@@ -14,7 +14,7 @@ public class SDNumberR implements SDElement
 	
 	/**
 	 * constructs a SmartDashboard Number
-	 * remember to override send SD value
+	 * remember to override update()
 	 * @param key key
 	 */
 	public SDNumberR(String key)
@@ -28,17 +28,18 @@ public class SDNumberR implements SDElement
 		return key;
 	}
 	
+	/**
+	 * typical update is sendSDValue(double value)
+	 */
 	public void update()
-	{
-		this.sendSDValue();
-	}
+	{}
 	
 	/**
 	 * Send a a number to the SmartDashboard.
 	 * This gets called when update is called. Override this method before using the object.
 	 */
-	public void sendSDValue()
+	public void sendSDValue(double value)
 	{
-		SmartDashboard.putNumber(key,0);
+		SmartDashboard.putNumber(key, value);
 	}
 }

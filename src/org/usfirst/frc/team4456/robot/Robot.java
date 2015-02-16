@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
+import java.util.Date;
+
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -29,6 +31,7 @@ public class Robot extends IterativeRobot
 	Gyro gyro;
 	Encoder encoder;
 	UI ui;
+	//SmartUI ui;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	Lidar lidar;
@@ -75,6 +78,7 @@ public class Robot extends IterativeRobot
     	
     	// UI init
     	ui = new UI(this);
+    	//ui = new SmartUI(this);
 
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
@@ -86,6 +90,8 @@ public class Robot extends IterativeRobot
     	ultrasonic = new UltrasonicSensor(1);
     	
     	lidar = new Lidar(this);
+    	
+    	System.out.println("Robot Init successful: " + "");
     }
     
     public void autonomousInit()
@@ -140,6 +146,7 @@ public class Robot extends IterativeRobot
     	winchLoader.doWinchStuff(xboxController);
     	
     	lidar.update(this);
+    	ladder.cycle(xboxController);
     	// vision.cycle();
     	
     	/*
