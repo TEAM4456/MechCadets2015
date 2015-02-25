@@ -52,4 +52,21 @@ public class Util
 		}
 		return value;
 	}
+	
+	// This will just set an angle in between 0 and 360 to make it easier for the user to understand
+    public static double get360Angle(double value)
+    {
+    	while((value < 0 || value > 360))
+    	{
+    		if(value < 0)
+    		{
+    			value = value + 360;
+    		}
+    		if(value > 360)
+    		{
+    			value = value - 360;
+    		}
+    	}
+    	return value;
+    }
 }

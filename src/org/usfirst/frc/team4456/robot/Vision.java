@@ -72,7 +72,6 @@ public class Vision
     	SmartDashboard.putNumber("CameraBrightness", camera.getBrightness());
     	
         camera = new AxisCamera("10.50.0.30");
-        
     }
     
     public void cycle()

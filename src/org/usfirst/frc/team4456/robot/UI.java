@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
 import org.usfirst.frc.team4456.robot.SDashUI.*;
+import org.usfirst.frc.team4456.robot.util.Util;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PIDController;
@@ -34,7 +35,7 @@ public class UI
         SmartDashboard.putBoolean("Using Gyro", false);
         
         // Gyro Values
-        SmartDashboard.putNumber("Gyro Value", get360Angle(robot.gyro.getAngle()));
+        SmartDashboard.putNumber("Gyro Value", Util.get360Angle(robot.gyro.getAngle()));
     	SmartDashboard.putNumber("Gyro Rate", robot.gyro.getRate());
     	SmartDashboard.putBoolean("Reset Gyro", false);
         
@@ -118,22 +119,4 @@ public class UI
     	SmartDashboard.putNumber("P Value", robot.pValue);
     	//SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
     }
-    
-    // This will just set an angle in between 0 and 360 to make it easier for the user to understand
-    private double get360Angle(double value)
-    {
-    	while((value < 0 || value > 360))
-    	{
-    		if(value < 0)
-    		{
-    			value = value + 360;
-    		}
-    		if(value > 360)
-    		{
-    			value = value - 360;
-    		}
-    	}
-    	return value;
-    }
-    
 }
