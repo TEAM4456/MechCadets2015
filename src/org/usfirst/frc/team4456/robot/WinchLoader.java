@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class WinchLoader
 {
 	/*
-	 * controls:
+	 * Controls:
 	 * LBumper, RBumper, LTrigger, RTrigger
 	 */
 	private CANTalon talon1;
@@ -26,11 +26,13 @@ public class WinchLoader
 		//talon1.enableControl();
 	}
 	
+	// Gets current target index
 	public int getCurrentTargetIndex()
 	{
 		return currentTargetIndex;
 	}
 
+	// Takes inputs from the XBoxController and performs winch functions based on them
 	public void doWinchStuff(XBoxController controller)
 	{
 		// Left bumper lowers winch by one level
@@ -77,6 +79,7 @@ public class WinchLoader
 		
 	}
 	
+	// Tells what the current winch position
 	public double getWinchPosition()
 	{
 		return talon1.get();
@@ -104,6 +107,7 @@ public class WinchLoader
 		this.currentTargetIndex = targetIndex;
 	}
 	
+	// Raises winch to the maximum position
 	private void raiseWinchMax()
 	{
 		talon1.set(Constants.WINCH_LOADER_POSITIONS[Constants.WINCH_LOADER_POSITIONS.length-1]);
@@ -132,12 +136,14 @@ public class WinchLoader
 		this.currentTargetIndex = targetIndex;
 	}
 	
+	// Lowers winch to the minimum position
 	private void lowerWinchMin()
 	{
 		talon1.set(Constants.WINCH_LOADER_POSITIONS[0]);
 		this.currentTargetIndex = 0;
 	}
 	
+	// Finds the closest default position to the current position
 	private int findClosestPosition()
 	{
 		double currentPos = talon1.get();
@@ -168,7 +174,4 @@ public class WinchLoader
 		}
 		return closestIndex;
 	}
-	
-
-	
 }

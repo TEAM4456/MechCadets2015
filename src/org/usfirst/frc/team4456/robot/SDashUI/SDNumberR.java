@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * SmartDashboard Number Readonly
  * designed for displaying a number on the SmartDashboard, but not for setting a value from the SmartDashboard.
- * @author samega15
+ * @author notSamega15
  *
  */
 public class SDNumberR implements SDElement
@@ -32,7 +32,9 @@ public class SDNumberR implements SDElement
 	 * typical update is sendSDValue(double value)
 	 */
 	public void update()
-	{}
+	{
+		
+	}
 	
 	/**
 	 * Send a a number to the SmartDashboard.

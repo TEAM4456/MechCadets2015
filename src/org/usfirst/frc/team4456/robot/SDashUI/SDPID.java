@@ -27,7 +27,9 @@ public class SDPID implements SDElement
 		{
 			@Override
 			public void pidWrite(double output)
-			{}
+			{
+				
+			}
 		};
 		pidControl = new PIDController(p, i, d, pidSource, pidOut);
 		

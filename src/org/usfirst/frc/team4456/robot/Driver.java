@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
+import org.usfirst.frc.team4456.robot.util.Util;
+
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -60,9 +62,9 @@ public class Driver
 	{
 		// Parameters are Magnitude, Direction, Rotation
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
-		robotDrive.mecanumDrive_Polar(lowerSensitivity(controller.getMagnitude()), 
+		robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude()), 
     			controller.getDirectionDegrees(), 
-    			lowerSensitivity(controller.getAxisRStickX()));
+    			Util.lowerSensitivity(controller.getAxisRStickX()));
 	}
 	
 	// This will be used if we do have a gyroscope
@@ -70,33 +72,17 @@ public class Driver
 	{
 		// Parameters are X, Y, Rotation, and Gyro Angle
 		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
-		robotDrive.mecanumDrive_Cartesian(lowerSensitivity(controller.getAxisLStickX()),
-				lowerSensitivity(controller.getAxisLStickY()),
-				lowerSensitivity(controller.getAxisRStickX()),
+		robotDrive.mecanumDrive_Cartesian(Util.lowerSensitivity(controller.getAxisLStickX()),
+				Util.lowerSensitivity(controller.getAxisLStickY()),
+				Util.lowerSensitivity(controller.getAxisRStickX()),
     			gyro.getAngle());
 	}
 	
 	// This will be used if we are using TankDrive instead of Mechanum
 	private void driveTank(XBoxController controller)
 	{
-		robotDrive.tankDrive(lowerSensitivity(controller.getAxisLStickY()),
-				lowerSensitivity(controller.getAxisRStickY()));
+		robotDrive.tankDrive(Util.lowerSensitivity(controller.getAxisLStickY()),
+				Util.lowerSensitivity(controller.getAxisRStickY()));
 	}
 	
-	// This sets the sensitivity exponentially
-	private double lowerSensitivity(double value)
-	{
-		// The value should be from 0 to 1, so it makes an exponential curve
-		// This method can be used by the various drive methods
-		value = Math.pow(value, 3);
-		if(value > 1)
-		{
-			value = 1;
-		}
-		if(value < -1)
-		{
-			value = -1;
-		}
-		return value;
-	}
 }

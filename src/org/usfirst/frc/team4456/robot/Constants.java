@@ -41,10 +41,7 @@ public class Constants
 	//TODO change values for position
 	public static final double[] WINCH_LADDER_POSITIONS = {0, 10000, 20000, 30000, 40000, 50000, 60000};
 	public static final double LADDER_NUDGE_FACTOR = 40;
-	public static final int piston1Port1 = 0,
-							piston1Port2 = 1,
-							piston2Port1 = 2,
-							piston2Port2 = 3;
+	public static final int piston1Port1 = 0, piston1Port2 = 1, piston2Port1 = 2, piston2Port2 = 3;
 	
 	public static final String filePathRoborio = "/home/lvuser/";
 }

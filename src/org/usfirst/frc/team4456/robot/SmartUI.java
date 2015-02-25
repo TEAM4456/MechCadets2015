@@ -10,36 +10,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SmartUI
 {
 	SDButton buttonResetEncoder;
-	
-	SDNumberR   numberGyroValue,
-				currentMagnitude,
-				numberTestLidar;
+	SDNumberR numberGyroValue, currentMagnitude, numberTestLidar;
 	
 	public SmartUI(Robot robot)
 	{
-		//on click, will reset encoder
-		buttonResetEncoder = new SDButton("Reset Encoder", robot){
+		// On click, will reset encoder
+		buttonResetEncoder = new SDButton("Reset Encoder", robot)
+		{
 			@Override
 			public void performAction()
 			{
 		    	robot.gyro.reset();
 			}
 		};
-		numberGyroValue = new SDNumberR("Gyro Value"){
+		numberGyroValue = new SDNumberR("Gyro Value")
+		{
 			@Override
 			public void update()
 			{
 				sendSDValue(robot.gyro.getAngle());
 			}
 		};
-		currentMagnitude = new SDNumberR("Current Magnitude"){
+		currentMagnitude = new SDNumberR("Current Magnitude")
+		{
 			@Override
 			public void update()
 			{
 				sendSDValue(robot.xboxController.getMagnitude());
 			}
 		};
-		numberTestLidar = new SDNumberR("Test Lidar"){
+		numberTestLidar = new SDNumberR("Test Lidar")
+		{
 			@Override
 			public void update()
 			{

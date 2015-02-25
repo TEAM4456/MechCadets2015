@@ -31,10 +31,11 @@ public class Util
 	}
 	
 	/**
-	 * meant for value with range 0 to 1
-	 * reduces sensitivity for lower values
+	 * Meant for value with range 0 to 1
+	 * Reduces sensitivity for lower values
 	 * @param value value
 	 * @return value^3
+	 * This sets the sensitivity exponentially
 	 */
 	public static double lowerSensitivity(double value)
 	{

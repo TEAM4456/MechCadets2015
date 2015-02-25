@@ -40,7 +40,7 @@ public class Ladder
 	}
 	
 	/**
-	 * periodic cycle function for Ladder
+	 * Periodic cycle function for Ladder
 	 * @param controller xboxController
 	 */
 	public void cycle(XBoxController controller)
@@ -82,12 +82,16 @@ public class Ladder
 			talon1.set(newSetPoint);
 		}
 		
-		//buttonA close
+		// ButtonA close
 		if(controller.getA())
+		{
 			close();
-		//buttonB open
+		}
+		// ButtonB open
 		if(controller.getB())
+		{
 			open();
+		}
 	}
 
 // ----------------------------------------------------------------------
@@ -95,7 +99,7 @@ public class Ladder
 // ----------------------------------------------------------------------
 	
 	/*
-	 * extend the pistons to close
+	 * Extend the pistons to close
 	 */
 	private void close()
 	{
