@@ -45,8 +45,7 @@ public class Robot extends IterativeRobot
 	
 	double pValue;
 	boolean useGyro, useMechanum;
-
-
+	
 	boolean buttonYPress = false;
 	
     public void robotInit()
@@ -54,6 +53,7 @@ public class Robot extends IterativeRobot
     	// Driver init
     	driver = new Driver(true);
     	
+    	// Winch and Ladder init
     	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
     	winchLoader = new WinchLoader(13);
     	
@@ -91,9 +91,13 @@ public class Robot extends IterativeRobot
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
     	
+    	// Talon init
     	talon = new Talon(0);
+    	
+    	// PID Controller init
     	pidController = new PIDController(1, 0, 0, encoder, talon);
     	
+    	// Lidar init
     	lidar = new Lidar(this);
     	
     	System.out.println("Robot Init successful: " + "");
