@@ -3,6 +3,7 @@ package org.usfirst.frc.team4456.robot;
 import org.usfirst.frc.team4456.robot.SDashUI.*;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.networktables2.server.NetworkTableServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,6 +42,7 @@ public class UI
         SmartDashboard.putBoolean("Using Mechanum", true);
         
         
+        SmartDashboard.putData("talonPID", robot.pidController);
         
         // Lidar Values 
         // SmartDashboard.putNumber("Get PID Lidar", robot.lidar.pidGet());
@@ -51,6 +53,9 @@ public class UI
     {
     	// Enabled red/green light
     	SmartDashboard.putBoolean("Enabled", robot.isEnabled());
+    	
+    	//robot.pidController = (PIDController) SmartDashboard.getData("talonPID");
+    	SmartDashboard.putData("talonPID", robot.pidController);
     	
     	// Driver Values
     	SmartDashboard.putNumber("Current Magnitude", robot.xboxController.getMagnitude());

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,6 +41,7 @@ public class Robot extends IterativeRobot
 	SerialPort serial;
 	Lidar arduinoLidar;
 	PIDController pidController;
+	Talon talon;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
@@ -88,6 +90,9 @@ public class Robot extends IterativeRobot
     	
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
+    	
+    	talon = new Talon(0);
+    	pidController = new PIDController(1, 0, 0, encoder, talon);
     	
     	lidar = new Lidar(this);
     	
