@@ -2,6 +2,10 @@ package org.usfirst.frc.team4456.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Class for the XboxController
+ * @author samega15
+ */
 public class XBoxController
 {
 	private Joystick xboxController;

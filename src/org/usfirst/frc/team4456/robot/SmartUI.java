@@ -3,6 +3,10 @@ package org.usfirst.frc.team4456.robot;
 import org.usfirst.frc.team4456.robot.SDashUI.SDButton;
 import org.usfirst.frc.team4456.robot.SDashUI.SDNumberR;
 
+/**
+ * New Smart Dashboard class
+ * @author samega15
+ */
 public class SmartUI
 {
 	SDButton buttonResetEncoder;
