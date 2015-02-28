@@ -1,7 +1,5 @@
 package org.usfirst.frc.team4456.robot;
 
-import java.util.Date;
-
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -9,7 +7,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Talon;
@@ -24,10 +21,9 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class Robot extends IterativeRobot
 {
-	Joystick oldXboxController;
 	XBoxController xboxController;
 	Driver driver;
-	WinchLoader winchLoader;
+	Hooks hooks;
 	Ladder ladder;
 	Gyro gyro;
 	Encoder encoder;
@@ -53,9 +49,9 @@ public class Robot extends IterativeRobot
     	// Driver init
     	driver = new Driver(true);
     	
-    	// Winch and Ladder init
+    	// Hooks and Ladder init
     	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
-    	winchLoader = new WinchLoader(13);
+    	hooks = new Hooks(13);
     	
     	// Gyro init 
     	gyro = new Gyro(0);
@@ -65,15 +61,11 @@ public class Robot extends IterativeRobot
     	useGyro = false;
     	
     	// Controller init
-    	oldXboxController = new Joystick(1);
     	xboxController = new XBoxController(1);
     	
     	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
-    	
-        // Lidar init
-    	//lidar = new LidarBackup(Port.kMXP);
     	
     	// Serial init
     	serial = new SerialPort(9600,SerialPort.Port.kUSB);
@@ -151,25 +143,10 @@ public class Robot extends IterativeRobot
     	 * whether or not we are using a gyro.
     	 */
     	driver.drive(xboxController, gyro, this);
-    	
-    	winchLoader.doWinchStuff(xboxController);
+    	hooks.cycle(xboxController);
+    	ladder.cycle(xboxController);
     	
     	lidar.update(this);
-    	ladder.cycle(xboxController);
-    	// vision.cycle();
-    	
-    	/*
-    	if (xboxController.getB())
-    	{
-    		buttonBPress = true;
-    	}
-    	if (buttonBPress && !xboxController.getB())
-    	{
-    		Timer.delay(0.005);
-    		vision.writeThresholdImg();
-    		buttonBPress = false;
-    	}
-    	*/
     }
     
     public void disabledPeriodic()

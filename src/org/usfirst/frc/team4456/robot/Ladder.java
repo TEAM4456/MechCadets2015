@@ -16,7 +16,7 @@ import org.usfirst.frc.team4456.robot.util.*;
  */
 public class Ladder
 {
-	private CANTalon talon1;
+	private CANTalon talon;
 	private boolean dpadDownPress = false, dpadUpPress = false;
 	private int currentTargetIndex;
 	
@@ -29,11 +29,11 @@ public class Ladder
 	 */
 	public Ladder(int idTalon, int id1_1, int id1_2, int id2_1, int id2_2)
 	{
-		talon1 = new CANTalon(idTalon);
-		talon1.changeControlMode(ControlMode.Position);
-		talon1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		talon1.setPID(1.0, 0.000001, 0);
-		talon1.set(talon1.get()); //talon1 will not move
+		talon = new CANTalon(idTalon);
+		talon.changeControlMode(ControlMode.Position);
+		talon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		talon.setPID(1.0, 0.000001, 0);
+		talon.set(talon.get()); //talon1 will not move
 		
 		piston1 = new DoubleSolenoid(id1_1, id1_2);
 		piston2 = new DoubleSolenoid(id2_1, id2_2);
@@ -70,16 +70,16 @@ public class Ladder
 		//dpadLeft nudgeDown
 		if(controller.getDPadLeft())
 		{
-			double newSetPoint = Util.max(talon1.getSetpoint() - (Constants.LADDER_NUDGE_FACTOR),0.0);
-			talon1.set(newSetPoint);
+			double newSetPoint = Util.max(talon.getSetpoint() - (Constants.LADDER_NUDGE_FACTOR),0.0);
+			talon.set(newSetPoint);
 		}
 		
 		//dpadRight nudgeUp
 		if(controller.getDPadRight())
 		{
-			double newSetPoint = Util.min(talon1.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR),
+			double newSetPoint = Util.min(talon.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR),
 										  Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1]);
-			talon1.set(newSetPoint);
+			talon.set(newSetPoint);
 		}
 		
 		// ButtonA close
@@ -114,7 +114,7 @@ public class Ladder
 	
 	private void raiseLadderMax()
 	{
-		talon1.set(Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1]);
+		talon.set(Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1]);
 		this.currentTargetIndex = Constants.WINCH_LADDER_POSITIONS.length-1;
 	}
 	
@@ -130,7 +130,7 @@ public class Ladder
 		{
 			targetIndex = closestIndex + 1;
 		}
-		talon1.set(Constants.WINCH_LADDER_POSITIONS[targetIndex]);
+		talon.set(Constants.WINCH_LADDER_POSITIONS[targetIndex]);
 		this.currentTargetIndex = targetIndex;
 	}
 	
@@ -146,19 +146,19 @@ public class Ladder
 		{
 			targetIndex = closestIndex-1;
 		}
-		talon1.set(Constants.WINCH_LADDER_POSITIONS[targetIndex]);
+		talon.set(Constants.WINCH_LADDER_POSITIONS[targetIndex]);
 		this.currentTargetIndex = targetIndex;
 	}
 	
 	private void lowerWinchMin()
 	{
-		talon1.set(Constants.WINCH_LADDER_POSITIONS[0]);
+		talon.set(Constants.WINCH_LADDER_POSITIONS[0]);
 		this.currentTargetIndex = 0;
 	}
 	
 	private int findClosestPosition()
 	{
-		double currentPos = talon1.get();
+		double currentPos = talon.get();
 		double closestDistance = 0;
 		int closestIndex = 0;
 		double highestPos = Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1];

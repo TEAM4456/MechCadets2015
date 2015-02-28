@@ -2,11 +2,8 @@ package org.usfirst.frc.team4456.robot;
 
 import org.usfirst.frc.team4456.robot.util.Util;
 
-import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 
 public class Driver
@@ -51,6 +48,7 @@ public class Driver
 	    		this.drivePolar(controller);
 	    	}
 		}
+		// Tank drive is most likely not needed at all - This method will never be called
 		else
 		{
 			this.driveTank(controller);
