@@ -86,8 +86,6 @@ public class SmartUI
     			sendSDValue(robot.pValue);
     		}
     	};
-
-    	
     	
     	encoderCount = new SDNumberR("Encoder Count")
     	{
@@ -114,6 +112,7 @@ public class SmartUI
 				sendSDValue(robot.lidar.getDistance());
 			}
 		};
+		
 		
 	}
 	

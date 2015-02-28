@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
+import com.kauailabs.navx_mxp.AHRS;
+
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -9,6 +11,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,19 +24,24 @@ import edu.wpi.first.wpilibj.Talon;
 public class Robot extends IterativeRobot
 {
 	XBoxController xboxController;
+	
 	Driver driver;
 	Hooks hooks;
 	Ladder ladder;
 	Gyro gyro;
 	Encoder encoder;
-	UI ui;
-	SmartUI smartUi;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	Vision vision;
 	UltrasonicSensor ultrasonic;
-	SerialPort serial;
 	Lidar lidar;
+	
+	AHRS navx;
+	SerialPort serialPortMXP;
+	
+	UI ui;
+	SmartUI smartUi;
+	Vision vision;
+	SerialPort serialUSB;
 	PIDController pidController;
 	Talon talon;
 	
@@ -64,11 +72,7 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
     	
     	// Serial init
-    	serial = new SerialPort(9600,SerialPort.Port.kUSB);
-    	
-    	// UI init
-    	ui = new UI(this);
-    	smartUi = new SmartUI(this);
+    	serialUSB = new SerialPort(9600,SerialPort.Port.kOnboard);
 
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
@@ -88,6 +92,22 @@ public class Robot extends IterativeRobot
     	// Lidar init
     	lidar = new Lidar(this);
     	
+    	//NAVX init
+    	try
+    	{
+	    	serialPortMXP = new SerialPort(57600, SerialPort.Port.kMXP);
+	    	byte updateRateHz = 50;
+	    	navx = new AHRS(serialPortMXP, updateRateHz);
+    	}
+    	catch(Exception ex)
+    	{
+    		System.out.println("NAVX ERROR!: " + "\n" + ex);
+    	}
+    	
+    	
+    	// UI init
+    	ui = new UI(this);
+    	//smartUi = new SmartUI(this);
     	System.out.println("Robot Init successful: " + "");
     }
     

@@ -7,7 +7,7 @@ public class Lidar
 	
 	public Lidar(Robot robot)
 	{
-		arduinoBuffer = robot.serial.readString();
+		//arduinoBuffer = robot.serialUSB.readString();
 	}
 	
 	public double getDistance()
@@ -17,7 +17,7 @@ public class Lidar
 	
 	public void update(Robot robot)
 	{
-		updateArduinoBuffer(robot.serial.readString());
+		updateArduinoBuffer(robot.serialUSB.readString());
 		//System.out.println(arduinoBuffer);
 	}
 	
