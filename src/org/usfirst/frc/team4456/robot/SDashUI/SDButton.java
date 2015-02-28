@@ -48,7 +48,7 @@ public class SDButton implements SDElement
 	
 	/**
 	 * Performs action when button is pressed.
-	 * Stub should be overridden.
+	 * The action performed differs based on what the button has overwritten for it
 	 */
 	public void performAction()
 	{
