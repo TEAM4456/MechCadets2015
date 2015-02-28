@@ -5,14 +5,12 @@ import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Joystick;
 
 import org.usfirst.frc.team4456.robot.util.*;
 
 /**
- * class for the winch on the ladder device that picks up the trash can.
- * @author MechCadets
- *
+ * Class for the winch on the ladder device that picks up the trash can.
+ * @author samega15
  */
 public class Ladder
 {
@@ -24,8 +22,9 @@ public class Ladder
 	
 	/**
 	 * Constructor for WinchLadder
-	 * this will construct a new talon motor object with the appropriate pid settings
-	 * @param idTalon talon motor id
+	 * This will construct a new talon motor object with the appropriate pid settings
+	 * @param idTalon Talon motor id
+	 * @author samega15
 	 */
 	public Ladder(int idTalon, int id1_1, int id1_2, int id2_1, int id2_2)
 	{
@@ -42,6 +41,7 @@ public class Ladder
 	/**
 	 * Periodic cycle function for Ladder
 	 * @param controller xboxController
+	 * @author samega15
 	 */
 	public void cycle(XBoxController controller)
 	{
@@ -99,8 +99,9 @@ public class Ladder
 //AUX FUNCTIONS ---------------------------------------------------------
 // ----------------------------------------------------------------------
 	
-	/*
+	/**
 	 * Extend the pistons to close
+	 * @author samega15
 	 */
 	private void close()
 	{

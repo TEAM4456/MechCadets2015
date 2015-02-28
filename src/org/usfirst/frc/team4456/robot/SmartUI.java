@@ -3,10 +3,6 @@ package org.usfirst.frc.team4456.robot;
 import org.usfirst.frc.team4456.robot.SDashUI.SDButton;
 import org.usfirst.frc.team4456.robot.SDashUI.SDNumberR;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class SmartUI
 {
 	SDButton buttonResetEncoder;

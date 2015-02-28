@@ -6,12 +6,20 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 
+/**
+ * Class for the wheels on the chassis that drive the robot.
+ * @author oom2013
+ */
 public class Driver
 {
 	RobotDrive robotDrive;
 	private CANTalon talon1, talon2, talon3, talon4;
 
-	// Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
+	/** 
+	 * Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
+	 * @param useTest
+	 * @author oom2013
+	 */
 	public Driver(boolean useTest)
 	{
 		if(useTest)
@@ -34,7 +42,13 @@ public class Driver
 	}
 	
 	
-	// Executes the Polar, Cartesian, or Tank method based on the useMechanum and useGyro booleans
+	/**
+	 *  Executes the Polar, Cartesian, or Tank method based on the useMechanum and useGyro booleans
+	 * @param controller
+	 * @param gyro
+	 * @param robot
+	 * @author oom2013
+	 */
 	public void drive(XBoxController controller, Gyro gyro, Robot robot)
 	{
 		if(robot.useMechanum)
@@ -55,7 +69,11 @@ public class Driver
 		}
 	}
 	
-	// This will be used if we do not have a gyroscope
+	/**
+	 *  This will be used if we do not have a gyroscope
+	 * @param controller
+	 * @author oom2013
+	 */
 	private void drivePolar(XBoxController controller)
 	{
 		// Parameters are Magnitude, Direction, Rotation
@@ -65,7 +83,12 @@ public class Driver
     			Util.lowerSensitivity(controller.getAxisRStickX()));
 	}
 	
-	// This will be used if we do have a gyroscope
+	/**
+	 * This will be used if we do have a gyroscope
+	 * @param controller
+	 * @param gyro
+	 * @author oom2013
+	 */
 	private void driveCartesian(XBoxController controller, Gyro gyro)
 	{
 		// Parameters are X, Y, Rotation, and Gyro Angle
@@ -76,7 +99,12 @@ public class Driver
     			gyro.getAngle());
 	}
 	
-	// This will be used if we are using TankDrive instead of Mechanum
+	/**
+	 * This will be used if we are using TankDrive instead of Mechanum,
+	 * but will probably not be used
+	 * @param controller
+	 * @author oom2013
+	 */
 	private void driveTank(XBoxController controller)
 	{
 		robotDrive.tankDrive(Util.lowerSensitivity(controller.getAxisLStickY()),

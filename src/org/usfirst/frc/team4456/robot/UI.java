@@ -1,14 +1,13 @@
 package org.usfirst.frc.team4456.robot;
 
-import org.usfirst.frc.team4456.robot.SDashUI.*;
 import org.usfirst.frc.team4456.robot.util.Util;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.networktables2.server.NetworkTableServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Class for the Smart Dashboard.
+ * @author samega15
+ */
 public class UI
 {
     public UI(Robot robot)

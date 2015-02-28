@@ -1,11 +1,12 @@
 package org.usfirst.frc.team4456.robot;
 
-import org.usfirst.frc.team4456.robot.util.Util;
-
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Class for the winch on the hooks that pick up totes.
+ * @author oom2013
+ */
 public class Hooks
 {
 	/*
@@ -16,6 +17,11 @@ public class Hooks
 	private boolean leftBumperPress, rightBumperPress;
 	private int currentTargetIndex;
 	
+	/** 
+	 * Constructor makes the motor for the winch and sets it up for use
+	 * @param id
+	 * @author oom2013
+	 */
 	public Hooks(int id)
 	{
 		talon = new CANTalon(id);
@@ -26,13 +32,21 @@ public class Hooks
 		//talon1.enableControl();
 	}
 	
-	// Gets current target index
+	/**
+	 * Gets current target index
+	 * @return currentTargetIndex
+	 * @author oom2013
+	 */
 	public int getCurrentTargetIndex()
 	{
 		return currentTargetIndex;
 	}
 
-	// Takes inputs from the XBoxController and performs winch functions based on them
+	/**
+	 * Takes inputs from the XBoxController and performs actions based on them
+	 * @param controller
+	 * @author oom2013
+	 */
 	public void cycle(XBoxController controller)
 	{
 		// Left bumper lowers winch by one level
@@ -79,16 +93,20 @@ public class Hooks
 		
 	}
 	
-	// Tells what the current winch position
+	/** 
+	 * Returns what the current winch position is at
+	 * @author oom2013
+	 */
 	public double getWinchPosition()
 	{
 		return talon.get();
 	}
 	
-	/*
+	/**
 	 *  Raises winch to closest default winch position above it 
 	 *  unless the current position is above a certain threshold. 
 	 *  If so, it goes to the next highest position.
+	 *  @author oom2013
 	 */
 	private void raiseHooks()
 	{
@@ -107,17 +125,21 @@ public class Hooks
 		this.currentTargetIndex = targetIndex;
 	}
 	
-	// Raises winch to the maximum position
+	/** 
+	 * Raises winch to the maximum position
+	 * @author oom2013
+	 */
 	private void raiseHooksMax()
 	{
 		talon.set(Constants.WINCH_LOADER_POSITIONS[Constants.WINCH_LOADER_POSITIONS.length-1]);
 		this.currentTargetIndex = Constants.WINCH_LOADER_POSITIONS.length-1;
 	}
 	
-	/*
+	/**
 	 *  Lowers winch to closest default winch position below it 
 	 *  unless the current position is above a certain threshold. 
 	 *  If so, it goes to the next lowest position.
+	 *  @author oom2013
 	 */
 	private void lowerHooks()
 	{
@@ -136,14 +158,20 @@ public class Hooks
 		this.currentTargetIndex = targetIndex;
 	}
 	
-	// Lowers winch to the minimum position
+	/** 
+	 * Lowers winch to the minimum position
+	 * @author oom2013
+	 */
 	private void lowerHooksMin()
 	{
 		talon.set(Constants.WINCH_LOADER_POSITIONS[0]);
 		this.currentTargetIndex = 0;
 	}
 	
-	// Finds the closest default position to the current position
+	/** 
+	 * @return Closest default position to the current position
+	 * @author oom2013
+	 */
 	private int findClosestPosition()
 	{
 		double currentPos = talon.get();

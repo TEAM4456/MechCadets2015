@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Talon;
@@ -28,21 +27,18 @@ public class Robot extends IterativeRobot
 	Gyro gyro;
 	Encoder encoder;
 	UI ui;
-	//SmartUI ui;
+	SmartUI smartUi;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	Lidar lidar;
 	Vision vision;
 	UltrasonicSensor ultrasonic;
 	SerialPort serial;
-	Lidar arduinoLidar;
+	Lidar lidar;
 	PIDController pidController;
 	Talon talon;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
-	
-	boolean buttonYPress = false;
 	
     public void robotInit()
     {
@@ -72,7 +68,7 @@ public class Robot extends IterativeRobot
     	
     	// UI init
     	ui = new UI(this);
-    	//ui = new SmartUI(this);
+    	smartUi = new SmartUI(this);
 
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
