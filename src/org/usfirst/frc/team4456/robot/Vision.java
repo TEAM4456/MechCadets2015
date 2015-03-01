@@ -20,6 +20,10 @@ import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.image.ParticleAnalysisReport;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Class for the Vision Processing.
+ * @author samega15
+ */
 public class Vision
 {
 	/*

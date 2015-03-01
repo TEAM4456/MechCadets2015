@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
-import java.util.Date;
+import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.CounterBase;
@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,38 +23,39 @@ import edu.wpi.first.wpilibj.Talon;
 
 public class Robot extends IterativeRobot
 {
-	Joystick oldXboxController;
 	XBoxController xboxController;
+	
 	Driver driver;
-	WinchLoader winchLoader;
+	Hooks hooks;
 	Ladder ladder;
 	Gyro gyro;
 	Encoder encoder;
-	UI ui;
-	//SmartUI ui;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
-	Lidar lidar;
-	Vision vision;
 	UltrasonicSensor ultrasonic;
-	SerialPort serial;
-	Lidar arduinoLidar;
+	Lidar lidar;
+	
+	AHRS navx;
+	SerialPort serialPortMXP;
+	
+	UI ui;
+	SmartUI smartUi;
+	Vision vision;
+	SerialPort serialUSB;
 	PIDController pidController;
 	Talon talon;
 	
 	double pValue;
 	boolean useGyro, useMechanum;
 	
-	boolean buttonYPress = false;
-	
     public void robotInit()
     {
     	// Driver init
     	driver = new Driver(true);
     	
-    	// Winch and Ladder init
+    	// Hooks and Ladder init
     	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
-    	winchLoader = new WinchLoader(13);
+    	hooks = new Hooks(13);
     	
     	// Gyro init 
     	gyro = new Gyro(0);
@@ -65,22 +65,14 @@ public class Robot extends IterativeRobot
     	useGyro = false;
     	
     	// Controller init
-    	oldXboxController = new Joystick(1);
     	xboxController = new XBoxController(1);
     	
     	// Encoder init
     	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
         encoder.setDistancePerPulse(1.0/360);
     	
-        // Lidar init
-    	//lidar = new LidarBackup(Port.kMXP);
-    	
     	// Serial init
-    	serial = new SerialPort(9600,SerialPort.Port.kUSB);
-    	
-    	// UI init
-    	ui = new UI(this);
-    	//ui = new SmartUI(this);
+    	serialUSB = new SerialPort(9600,SerialPort.Port.kUSB);
 
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
@@ -100,6 +92,22 @@ public class Robot extends IterativeRobot
     	// Lidar init
     	lidar = new Lidar(this);
     	
+    	//NAVX init
+    	try
+    	{
+	    	serialPortMXP = new SerialPort(57600, SerialPort.Port.kMXP);
+	    	byte updateRateHz = 50;
+	    	navx = new AHRS(serialPortMXP, updateRateHz);
+    	}
+    	catch(Exception ex)
+    	{
+    		System.out.println("NAVX ERROR!: " + "\n" + ex);
+    	}
+    	
+    	
+    	// UI init
+    	ui = new UI(this);
+    	//smartUi = new SmartUI(this);
     	System.out.println("Robot Init successful: " + "");
     }
     
@@ -151,25 +159,10 @@ public class Robot extends IterativeRobot
     	 * whether or not we are using a gyro.
     	 */
     	driver.drive(xboxController, gyro, this);
-    	
-    	winchLoader.doWinchStuff(xboxController);
+    	hooks.cycle(xboxController);
+    	ladder.cycle(xboxController);
     	
     	lidar.update(this);
-    	ladder.cycle(xboxController);
-    	// vision.cycle();
-    	
-    	/*
-    	if (xboxController.getB())
-    	{
-    		buttonBPress = true;
-    	}
-    	if (buttonBPress && !xboxController.getB())
-    	{
-    		Timer.delay(0.005);
-    		vision.writeThresholdImg();
-    		buttonBPress = false;
-    	}
-    	*/
     }
     
     public void disabledPeriodic()
