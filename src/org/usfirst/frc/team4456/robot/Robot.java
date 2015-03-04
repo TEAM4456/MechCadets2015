@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot
     public void robotInit()
     {
     	// Driver init
-    	driver = new Driver(true);
+    	driver = new Driver(false);
     	
     	// Hooks and Ladder init
     	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);

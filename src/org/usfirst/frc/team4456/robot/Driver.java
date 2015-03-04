@@ -14,12 +14,38 @@ public class Driver
 {
 	RobotDrive robotDrive;
 	private CANTalon talon1, talon2, talon3, talon4;
-
+	
 	/** 
 	 * Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
 	 * @param useTest
 	 * @author oom2013
 	 */
+	
+	public Driver(RobotType roboType)
+	{
+		if (roboType == RobotType.MAIN_BOT)
+		{
+			talon1 = new CANTalon(14);
+			talon2 = new CANTalon(21);
+			talon3 = new CANTalon(16);
+			talon4 = new CANTalon(12);
+		}
+		else if (roboType == RobotType.PRACTICE_BOT)
+		{
+			talon1 = new CANTalon(17);
+			talon2 = new CANTalon(18);
+			talon3 = new CANTalon(20);
+			talon4 = new CANTalon(19);
+		}
+		else if(roboType == RobotType.BREADBOARD_BOT)
+		{
+			talon1 = new CANTalon(11);
+			talon2 = new CANTalon(10);
+			talon3 = new CANTalon(15);
+			talon4 = new CANTalon(22);
+		}
+	}
+	
 	public Driver(boolean useTest)
 	{
 		if(useTest)
@@ -31,10 +57,17 @@ public class Driver
 		}
 		else
 		{
+			talon1 = new CANTalon(14);
+			talon2 = new CANTalon(21);
+			talon3 = new CANTalon(16);
+			talon4 = new CANTalon(12);
+			
+			/*
 			talon1 = new CANTalon(17);
 			talon2 = new CANTalon(18);
 			talon3 = new CANTalon(20);
 			talon4 = new CANTalon(19);
+			*/
 		}
 		
 		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
