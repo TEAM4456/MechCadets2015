@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
     	
     	// Serial init
-    	serialUSB = new SerialPort(9600,SerialPort.Port.kOnboard);
+    	serialUSB = new SerialPort(9600,SerialPort.Port.kUSB);
 
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
