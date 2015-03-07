@@ -118,27 +118,35 @@ public class UI
     	SmartDashboard.putNumber("P Value", robot.pValue);
     	//SmartDashboard.putNumber("PIDControllerGet", robot.driver.talon2.get());
     	
-    	SmartDashboard.putBoolean(  "navx_Connected",        robot.navx.isConnected());
-        SmartDashboard.putBoolean(  "navx_IsCalibrating",    robot.navx.isCalibrating());
-        SmartDashboard.putNumber(   "navx_Yaw",              robot.navx.getYaw());
-        SmartDashboard.putNumber(   "navx_Pitch",            robot.navx.getPitch());
-        SmartDashboard.putNumber(   "navx_Roll",             robot.navx.getRoll());
-        SmartDashboard.putNumber(   "navx_CompassHeading",   robot.navx.getCompassHeading());
-        SmartDashboard.putNumber(   "navx_Update_Count",     robot.navx.getUpdateCount());
-        SmartDashboard.putNumber(   "navx_Byte_Count",       robot.navx.getByteCount());
-
-        // If you are using the navxAdvanced class, you can also access the following
-        // additional functions, at the expense of some extra processing
-        // that occurs on the CRio processor
-        
-        SmartDashboard.putNumber(   "navx_Accel_X",          robot.navx.getWorldLinearAccelX());
-        SmartDashboard.putNumber(   "navx_Accel_Y",          robot.navx.getWorldLinearAccelY());
-        SmartDashboard.putBoolean(  "navx_IsMoving",         robot.navx.isMoving());
-        SmartDashboard.putNumber(   "navx_Temp_C",           robot.navx.getTempC());
-        
-        SmartDashboard.putNumber(   "Velocity_X",       	robot.navx.getVelocityX() );
-        SmartDashboard.putNumber(   "Velocity_Y",       	robot.navx.getVelocityY() );
-        SmartDashboard.putNumber(   "Displacement_X",       robot.navx.getDisplacementX() );
-        SmartDashboard.putNumber(   "Displacement_Y",       robot.navx.getDisplacementY() );
+    	//NAVXMXP
+    	try
+    	{
+	    	SmartDashboard.putBoolean(  "navx_Connected",        robot.navx.isConnected());
+	        SmartDashboard.putBoolean(  "navx_IsCalibrating",    robot.navx.isCalibrating());
+	        SmartDashboard.putNumber(   "navx_Yaw",              robot.navx.getYaw());
+	        SmartDashboard.putNumber(   "navx_Pitch",            robot.navx.getPitch());
+	        SmartDashboard.putNumber(   "navx_Roll",             robot.navx.getRoll());
+	        SmartDashboard.putNumber(   "navx_CompassHeading",   robot.navx.getCompassHeading());
+	        SmartDashboard.putNumber(   "navx_Update_Count",     robot.navx.getUpdateCount());
+	        SmartDashboard.putNumber(   "navx_Byte_Count",       robot.navx.getByteCount());
+	
+	        // If you are using the navxAdvanced class, you can also access the following
+	        // additional functions, at the expense of some extra processing
+	        // that occurs on the CRio processor
+	        
+	        SmartDashboard.putNumber(   "navx_Accel_X",          robot.navx.getWorldLinearAccelX());
+	        SmartDashboard.putNumber(   "navx_Accel_Y",          robot.navx.getWorldLinearAccelY());
+	        SmartDashboard.putBoolean(  "navx_IsMoving",         robot.navx.isMoving());
+	        SmartDashboard.putNumber(   "navx_Temp_C",           robot.navx.getTempC());
+	        
+	        SmartDashboard.putNumber(   "Velocity_X",       	robot.navx.getVelocityX() );
+	        SmartDashboard.putNumber(   "Velocity_Y",       	robot.navx.getVelocityY() );
+	        SmartDashboard.putNumber(   "Displacement_X",       robot.navx.getDisplacementX() );
+	        SmartDashboard.putNumber(   "Displacement_Y",       robot.navx.getDisplacementY() );
+    	}
+    	catch(Exception ex)
+    	{
+    		System.out.println("ERROR!: NAVX_MXP\n" + ex);
+    	}
     }
 }

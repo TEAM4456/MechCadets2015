@@ -23,6 +23,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Robot extends IterativeRobot
 {
+	//Change the current root used HERE
+	RobotType roboType = RobotType.PRACTICE_BOT;
+	
 	XBoxController xboxController;
 	
 	Driver driver;
@@ -36,12 +39,11 @@ public class Robot extends IterativeRobot
 	Lidar lidar;
 	
 	AHRS navx;
-	SerialPort serialPortMXP;
 	
 	UI ui;
 	SmartUI smartUi;
 	Vision vision;
-	SerialPort serialUSB;
+	SerialPort serialUSB, serialPortMXP;
 	PIDController pidController;
 	Talon talon;
 	
@@ -51,7 +53,7 @@ public class Robot extends IterativeRobot
     public void robotInit()
     {
     	// Driver init
-    	driver = new Driver(RobotType.PRACTICE_BOT);
+    	driver = new Driver(roboType);
     	
     	// Hooks and Ladder init
     	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
@@ -101,7 +103,7 @@ public class Robot extends IterativeRobot
     	}
     	catch(Exception ex)
     	{
-    		System.out.println("NAVX ERROR!: " + "\n" + ex);
+    		System.out.println("ERROR!: NAVX INIT" + "\n" + ex);
     	}
     	
     	

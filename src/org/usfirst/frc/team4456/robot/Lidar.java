@@ -17,7 +17,14 @@ public class Lidar
 	
 	public void update(Robot robot)
 	{
-		updateArduinoBuffer(robot.serialUSB.readString());
+		try
+		{
+			updateArduinoBuffer(robot.serialUSB.readString());
+		}
+		catch(Exception ex)
+		{
+			System.out.println("ERROR!: LIDAR READ_STRING\n" + ex);
+		}
 		//System.out.println(arduinoBuffer);
 	}
 	
