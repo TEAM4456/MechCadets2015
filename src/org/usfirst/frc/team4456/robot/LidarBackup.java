@@ -1,3 +1,11 @@
+/*
+ * This package implements a LIDAR communication directly using
+ * I2C bus from the roboRIO.  This was shown to not be reliable, 
+ * so we switched to the arduino with serial communications which
+ * has worked well
+ */
+
+
 package org.usfirst.frc.team4456.robot;
 
 import java.util.TimerTask;
@@ -6,6 +14,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDSource;
 
+/**
+ * @author bmaranville
+ *
+ */
 public class LidarBackup implements PIDSource
 {
 	private I2C i2cLidar;
