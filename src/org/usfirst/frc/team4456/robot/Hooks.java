@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
 /**
+ * TOTES
  * Class for the winch on the hooks that pick up totes.
  * @author oom2013
  */

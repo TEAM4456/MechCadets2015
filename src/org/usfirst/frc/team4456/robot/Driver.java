@@ -16,7 +16,7 @@ public class Driver
 	private CANTalon talon1, talon2, talon3, talon4;
 	
 	/** 
-	 * Takes in robot type and initializes talon controllers dependeing on the robot type.
+	 * Takes in robot type and initializes talon controllers depending on the robot type.
 	 * @param roboType RobotType to use. MAIN_ PRACTICE_ or BREADBOARD_BOT
 	 * @author samega15
 	 */

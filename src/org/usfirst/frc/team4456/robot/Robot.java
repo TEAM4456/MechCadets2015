@@ -110,7 +110,9 @@ public class Robot extends IterativeRobot
     	// UI init
     	ui = new UI(this);
     	//smartUi = new SmartUI(this);
-    	System.out.println("Robot Init successful: " + "");
+    	System.out.println("Robot Init successful.\n"
+    					+ "RobotType: " + roboType.robotTypeName + "\n"
+    					+ "Robot TeamNum: " + roboType.teamNum);
     }
     
     public void autonomousInit()
@@ -118,29 +120,19 @@ public class Robot extends IterativeRobot
     	super.autonomousInit();
     }
     
-    public void disabledInit()
-    {
-    	super.disabledInit();
-    }
-    
-    public void testInit()
-    {
-    	super.testInit();
-    }
-
     /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic()
-    {
-    	/* 
-    	 * We could make some code that is executed by both the autonomous mode 
-    	 * and the teleop mode so that we can continue the autonomous part
-    	 */
-    	super.autonomousPeriodic();
-    }
-    
-    //----------------
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic()
+	{
+		/* 
+		 * We could make some code that is executed by both the autonomous mode 
+		 * and the teleop mode so that we can continue the autonomous part
+		 */
+		super.autonomousPeriodic();
+	}
+
+	//----------------
     //TELEOP
     //----------------
     public void teleopInit()
@@ -148,7 +140,6 @@ public class Robot extends IterativeRobot
     	super.teleopInit();
     	gyro.reset();
     }
-    
     public void teleopPeriodic()
     {
     	ui.update(this);
@@ -167,13 +158,22 @@ public class Robot extends IterativeRobot
     	//lidar.update(this);
     }
     
+    public void disabledInit()
+    {
+    	super.disabledInit();
+    }
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
     	ui.update(this);
     }
     
-    /**
+    public void testInit()
+	{
+		super.testInit();
+	}
+
+	/**
      * This function is called periodically during test mode
      */
     public void testPeriodic()

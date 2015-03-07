@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import org.usfirst.frc.team4456.robot.util.*;
 
 /**
+ * TRASH CAN
  * Class for the winch on the ladder device that picks up the trash can.
  * @author samega15
  */
