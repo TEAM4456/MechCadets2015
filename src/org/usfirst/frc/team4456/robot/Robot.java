@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot
     public void robotInit()
     {
     	// Driver init
-    	driver = new Driver(false);
+    	driver = new Driver(RobotType.PRACTICE_BOT);
     	
     	// Hooks and Ladder init
     	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
@@ -72,7 +72,7 @@ public class Robot extends IterativeRobot
         encoder.setDistancePerPulse(1.0/360);
     	
     	// Serial init
-    	serialUSB = new SerialPort(9600,SerialPort.Port.kUSB);
+    	//serialUSB = new SerialPort(9600,SerialPort.Port.kUSB);
 
     	// Limit switch init
     	limitSwitch = new DigitalInput(9);
@@ -162,7 +162,7 @@ public class Robot extends IterativeRobot
     	hooks.cycle(xboxController);
     	ladder.cycle(xboxController);
     	
-    	lidar.update(this);
+    	//lidar.update(this);
     }
     
     public void disabledPeriodic()

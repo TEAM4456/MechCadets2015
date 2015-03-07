@@ -16,36 +16,36 @@ public class Driver
 	private CANTalon talon1, talon2, talon3, talon4;
 	
 	/** 
+	 * Takes in robot type and initializes talon controllers dependeing on the robot type.
+	 * @param roboType RobotType to use. MAIN_ PRACTICE_ or BREADBOARD_BOT
+	 * @author samega15
+	 */
+	public Driver(RobotType roboType)
+	{
+		if(roboType != null)
+		{
+			talon1 = new CANTalon(roboType.idRL);
+			talon2 = new CANTalon(roboType.idFL);
+			talon3 = new CANTalon(roboType.idRR);
+			talon4 = new CANTalon(roboType.idFR);
+		}
+		else
+		{
+			System.err.println("ERROR: Talon Controllers > RobotType\n"
+					+ "Driver.java\n"
+					+ "public Driver(RobotType roboType)");
+		}
+		
+		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
+		//order RL FL RR FR
+		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
+	}
+	
+	/** 
 	 * Constructor checks whether or not we are using the test robot and switches between the test motors and the robot motors
 	 * @param useTest
 	 * @author oom2013
 	 */
-	
-	public Driver(RobotType roboType)
-	{
-		if (roboType == RobotType.MAIN_BOT)
-		{
-			talon1 = new CANTalon(14);
-			talon2 = new CANTalon(21);
-			talon3 = new CANTalon(16);
-			talon4 = new CANTalon(12);
-		}
-		else if (roboType == RobotType.PRACTICE_BOT)
-		{
-			talon1 = new CANTalon(17);
-			talon2 = new CANTalon(18);
-			talon3 = new CANTalon(20);
-			talon4 = new CANTalon(19);
-		}
-		else if(roboType == RobotType.BREADBOARD_BOT)
-		{
-			talon1 = new CANTalon(11);
-			talon2 = new CANTalon(10);
-			talon3 = new CANTalon(15);
-			talon4 = new CANTalon(22);
-		}
-	}
-	
 	public Driver(boolean useTest)
 	{
 		if(useTest)
@@ -69,6 +69,7 @@ public class Driver
 			talon4 = new CANTalon(19);
 			*/
 		}
+		
 		
 		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
