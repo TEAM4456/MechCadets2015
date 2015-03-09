@@ -129,10 +129,7 @@ public class UI
 	        SmartDashboard.putNumber(   "navx_CompassHeading",   robot.navx.getCompassHeading());
 	        SmartDashboard.putNumber(   "navx_Update_Count",     robot.navx.getUpdateCount());
 	        SmartDashboard.putNumber(   "navx_Byte_Count",       robot.navx.getByteCount());
-	
-	        // If you are using the navxAdvanced class, you can also access the following
-	        // additional functions, at the expense of some extra processing
-	        // that occurs on the CRio processor
+	        
 	        
 	        SmartDashboard.putNumber(   "navx_Accel_X",          robot.navx.getWorldLinearAccelX());
 	        SmartDashboard.putNumber(   "navx_Accel_Y",          robot.navx.getWorldLinearAccelY());
@@ -147,6 +144,12 @@ public class UI
     	catch(Exception ex)
     	{
     		System.out.println("ERROR!: NAVX_MXP\n" + ex);
+    	}
+    	
+    	//WINCHES
+    	{
+    		SmartDashboard.putNumber("Ladder TrashCanArmEncoder", robot.ladder.getWinchPosition());
+    		SmartDashboard.putNumber("Hooks TotesEncoder", robot.hooks.getWinchPosition());
     	}
     }
 }

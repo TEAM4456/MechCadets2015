@@ -24,6 +24,8 @@ public class Ladder
 	private int currentTargetIndex;
 	
 	private DoubleSolenoid piston1, piston2;
+	private boolean gripIsOpen;
+	private boolean buttonAPressed = false;
 	
 	/**
 	 * Constructor for WinchLadder
@@ -87,22 +89,36 @@ public class Ladder
 			talon.set(newSetPoint);
 		}
 		
-		// ButtonA close
-		if(controller.getA())
+		//TOGGLE GRIP OPEN CLOSE
+		if(controller.getA() && !buttonAPressed)
 		{
-			close();
+			toggleGripOpenClosed();
+			buttonAPressed = true;
 		}
-		// ButtonB open
-		if(controller.getB())
-		{
-			open();
-		}
+		if(!controller.getA())
+			buttonAPressed = false;
+	}
+	
+	/** 
+	 * Returns what the current winch position is at
+	 */
+	public double getWinchPosition()
+	{
+		return talon.get();
 	}
 	
 	
 // ----------------------------------------------------------------------
 //AUX FUNCTIONS ---------------------------------------------------------
 // ----------------------------------------------------------------------
+	
+	private void toggleGripOpenClosed()
+	{
+		if (gripIsOpen)
+			close();
+		else
+			open();
+	}
 	
 	/**
 	 * Extend the pistons to close
