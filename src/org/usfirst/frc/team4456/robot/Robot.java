@@ -3,6 +3,7 @@ package org.usfirst.frc.team4456.robot;
 import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -37,12 +38,13 @@ public class Robot extends IterativeRobot
 	ADXL345_I2C accelerometer;
 	UltrasonicSensor ultrasonic;
 	Lidar lidar;
+	Compressor compressor;
 	
 	AHRS navx;
 	
 	UI ui;
 	SmartUI smartUi;
-	Vision vision;
+	//Vision vision;
 	SerialPort serialUSB, serialPortMXP;
 	PIDController pidController;
 	Talon talon;
@@ -56,8 +58,8 @@ public class Robot extends IterativeRobot
     	driver = new Driver(roboType);
     	
     	// Hooks and Ladder init
-    	ladder = new Ladder(0, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
-    	hooks = new Hooks(13);
+    	ladder = new Ladder(11, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
+    	hooks = new Hooks(22);
     	
     	// Gyro init 
     	gyro = new Gyro(0);
@@ -80,7 +82,7 @@ public class Robot extends IterativeRobot
     	limitSwitch = new DigitalInput(9);
     	
     	// Vision init
-    	vision = new Vision();
+    	//vision = new Vision();
     	
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
@@ -106,6 +108,7 @@ public class Robot extends IterativeRobot
     		System.out.println("ERROR!: NAVX INIT" + "\n" + ex);
     	}
     	
+    	compressor = new Compressor(0);
     	
     	// UI init
     	ui = new UI(this);
@@ -139,9 +142,11 @@ public class Robot extends IterativeRobot
     {
     	super.teleopInit();
     	gyro.reset();
+    	compressor.start();
     }
     public void teleopPeriodic()
     {
+    	super.teleopPeriodic();
     	ui.update(this);
     	
     	lidar.getDistance();
@@ -161,6 +166,7 @@ public class Robot extends IterativeRobot
     public void disabledInit()
     {
     	super.disabledInit();
+    	compressor.stop();
     }
     public void disabledPeriodic()
     {

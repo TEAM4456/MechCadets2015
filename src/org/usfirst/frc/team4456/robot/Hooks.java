@@ -3,9 +3,14 @@ package org.usfirst.frc.team4456.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
+//TODO callibrate
+
 /**
  * TOTES
  * Class for the winch on the hooks that pick up totes.
+ * CONTROLS:
+ * LB RB raise, lower
+ * LT RT nudge
  * @author oom2013
  */
 public class Hooks
@@ -88,8 +93,9 @@ public class Hooks
 			 */
 		}
 		
+		//NUDGE
 		// Left and right triggers move the hooks down and up
-		talon.set(talon.getSetpoint() + (Constants.MAX_WINCH_NUDGE * controller.getAxisTriggers()));
+		talon.set(talon.getSetpoint() + (Constants.MAX_WINCH_NUDGE * -controller.getAxisTriggers()));
 		
 		//System.out.println("fwd:" + forwardNudge + " rev:" + reverseNudge);
 	}

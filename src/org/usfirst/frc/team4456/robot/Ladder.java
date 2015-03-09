@@ -11,6 +11,10 @@ import org.usfirst.frc.team4456.robot.util.*;
 /**
  * TRASH CAN
  * Class for the winch on the ladder device that picks up the trash can.
+ * CONTROLS:
+ * dpad up down raise/lower
+ * dpad left right nudge down/up
+ * A close, B open
  * @author samega15
  */
 public class Ladder

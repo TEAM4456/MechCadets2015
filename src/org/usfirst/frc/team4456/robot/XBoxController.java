@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class XBoxController
 {
+	/*
+	 * CURRENT CONTROLS
+	 * Left Stick : Translate
+	 * Right Stick : Rotate
+	 */
 	private Joystick xboxController;
 	
 	public XBoxController(int port)
