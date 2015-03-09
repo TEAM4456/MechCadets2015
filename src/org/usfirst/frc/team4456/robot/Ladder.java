@@ -96,7 +96,9 @@ public class Ladder
 			buttonAPressed = true;
 		}
 		if(!controller.getA())
+		{
 			buttonAPressed = false;
+		}
 	}
 	
 	/** 
