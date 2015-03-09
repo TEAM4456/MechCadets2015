@@ -77,15 +77,14 @@ public class Ladder
 		//dpadLeft nudgeDown
 		if(controller.getDPadLeft())
 		{
-			double newSetPoint = Util.max(talon.getSetpoint() - (Constants.LADDER_NUDGE_FACTOR),0.0);
+			double newSetPoint = talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR;
 			talon.set(newSetPoint);
 		}
 		
 		//dpadRight nudgeUp
 		if(controller.getDPadRight())
 		{
-			double newSetPoint = Util.min(talon.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR),
-										  Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1]);
+			double newSetPoint = talon.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR);
 			talon.set(newSetPoint);
 		}
 		
@@ -94,9 +93,12 @@ public class Ladder
 		{
 			toggleGripOpenClosed();
 			buttonAPressed = true;
+			System.out.println("Action triggered");
 		}
 		if(!controller.getA())
+		{
 			buttonAPressed = false;
+		}
 	}
 	
 	/** 
@@ -115,9 +117,13 @@ public class Ladder
 	private void toggleGripOpenClosed()
 	{
 		if (gripIsOpen)
+		{
 			close();
+		}
 		else
+		{
 			open();
+		}
 	}
 	
 	/**
@@ -128,11 +134,13 @@ public class Ladder
 	{
 		piston1.set(Value.kForward);
 		piston2.set(Value.kForward);
+		gripIsOpen = false;
 	}
 	private void open()
 	{
 		piston1.set(Value.kReverse);
 		piston2.set(Value.kReverse);
+		gripIsOpen = true;
 	}
 	
 	private void raiseLadderMax()
