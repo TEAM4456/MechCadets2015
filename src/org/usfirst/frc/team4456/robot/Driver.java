@@ -87,9 +87,9 @@ public class Driver
 	{
 		if(controller.getBack())
 		{
-			if(robot.speedFactor == 6 || robot.speedFactor == 1)
+			if(robot.speedFactor == .75 || robot.speedFactor == 1)
 			{
-				robot.speedFactor = .3;
+				robot.speedFactor = .5;
 			}
 			else
 			{
@@ -98,9 +98,9 @@ public class Driver
 		}
 		if(controller.getStart())
 		{
-			if(robot.speedFactor == .3 || robot.speedFactor == 1)
+			if(robot.speedFactor == .5 || robot.speedFactor == 1)
 			{
-				robot.speedFactor = .6;
+				robot.speedFactor = .75;
 			}
 			else
 			{
