@@ -85,21 +85,43 @@ public class Driver
 	 */
 	public void drive(XBoxController controller, Gyro gyro, Robot robot)
 	{
+		if(controller.getBack())
+		{
+			if(robot.speedFactor == 6 || robot.speedFactor == 1)
+			{
+				robot.speedFactor = .3;
+			}
+			else
+			{
+				robot.speedFactor = 1;
+			}
+		}
+		if(controller.getStart())
+		{
+			if(robot.speedFactor == .3 || robot.speedFactor == 1)
+			{
+				robot.speedFactor = .6;
+			}
+			else
+			{
+				robot.speedFactor = 1;
+			}
+		}
 		if(robot.useMechanum)
 		{
 			if(robot.useGyro)
 	    	{
-	    		this.driveCartesian(controller, gyro);
+	    		this.driveCartesian(controller, gyro, robot);
 	    	}
 	    	else
 	    	{
-	    		this.drivePolar(controller);
+	    		this.drivePolar(controller, robot);
 	    	}
 		}
 		// Tank drive is most likely not needed at all - This method will never be called
 		else
 		{
-			this.driveTank(controller);
+			this.driveTank(controller, robot);
 		}
 	}
 	
@@ -108,13 +130,13 @@ public class Driver
 	 * @param controller
 	 * @author oom2013
 	 */
-	private void drivePolar(XBoxController controller)
+	private void drivePolar(XBoxController controller, Robot robot)
 	{
 		// Parameters are Magnitude, Direction, Rotation
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
-		robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude()), 
+		robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude(), robot), 
     			controller.getDirectionDegrees(), 
-    			Util.lowerSensitivity(controller.getAxisRStickX()));
+    			Util.lowerSensitivity(controller.getAxisRStickX(), robot));
 	}
 	
 	/**
@@ -123,13 +145,13 @@ public class Driver
 	 * @param gyro
 	 * @author oom2013
 	 */
-	private void driveCartesian(XBoxController controller, Gyro gyro)
+	private void driveCartesian(XBoxController controller, Gyro gyro, Robot robot)
 	{
 		// Parameters are X, Y, Rotation, and Gyro Angle
 		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
-		robotDrive.mecanumDrive_Cartesian(Util.lowerSensitivity(controller.getAxisLStickX()),
-				Util.lowerSensitivity(controller.getAxisLStickY()),
-				Util.lowerSensitivity(controller.getAxisRStickX()),
+		robotDrive.mecanumDrive_Cartesian(Util.lowerSensitivity(controller.getAxisLStickX(), robot),
+				Util.lowerSensitivity(controller.getAxisLStickY(), robot),
+				Util.lowerSensitivity(controller.getAxisRStickX(), robot),
     			gyro.getAngle());
 	}
 	
@@ -139,10 +161,10 @@ public class Driver
 	 * @param controller
 	 * @author oom2013
 	 */
-	private void driveTank(XBoxController controller)
+	private void driveTank(XBoxController controller, Robot robot)
 	{
-		robotDrive.tankDrive(Util.lowerSensitivity(controller.getAxisLStickY()),
-				Util.lowerSensitivity(controller.getAxisRStickY()));
+		robotDrive.tankDrive(Util.lowerSensitivity(controller.getAxisLStickY(), robot),
+				Util.lowerSensitivity(controller.getAxisRStickY(), robot));
 	}
 	
 }

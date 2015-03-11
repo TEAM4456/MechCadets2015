@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4456.robot.util;
 
+import org.usfirst.frc.team4456.robot.Constants;
+import org.usfirst.frc.team4456.robot.Robot;
+
 /**
  * various utility functions for the robot.
  * @author MechCadets
@@ -37,11 +40,11 @@ public class Util
 	 * @return value^3
 	 * This sets the sensitivity exponentially
 	 */
-	public static double lowerSensitivity(double value)
+	public static double lowerSensitivity(double value, Robot robot)
 	{
 		// The value should be from 0 to 1, so it makes an exponential curve
 		// This method can be used by the various drive methods
-		value = Math.pow(value, 3);
+		value = Math.pow(value, 3) * robot.speedFactor;
 		if(value > 1)
 		{
 			value = 1;
