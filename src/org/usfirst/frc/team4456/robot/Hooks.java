@@ -120,16 +120,16 @@ public class Hooks
 	{
 		int closestIndex = findClosestPosition();
 		int targetIndex;
-		if(closestIndex >= Constants.WINCH_LOADER_POSITIONS.length-1)
+		if(closestIndex >= Constants.HOOK_LOADER_POSITIONS.length-1)
 		{
-			targetIndex = Constants.WINCH_LOADER_POSITIONS.length - 1;
+			targetIndex = Constants.HOOK_LOADER_POSITIONS.length - 1;
 		}
 		else
 		{
 			targetIndex = closestIndex + 1;
 		}
 		//System.out.println("raise from: " + closestIndex + " @" + Constants.WINCH_POSITIONS[closestIndex] + " to " +  targetIndex + " @" + Constants.WINCH_POSITIONS[targetIndex] );
-		talon.set(Constants.WINCH_LOADER_POSITIONS[targetIndex]);
+		talon.set(Constants.HOOK_LOADER_POSITIONS[targetIndex]);
 		this.currentTargetIndex = targetIndex;
 	}
 	
@@ -139,8 +139,8 @@ public class Hooks
 	 */
 	private void raiseHooksMax()
 	{
-		talon.set(Constants.WINCH_LOADER_POSITIONS[Constants.WINCH_LOADER_POSITIONS.length-1]);
-		this.currentTargetIndex = Constants.WINCH_LOADER_POSITIONS.length-1;
+		talon.set(Constants.HOOK_LOADER_POSITIONS[Constants.HOOK_LOADER_POSITIONS.length-1]);
+		this.currentTargetIndex = Constants.HOOK_LOADER_POSITIONS.length-1;
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class Hooks
 		{
 			targetIndex = closestIndex-1;
 		}
-		talon.set(Constants.WINCH_LOADER_POSITIONS[targetIndex]);
+		talon.set(Constants.HOOK_LOADER_POSITIONS[targetIndex]);
 		//System.out.println("lower: " + closestIndex + " " + targetIndex );
 		this.currentTargetIndex = targetIndex;
 	}
@@ -172,7 +172,7 @@ public class Hooks
 	 */
 	private void lowerHooksMin()
 	{
-		talon.set(Constants.WINCH_LOADER_POSITIONS[0]);
+		talon.set(Constants.HOOK_LOADER_POSITIONS[0]);
 		this.currentTargetIndex = 0;
 	}
 	
@@ -185,11 +185,11 @@ public class Hooks
 		double currentPos = talon.get();
 		double closestDistance = 0;
 		int closestIndex = 0;
-		double highestPos = Constants.WINCH_LOADER_POSITIONS[Constants.WINCH_LOADER_POSITIONS.length-1];
-		double lowestPos = Constants.WINCH_LOADER_POSITIONS[0];
+		double highestPos = Constants.HOOK_LOADER_POSITIONS[Constants.HOOK_LOADER_POSITIONS.length-1];
+		double lowestPos = Constants.HOOK_LOADER_POSITIONS[0];
 		if(currentPos > highestPos)
 		{
-			return Constants.WINCH_LOADER_POSITIONS.length-1;
+			return Constants.HOOK_LOADER_POSITIONS.length-1;
 		}
 		else if(currentPos < lowestPos)
 		{
@@ -197,9 +197,9 @@ public class Hooks
 		}
 		else
 		{
-			for(int i = 0; i < Constants.WINCH_LOADER_POSITIONS.length; i++)
+			for(int i = 0; i < Constants.HOOK_LOADER_POSITIONS.length; i++)
 			{
-				double distance = Math.abs(currentPos - Constants.WINCH_LOADER_POSITIONS[i]);
+				double distance = Math.abs(currentPos - Constants.HOOK_LOADER_POSITIONS[i]);
 				//System.out.println("distance:" + distance + " i:" + i + " w[i]:" + Constants.WINCH_POSITIONS[i]);
 				if(distance < closestDistance || i == 0)
 				{
