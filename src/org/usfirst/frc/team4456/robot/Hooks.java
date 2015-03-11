@@ -34,6 +34,7 @@ public class Hooks
 		talon.changeControlMode(CANTalon.ControlMode.Position);
 		talon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		talon.setPID(1.00, 0.000001, 0);
+		talon.setPosition(0);
 		talon.set(talon.get());  // don't move when started...
 		//talon1.enableControl();
 	}

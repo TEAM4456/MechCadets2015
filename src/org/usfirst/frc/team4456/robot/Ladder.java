@@ -20,7 +20,7 @@ import org.usfirst.frc.team4456.robot.util.*;
 public class Ladder
 {
 	private CANTalon talon;
-	private boolean dpadDownPress = false, dpadUpPress = false;
+	private boolean buttonXPress = false, buttonYPress = false;
 	private int currentTargetIndex;
 	
 	private DoubleSolenoid piston1, piston2;
@@ -38,7 +38,8 @@ public class Ladder
 		talon = new CANTalon(idTalon);
 		talon.changeControlMode(ControlMode.Position);
 		talon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		talon.setPID(1.0, 0.000001, 0);
+		talon.setPID(.25, 0.000001, 0);
+		talon.setPosition(0);
 		talon.set(talon.get()); //talon1 will not move
 		
 		piston1 = new DoubleSolenoid(id1_1, id1_2);
@@ -52,29 +53,28 @@ public class Ladder
 	 */
 	public void cycle(XBoxController controller)
 	{
-		/*
+		
 		//DPad_Down lowerLadder
-		if(controller.getDPadDown() && !dpadDownPress)
+		if(controller.getX() && !buttonXPress)
 		{
-			dpadDownPress = true;
+			buttonXPress = true;
 			this.lowerLadder();
 		}
-		else if(!controller.getA() && dpadDownPress)
+		else if(!controller.getX() && buttonXPress)
 		{
-			dpadDownPress = false;
+			buttonXPress = false;
 		}
 		
 		//DPad_Up raiseLadder
-		if(controller.getDPadUp() && !dpadUpPress)
+		if(controller.getY() && !buttonYPress)
 		{
-			dpadUpPress = true;
+			buttonYPress = true;
 			this.raiseLadder();
 		}
-		else if(!controller.getB() && dpadUpPress)
+		else if(!controller.getY() && buttonYPress)
 		{
-			dpadUpPress = false;
+			buttonYPress = false;
 		}
-		*/
 		
 		//dpadLeft nudgeDown
 		if(controller.getDPadDown())

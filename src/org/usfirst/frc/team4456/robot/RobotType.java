@@ -10,7 +10,9 @@ package org.usfirst.frc.team4456.robot;
  */
 public enum RobotType
 {
-	PRACTICE_BOT(14, 21, 16, 12, 6000, "PRACTICE"), //11, 22
+	//old 14 21 16 12
+	
+	PRACTICE_BOT(16, 12, 14, 21, 6000, "PRACTICE"), //11, 22
 	MAIN_BOT(17, 18, 20, 19, 4456, "MAIN"),
 	BREADBOARD_BOT(11,10,15,22, 5000, "BREADBOARD");
 	

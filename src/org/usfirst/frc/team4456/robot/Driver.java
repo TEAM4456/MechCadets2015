@@ -85,6 +85,7 @@ public class Driver
 	 */
 	public void drive(XBoxController controller, Gyro gyro, Robot robot)
 	{
+		//set speed control
 		if(controller.getBack())
 		{
 			if(robot.speedFactor == .75 || robot.speedFactor == 1)
@@ -107,6 +108,8 @@ public class Driver
 				robot.speedFactor = 1;
 			}
 		}
+		
+		//drive
 		if(robot.useMechanum)
 		{
 			if(robot.useGyro)
@@ -136,7 +139,7 @@ public class Driver
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
 		robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude(), robot), 
     			controller.getDirectionDegrees(), 
-    			Util.lowerSensitivity(controller.getAxisRStickX(), robot));
+    			-1 * Util.lowerSensitivity(controller.getAxisRStickX(), robot));
 	}
 	
 	/**
@@ -151,7 +154,7 @@ public class Driver
 		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
 		robotDrive.mecanumDrive_Cartesian(Util.lowerSensitivity(controller.getAxisLStickX(), robot),
 				Util.lowerSensitivity(controller.getAxisLStickY(), robot),
-				Util.lowerSensitivity(controller.getAxisRStickX(), robot),
+				-1 * Util.lowerSensitivity(controller.getAxisRStickX(), robot),
     			gyro.getAngle());
 	}
 	
@@ -164,7 +167,7 @@ public class Driver
 	private void driveTank(XBoxController controller, Robot robot)
 	{
 		robotDrive.tankDrive(Util.lowerSensitivity(controller.getAxisLStickY(), robot),
-				Util.lowerSensitivity(controller.getAxisRStickY(), robot));
+				-1 * Util.lowerSensitivity(controller.getAxisRStickY(), robot));
 	}
 	
 }
