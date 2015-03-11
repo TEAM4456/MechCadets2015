@@ -25,7 +25,7 @@ public class Ladder
 	
 	private DoubleSolenoid piston1, piston2;
 	private boolean gripIsOpen;
-	private boolean buttonAPressed = false;
+	private boolean buttonBPressed = false;
 	
 	/**
 	 * Constructor for WinchLadder
@@ -52,6 +52,7 @@ public class Ladder
 	 */
 	public void cycle(XBoxController controller)
 	{
+		/*
 		//DPad_Down lowerLadder
 		if(controller.getDPadDown() && !dpadDownPress)
 		{
@@ -73,31 +74,31 @@ public class Ladder
 		{
 			dpadUpPress = false;
 		}
+		*/
 		
 		//dpadLeft nudgeDown
-		if(controller.getDPadLeft())
+		if(controller.getDPadDown())
 		{
 			double newSetPoint = talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR;
 			talon.set(newSetPoint);
 		}
-		
 		//dpadRight nudgeUp
-		if(controller.getDPadRight())
+		if(controller.getDPadUp())
 		{
 			double newSetPoint = talon.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR);
 			talon.set(newSetPoint);
 		}
 		
 		//TOGGLE GRIP OPEN CLOSE
-		if(controller.getA() && !buttonAPressed)
+		if(controller.getB() && !buttonBPressed)
 		{
 			toggleGripOpenClosed();
-			buttonAPressed = true;
+			buttonBPressed = true;
 			System.out.println("Action triggered");
 		}
-		if(!controller.getA())
+		if(!controller.getB())
 		{
-			buttonAPressed = false;
+			buttonBPressed = false;
 		}
 	}
 	
