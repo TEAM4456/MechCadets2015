@@ -96,7 +96,7 @@ public class Hooks
 		
 		//NUDGE
 		// Left and right triggers move the hooks down and up
-		talon.set(talon.getSetpoint() + (Constants.MAX_WINCH_NUDGE * -controller.getAxisTriggers()));
+		talon.set(talon.getSetpoint() + (Constants.MAX_HOOK_NUDGE * -controller.getAxisTriggers()));
 		
 		//System.out.println("fwd:" + forwardNudge + " rev:" + reverseNudge);
 	}
