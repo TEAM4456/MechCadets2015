@@ -50,11 +50,13 @@ public class Robot extends IterativeRobot
 	Talon talon;
 	
 	double pValue;
+	public double speedFactor;
 	boolean useGyro, useMechanum;
 	
     public void robotInit()
     {
     	// Driver init
+    	speedFactor = 1;
     	driver = new Driver(roboType);
     	
     	// Hooks and Ladder init
