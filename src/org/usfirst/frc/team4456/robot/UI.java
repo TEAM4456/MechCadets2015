@@ -67,6 +67,7 @@ public class UI
     	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getAxisLStickX());
     	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getAxisLStickY());
     	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getAxisRStickX());
+    	SmartDashboard.putNumber("Current Speed Factor", robot.speedFactor);
     	
     	// Resets encoder
     	if (SmartDashboard.getBoolean("Reset Encoder"))
