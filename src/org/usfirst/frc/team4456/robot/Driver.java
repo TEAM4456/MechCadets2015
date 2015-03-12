@@ -129,7 +129,7 @@ public class Driver
 	 * @param controller
 	 * @author oom2013
 	 */
-	private void drivePolar(XBoxController controller, Robot robot)
+	public void drivePolar(XBoxController controller, Robot robot)
 	{
 		// Parameters are Magnitude, Direction, Rotation
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
@@ -144,7 +144,7 @@ public class Driver
 	 * @param gyro
 	 * @author oom2013
 	 */
-	private void driveCartesian(XBoxController controller, Gyro gyro, Robot robot)
+	public void driveCartesian(XBoxController controller, Gyro gyro, Robot robot)
 	{
 		// Parameters are X, Y, Rotation, and Gyro Angle
 		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
