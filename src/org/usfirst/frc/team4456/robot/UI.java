@@ -44,6 +44,11 @@ public class UI
         
         SmartDashboard.putData("talonPID", robot.pidController);
         
+        //AutonomousCommand Chooser
+        SmartDashboard.putData("Autonomous Command Chooser", robot.autoChooser);
+        
+        SmartDashboard.putBoolean("Winches Limit Mode Enabled", robot.limitModeEnabled);
+        
         // Lidar Values 
         // SmartDashboard.putNumber("Get PID Lidar", robot.lidar.pidGet());
     	// SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
@@ -151,6 +156,8 @@ public class UI
     	{
     		SmartDashboard.putNumber("Ladder TrashCanArmEncoder", robot.ladder.getWinchPosition());
     		SmartDashboard.putNumber("Hooks TotesEncoder", robot.hooks.getWinchPosition());
+    		robot.limitModeEnabled = SmartDashboard.getBoolean("Winches Limit Mode Enabled");
     	}
+    	
     }
 }
