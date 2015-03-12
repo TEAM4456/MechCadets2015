@@ -51,7 +51,7 @@ public class Ladder
 	 * @param controller xboxController
 	 * @author samega15
 	 */
-	public void cycle(XBoxController controller)
+	public void cycle(XBoxController controller, Robot robot)
 	{
 		
 		//DPad_Down lowerLadder
@@ -79,13 +79,20 @@ public class Ladder
 		//dpadLeft nudgeDown
 		if(controller.getDPadDown())
 		{
-			double newSetPoint = Util.max(talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR,Constants.WINCH_LADDER_POSITIONS[0]);
+			double newSetPoint = talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR;
+			//set limit
+			if (robot.limitModeEnabled)
+				newSetPoint = Util.max(newSetPoint, Constants.WINCH_LADDER_POSITIONS[0]);
 			talon.set(newSetPoint);
 		}
+		
 		//dpadRight nudgeUp
 		if(controller.getDPadUp())
 		{
-			double newSetPoint = Util.min(talon.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR),Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1]);
+			double newSetPoint = talon.getSetpoint() + Constants.LADDER_NUDGE_FACTOR;
+			//set limit
+			if (robot.limitModeEnabled)
+				newSetPoint = Util.min(newSetPoint, Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1]);
 			talon.set(newSetPoint);
 		}
 		

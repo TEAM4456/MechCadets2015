@@ -56,7 +56,7 @@ public class Hooks
 	 * @param controller
 	 * @author oom2013
 	 */
-	public void cycle(XBoxController controller)
+	public void cycle(XBoxController controller, Robot robot)
 	{
 		// Left bumper lowers winch by one level
 		boolean rawLeftBumperState = controller.getLBumper();
@@ -100,8 +100,12 @@ public class Hooks
 		//NUDGE
 		// Left and right triggers move the hooks down and up
 		double talonSetValue = talon.getSetpoint() + (Constants.MAX_HOOK_NUDGE * -controller.getAxisTriggers());
-		talonSetValue = Util.max(talonSetValue, Constants.HOOK_LOADER_POSITIONS[0]);
-		talonSetValue = Util.min(talonSetValue, Constants.HOOK_LOADER_POSITIONS[Constants.HOOK_LOADER_POSITIONS.length-1]);
+		if (robot.limitModeEnabled)
+		{
+			//will set limits if limitModeEnabled
+			talonSetValue = Util.max(talonSetValue, Constants.HOOK_LOADER_POSITIONS[0] - 400);
+			talonSetValue = Util.min(talonSetValue, 1000);
+		}
 		talon.set(talonSetValue);
 		
 		//System.out.println("fwd:" + forwardNudge + " rev:" + reverseNudge);

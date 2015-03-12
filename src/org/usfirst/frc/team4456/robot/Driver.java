@@ -23,6 +23,7 @@ public class Driver
 	 */
 	public Driver(RobotType roboType)
 	{
+		System.err.println("THIS IS NOT AN ERROR.");
 		if(roboType != null)
 		{
 			talon1 = new CANTalon(roboType.idRL);

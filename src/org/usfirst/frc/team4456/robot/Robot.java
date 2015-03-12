@@ -30,8 +30,11 @@ public class Robot extends IterativeRobot
 	XBoxController xboxController;
 	
 	Driver driver;
+	
+	boolean limitModeEnabled = true;
 	Hooks hooks;
 	Ladder ladder;
+	
 	Gyro gyro;
 	Encoder encoder;
 	DigitalInput limitSwitch;
@@ -159,8 +162,8 @@ public class Robot extends IterativeRobot
     	 * whether or not we are using a gyro.
     	 */
     	driver.drive(xboxController, gyro, this);
-    	hooks.cycle(xboxController);
-    	ladder.cycle(xboxController);
+    	hooks.cycle(xboxController, this);
+    	ladder.cycle(xboxController, this);
     	
     	//lidar.update(this);
     }

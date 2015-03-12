@@ -35,7 +35,7 @@ public class Constants
 	
 	// Hooks Stuff
 	public static final double[] HOOK_LOADER_POSITIONS = {-11688, -10355, -8224, -5884, -3435, 0}; //In reverse order, from HIGH to LOW
-	public static final double MAX_HOOK_NUDGE = 45;
+	public static final double MAX_HOOK_NUDGE = 90;
 	
 	// Ladder Stuff
 	public static final double[] WINCH_LADDER_POSITIONS = {-15067, -11995, -10228, -7948, -5692, -81, 0};
