@@ -15,7 +15,7 @@ public class AutonomousCommand1 extends Command
 	protected void initialize()
 	{
 		// TODO Auto-generated method stub
-		
+		System.out.println("Running AutoCommand1");
 	}
 	
 	//periodically called until command finishes
@@ -23,7 +23,6 @@ public class AutonomousCommand1 extends Command
 	protected void execute()
 	{
 		// TODO Auto-generated method stub
-		
 	}
 	
 	//returns true if the command is finished running
