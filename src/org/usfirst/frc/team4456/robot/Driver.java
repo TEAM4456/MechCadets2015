@@ -129,7 +129,7 @@ public class Driver
 		robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
 	}
 	
-	public void driveRawPolar(double x, double y, double rotation, double gyroAngle)
+	public void driveRawCartesian(double x, double y, double rotation, double gyroAngle)
 	{
 		robotDrive.mecanumDrive_Cartesian(x, y, rotation, gyroAngle);
 	}
