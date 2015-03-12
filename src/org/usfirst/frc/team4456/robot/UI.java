@@ -44,6 +44,9 @@ public class UI
         
         SmartDashboard.putData("talonPID", robot.pidController);
         
+        //AutonomousCommand Chooser
+        SmartDashboard.putData("Autonomous Command Chooser", robot.autoChooser);
+        
         // Lidar Values 
         // SmartDashboard.putNumber("Get PID Lidar", robot.lidar.pidGet());
     	// SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());

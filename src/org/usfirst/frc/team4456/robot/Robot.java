@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -55,6 +58,9 @@ public class Robot extends IterativeRobot
 	double pValue;
 	public double speedFactor;
 	boolean useGyro, useMechanum;
+	
+	Command autoCommand;
+	SendableChooser autoChooser;
 	
     public void robotInit()
     {
@@ -115,6 +121,10 @@ public class Robot extends IterativeRobot
     	
     	compressor = new Compressor(0);
     	
+    	//Autonomous Command Code
+    	autoChooser = new SendableChooser();
+    	autoChooser.addDefault("Autonomous1", new AutonomousCommand1());
+    	
     	// UI init
     	ui = new UI(this);
     	//smartUi = new SmartUI(this);
@@ -126,6 +136,8 @@ public class Robot extends IterativeRobot
     public void autonomousInit()
     {
     	super.autonomousInit();
+    	autoCommand = (Command) autoChooser.getSelected();
+    	autoCommand.start();
     }
     
     /**
@@ -133,11 +145,9 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
-		/* 
-		 * We could make some code that is executed by both the autonomous mode 
-		 * and the teleop mode so that we can continue the autonomous part
-		 */
 		super.autonomousPeriodic();
+		Scheduler.getInstance().run();
+		
 	}
 
 	//----------------
