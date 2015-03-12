@@ -34,11 +34,10 @@ public class Constants
 	public static final double ULTRASONIC_FACTOR_VOLTS = 40.2969;
 	
 	// Hooks Stuff
-	public static final double[] HOOK_LOADER_POSITIONS = {0, -3435, -5884, -8224, -10355, -11688};
+	public static final double[] HOOK_LOADER_POSITIONS = {-11688, -10355, -8224, -5884, -3435, 0}; //In reverse order, from HIGH to LOW
 	public static final double MAX_HOOK_NUDGE = 45;
 	
 	// Ladder Stuff
-	//TODO change values for position
 	public static final double[] WINCH_LADDER_POSITIONS = {-15067, -11995, -10228, -7948, -5692, -81, 0};
 	public static final double LADDER_NUDGE_FACTOR = 80;
 	public static final int piston1Port1 = 0, piston1Port2 = 1, piston2Port1 = 2, piston2Port2 = 3;

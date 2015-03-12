@@ -129,7 +129,6 @@ public class Hooks
 		{
 			targetIndex = closestIndex + 1;
 		}
-		//System.out.println("raise from: " + closestIndex + " @" + Constants.WINCH_POSITIONS[closestIndex] + " to " +  targetIndex + " @" + Constants.WINCH_POSITIONS[targetIndex] );
 		talon.set(Constants.HOOK_LOADER_POSITIONS[targetIndex]);
 		this.currentTargetIndex = targetIndex;
 	}
@@ -163,7 +162,6 @@ public class Hooks
 			targetIndex = closestIndex-1;
 		}
 		talon.set(Constants.HOOK_LOADER_POSITIONS[targetIndex]);
-		//System.out.println("lower: " + closestIndex + " " + targetIndex );
 		this.currentTargetIndex = targetIndex;
 	}
 	
@@ -201,7 +199,6 @@ public class Hooks
 			for(int i = 0; i < Constants.HOOK_LOADER_POSITIONS.length; i++)
 			{
 				double distance = Math.abs(currentPos - Constants.HOOK_LOADER_POSITIONS[i]);
-				//System.out.println("distance:" + distance + " i:" + i + " w[i]:" + Constants.WINCH_POSITIONS[i]);
 				if(distance < closestDistance || i == 0)
 				{
 					closestDistance = distance;
