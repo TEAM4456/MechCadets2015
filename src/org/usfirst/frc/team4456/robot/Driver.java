@@ -14,6 +14,7 @@ public class Driver
 {
 	RobotDrive robotDrive;
 	private CANTalon talon1, talon2, talon3, talon4;
+	private boolean buttonAPressed = false;
 	
 	/** 
 	 * Takes in robot type and initializes talon controllers depending on the robot type.
@@ -85,28 +86,22 @@ public class Driver
 	 */
 	public void drive(XBoxController controller, Gyro gyro, Robot robot)
 	{
-		//set speed control
-		if(controller.getBack())
+		// Set speed control
+		if(controller.getA() && !buttonAPressed)
 		{
-			if(robot.speedFactor == .75 || robot.speedFactor == 1)
+			buttonAPressed = true;
+			if(robot.speedFactor == .70)
 			{
-				robot.speedFactor = .5;
+				robot.speedFactor = 1;
 			}
 			else
 			{
-				robot.speedFactor = 1;
+				robot.speedFactor = .70;
 			}
 		}
-		if(controller.getStart())
+		if(!controller.getA())
 		{
-			if(robot.speedFactor == .5 || robot.speedFactor == 1)
-			{
-				robot.speedFactor = .75;
-			}
-			else
-			{
-				robot.speedFactor = 1;
-			}
+			buttonAPressed = false;
 		}
 		
 		//drive
