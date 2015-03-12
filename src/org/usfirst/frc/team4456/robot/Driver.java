@@ -124,12 +124,22 @@ public class Driver
 		}
 	}
 	
+	public void driveRawPolar(double magnitude, double direction, double rotation)
+	{
+		robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
+	}
+	
+	public void driveRawPolar(double x, double y, double rotation, double gyroAngle)
+	{
+		robotDrive.mecanumDrive_Cartesian(x, y, rotation, gyroAngle);
+	}
+	
 	/**
 	 *  This will be used if we do not have a gyroscope
 	 * @param controller
 	 * @author oom2013
 	 */
-	public void drivePolar(XBoxController controller, Robot robot)
+	private void drivePolar(XBoxController controller, Robot robot)
 	{
 		// Parameters are Magnitude, Direction, Rotation
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
@@ -144,7 +154,7 @@ public class Driver
 	 * @param gyro
 	 * @author oom2013
 	 */
-	public void driveCartesian(XBoxController controller, Gyro gyro, Robot robot)
+	private void driveCartesian(XBoxController controller, Gyro gyro, Robot robot)
 	{
 		// Parameters are X, Y, Rotation, and Gyro Angle
 		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
