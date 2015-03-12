@@ -58,12 +58,12 @@ public class Hooks
 	 */
 	public void cycle(XBoxController controller, Robot robot)
 	{
-		// Left bumper lowers winch by one level
+		// Left bumper raises winch by one level
 		boolean rawLeftBumperState = controller.getLBumper();
 		if(rawLeftBumperState && !leftBumperPress)
 		{
 			leftBumperPress = true;
-			this.lowerHooks();
+			this.raiseHooks();
 		}
 		else if(!rawLeftBumperState && leftBumperPress)
 		{
@@ -77,12 +77,12 @@ public class Hooks
 			 */
 		}
 		
-		// Right bumper raises winch by one level
+		// Right bumper lowers winch by one level
 		boolean rawRightBumperState = controller.getRBumper();
 		if(rawRightBumperState && !rightBumperPress)
 		{
 			rightBumperPress = true;
-			this.raiseHooks();
+			this.lowerHooks();
 		}
 		else if(!rawRightBumperState && rightBumperPress)
 		{
@@ -126,7 +126,7 @@ public class Hooks
 	 *  If so, it goes to the next highest position.
 	 *  @author oom2013
 	 */
-	private void raiseHooks()
+	private void lowerHooks()
 	{
 		int closestIndex = findClosestPosition();
 		int targetIndex;
@@ -142,15 +142,16 @@ public class Hooks
 		this.currentTargetIndex = targetIndex;
 	}
 	
+	/*
 	/** 
 	 * Raises winch to the maximum position
 	 * @author oom2013
-	 */
 	private void raiseHooksMax()
 	{
 		talon.set(Constants.HOOK_LOADER_POSITIONS[Constants.HOOK_LOADER_POSITIONS.length-1]);
 		this.currentTargetIndex = Constants.HOOK_LOADER_POSITIONS.length-1;
 	}
+	*/
 	
 	/**
 	 *  Lowers winch to closest default winch position below it 
@@ -158,7 +159,7 @@ public class Hooks
 	 *  If so, it goes to the next lowest position.
 	 *  @author oom2013
 	 */
-	private void lowerHooks()
+	private void raiseHooks()
 	{
 		int closestIndex = findClosestPosition();
 		int targetIndex;
@@ -174,15 +175,16 @@ public class Hooks
 		this.currentTargetIndex = targetIndex;
 	}
 	
+	/*
 	/** 
 	 * Lowers winch to the minimum position
 	 * @author oom2013
-	 */
 	private void lowerHooksMin()
 	{
 		talon.set(Constants.HOOK_LOADER_POSITIONS[0]);
 		this.currentTargetIndex = 0;
 	}
+	*/
 	
 	/** 
 	 * @return Closest default position to the current position
