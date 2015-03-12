@@ -50,7 +50,11 @@ public class Hooks
 	{
 		return currentTargetIndex;
 	}
-
+	
+	public void setIndex(int index)
+	{
+		talon.set(Constants.HOOK_LOADER_POSITIONS[index]);
+	}
 	/**
 	 * Takes inputs from the XBoxController and performs actions based on them
 	 * @param controller

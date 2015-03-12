@@ -4,49 +4,49 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutonomousCommand1 extends Command
 {
-
-	public AutonomousCommand1()
+	Robot robot;
+	boolean isFinished = false;
+	double initialDisplacement;
+	
+	public AutonomousCommand1(Robot robot)
 	{
-		
+		this.robot = robot;
 	}
 	
 	//method is called 1st time the command runs
 	@Override
 	protected void initialize()
 	{
-		// TODO Auto-generated method stub
 		System.out.println("Running AutoCommand1");
+		initialDisplacement = robot.navx.getDisplacementY();
+		robot.hooks.setIndex(Constants.HOOK_LOADER_POSITIONS.length - 2);
 	}
 	
 	//periodically called until command finishes
 	@Override
 	protected void execute()
 	{
-		// TODO Auto-generated method stub
+		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 10);
+		robot.driver.driveRawPolar(.4, 180, 0);
 	}
 	
 	//returns true if the command is finished running
 	@Override
 	protected boolean isFinished()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return isFinished;
 	}
 	
 	//called when command ends w/o interruption
 	@Override
 	protected void end()
 	{
-		// TODO Auto-generated method stub
-		
 	}
 	
 	//called when command is interupted
 	@Override
 	protected void interrupted()
-	{
-		// TODO Auto-generated method stub
-		
+	{		
 	}
 
 }

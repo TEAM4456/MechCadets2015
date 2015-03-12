@@ -123,7 +123,7 @@ public class Robot extends IterativeRobot
     	
     	//Autonomous Command Code
     	autoChooser = new SendableChooser();
-    	autoChooser.addDefault("Autonomous1", new AutonomousCommand1());
+    	autoChooser.addDefault("Autonomous1", new AutonomousCommand1(this));
     	
     	// UI init
     	ui = new UI(this);
