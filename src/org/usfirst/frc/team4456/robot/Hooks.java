@@ -99,7 +99,7 @@ public class Hooks
 		
 		//NUDGE
 		// Left and right triggers move the hooks down and up
-		double talonSetValue = talon.getSetpoint() + (Constants.MAX_HOOK_NUDGE * -controller.getAxisTriggers());
+		double talonSetValue = talon.getSetpoint() + (Constants.MAX_HOOK_NUDGE * controller.getAxisTriggers());
 		if (robot.limitModeEnabled)
 		{
 			//will set limits if limitModeEnabled
