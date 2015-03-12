@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
+import org.usfirst.frc.team4456.robot.util.Util;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 
@@ -97,7 +99,10 @@ public class Hooks
 		
 		//NUDGE
 		// Left and right triggers move the hooks down and up
-		talon.set(talon.getSetpoint() + (Constants.MAX_HOOK_NUDGE * -controller.getAxisTriggers()));
+		double talonSetValue = talon.getSetpoint() + (Constants.MAX_HOOK_NUDGE * -controller.getAxisTriggers());
+		talonSetValue = Util.max(talonSetValue, Constants.HOOK_LOADER_POSITIONS[0]);
+		talonSetValue = Util.min(talonSetValue, Constants.HOOK_LOADER_POSITIONS[Constants.HOOK_LOADER_POSITIONS.length-1]);
+		talon.set(talonSetValue);
 		
 		//System.out.println("fwd:" + forwardNudge + " rev:" + reverseNudge);
 	}

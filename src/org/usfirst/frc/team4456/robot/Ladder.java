@@ -79,13 +79,13 @@ public class Ladder
 		//dpadLeft nudgeDown
 		if(controller.getDPadDown())
 		{
-			double newSetPoint = talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR;
+			double newSetPoint = Util.max(talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR,Constants.WINCH_LADDER_POSITIONS[0]);
 			talon.set(newSetPoint);
 		}
 		//dpadRight nudgeUp
 		if(controller.getDPadUp())
 		{
-			double newSetPoint = talon.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR);
+			double newSetPoint = Util.min(talon.getSetpoint() + (Constants.LADDER_NUDGE_FACTOR),Constants.WINCH_LADDER_POSITIONS[Constants.WINCH_LADDER_POSITIONS.length-1]);
 			talon.set(newSetPoint);
 		}
 		
