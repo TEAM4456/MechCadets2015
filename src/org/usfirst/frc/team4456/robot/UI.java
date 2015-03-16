@@ -69,6 +69,11 @@ public class UI
     	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getAxisRStickX());
     	SmartDashboard.putNumber("Current Speed Factor", robot.speedFactor);
     	
+    	//DRIVING
+    	{
+    		SmartDashboard.putNumber("Speed_Factor", robot.speedFactor);
+    	}
+    	
     	// Resets encoder
     	if (SmartDashboard.getBoolean("Reset Encoder"))
     	{
@@ -154,9 +159,13 @@ public class UI
     	
     	//WINCHES
     	{
+    		//positions
     		SmartDashboard.putNumber("Ladder TrashCanArmEncoder", robot.ladder.getWinchPosition());
     		SmartDashboard.putNumber("Hooks TotesEncoder", robot.hooks.getWinchPosition());
     		robot.limitModeEnabled = SmartDashboard.getBoolean("Winches Limit Mode Enabled");
+    		
+    		//level indexes
+    		SmartDashboard.putNumber("Hooks Target Index", robot.hooks.getCurrentTargetIndex());
     	}
     	
     }

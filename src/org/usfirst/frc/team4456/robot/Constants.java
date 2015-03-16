@@ -38,7 +38,7 @@ public class Constants
 	public static final double MAX_HOOK_NUDGE = 90;
 	
 	// Ladder Stuff
-	public static final double[] WINCH_LADDER_POSITIONS = {-15067, -11995, -10228, -7948, -5692, -81, 0};
+	public static final double[] WINCH_LADDER_POSITIONS = {-15067, -11995, -10228, -7948, -5692, -81, -80};
 	public static final double LADDER_NUDGE_FACTOR = 80;
 	public static final int piston1Port1 = 0, piston1Port2 = 1, piston2Port1 = 2, piston2Port2 = 3;
 	
