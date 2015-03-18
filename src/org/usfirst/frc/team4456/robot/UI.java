@@ -17,6 +17,7 @@ public class UI
     	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getAxisLStickX());
     	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getAxisLStickY());
     	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getAxisRStickX());
+    	SmartDashboard.putNumber("Speed Factor", robot.speedFactor);
     	
     	// Encoder
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());

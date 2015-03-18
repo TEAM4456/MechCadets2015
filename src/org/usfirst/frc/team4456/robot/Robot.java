@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Robot extends IterativeRobot
 {
-	//Change the current root used HERE
+	//Change the current robot used HERE
 	RobotType roboType = RobotType.PRACTICE_BOT;
 	
 	XBoxController xboxController;
