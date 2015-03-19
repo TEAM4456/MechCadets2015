@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot
 	public double speedFactor;
 	boolean useGyro, useMechanum;
 	
-	Command autoCommand;
+	Command autoCommand1, autoCommand2;
 	SendableChooser autoChooser;
 	
     public void robotInit()
@@ -124,6 +124,7 @@ public class Robot extends IterativeRobot
     	//Autonomous Command Code
     	autoChooser = new SendableChooser();
     	autoChooser.addDefault("Autonomous1", new AutonomousCommand1(this));
+    	autoChooser.addObject("Autonomous2", new AutonomousCommand2(this));
     	
     	// UI init
     	ui = new UI(this);
@@ -136,8 +137,8 @@ public class Robot extends IterativeRobot
     public void autonomousInit()
     {
     	super.autonomousInit();
-    	autoCommand = (Command) autoChooser.getSelected();
-    	autoCommand.start();
+    	autoCommand1 = (Command) autoChooser.getSelected();
+    	autoCommand1.start();
     }
     
     /**
