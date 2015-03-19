@@ -3,6 +3,7 @@ package org.usfirst.frc.team4456.robot;
 public class Constants
 {
 	// Defines XBox Controls
+	
 	/*
 	 * The left thumbstick will drive the robot
 	 * The right thumbstick will rotate the robot
