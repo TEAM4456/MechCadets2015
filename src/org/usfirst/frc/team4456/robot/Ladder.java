@@ -69,6 +69,7 @@ public class Ladder
 	{
 		
 		//DPad_Down lowerLadder
+		/*
 		if(controller.getX() && !buttonXPress)
 		{
 			buttonXPress = true;
@@ -89,9 +90,10 @@ public class Ladder
 		{
 			buttonYPress = false;
 		}
+		*/
 		
 		//dpadLeft nudgeDown
-		if(controller.getDPadDown())
+		if(controller.getX())
 		{
 			double newSetPoint = talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR;
 			//set limit
@@ -101,7 +103,7 @@ public class Ladder
 		}
 		
 		//dpadRight nudgeUp
-		if(controller.getDPadUp())
+		if(controller.getY())
 		{
 			double newSetPoint = talon.getSetpoint() + Constants.LADDER_NUDGE_FACTOR;
 			//set limit
