@@ -30,11 +30,12 @@ public class AutonomousCommand1 extends Command
 	}
 	
 	//periodically called until command finishes
+	//TODO try this code again, I think it works. - samega15
 	@Override
 	protected void execute()
 	{
 		int arrayLength = Constants.WINCH_LADDER_POSITIONS.length;
-		if(robot.hooks.getWinchPosition() > Constants.HOOK_LOADER_POSITIONS[arrayLength - 2] - 200) // if hooks are above level 1 - 200 encoder units
+		if(robot.hooks.getWinchPosition() > Constants.HOOK_LOADER_POSITIONS[arrayLength - 2] + 200) // if hooks are above level 1 - 200 encoder units
 			robot.driver.driveRawPolar(.4, 180, 0);
 		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 25);
 	}
