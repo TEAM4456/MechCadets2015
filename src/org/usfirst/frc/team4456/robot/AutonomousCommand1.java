@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  * Autonomous Command 1
  * >pick up tote
- * >move backward for a certain distance
+ * >move backward for a distance
  * @author serge-olivieramega
  *
  */
@@ -26,15 +26,17 @@ public class AutonomousCommand1 extends Command
 	{
 		System.out.println("Running AutoCommand1");
 		initialDisplacement = robot.navx.getDisplacementY();
-		robot.hooks.setIndex(Constants.HOOK_LOADER_POSITIONS.length - 2);
+		robot.hooks.setIndex(Constants.HOOK_LOADER_POSITIONS.length - 2); // raise hooks to level 1
 	}
 	
 	//periodically called until command finishes
 	@Override
 	protected void execute()
 	{
-		robot.driver.driveRawPolar(.4, 180, 0);
-		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 5); //TODO not final, needs to be tested.
+		int arrayLength = Constants.WINCH_LADDER_POSITIONS.length;
+		if(robot.hooks.getWinchPosition() > Constants.HOOK_LOADER_POSITIONS[arrayLength - 2] - 200) // if hooks are above level 1 - 200 encoder units
+			robot.driver.driveRawPolar(.4, 180, 0);
+		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 2);
 	}
 	
 	//returns true if the command is finished running
@@ -49,6 +51,7 @@ public class AutonomousCommand1 extends Command
 	protected void end()
 	{
 		robot.driver.driveRawPolar(0, 0, 0);
+		robot.hooks.setIndex(Constants.HOOK_LOADER_POSITIONS.length - 1); // set hooks back down to the lowest level
 	}
 	
 	//called when command is interrupted

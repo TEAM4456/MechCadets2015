@@ -26,7 +26,7 @@ public class Driver
 	 */
 	public Driver(RobotType roboType, float gyroValue)
 	{
-		autoStabilize = true;
+		autoStabilize = false;
 		initialGyroVal = destGyroVal = gyroValue;
 		
 		if(roboType != null)

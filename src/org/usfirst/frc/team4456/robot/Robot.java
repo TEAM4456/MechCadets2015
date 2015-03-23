@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
+import java.util.Date;
+
 import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
@@ -129,9 +131,12 @@ public class Robot extends IterativeRobot
     	// UI init
     	ui = new UI(this);
     	//smartUi = new SmartUI(this);
-    	System.out.println("Robot Init successful.\n"
-    					+ "RobotType: " + roboType.robotTypeName + "\n"
-    					+ "Robot TeamNum: " + roboType.teamNum);
+    	
+    	//print startup message
+    	System.out.println("\n---Robot Init successful.---\n\n"
+    					+ "RobotType:\t\t" + roboType.robotTypeName + "\n"
+    					+ "Robot TeamNum:\t" + roboType.teamNum + "\n"
+    					+ "DATE:\t\t\t" + (new Date()).toString() + "\n");
     }
     
     public void autonomousInit()
@@ -148,6 +153,7 @@ public class Robot extends IterativeRobot
 	{
 		super.autonomousPeriodic();
 		Scheduler.getInstance().run();
+		ui.update(this);
 		
 	}
 
