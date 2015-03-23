@@ -17,6 +17,7 @@ public class UI
     	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getAxisLStickX());
     	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getAxisLStickY());
     	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getAxisRStickX());
+    	SmartDashboard.putNumber("Speed Factor", robot.speedFactor);
     	
     	// Encoder
     	SmartDashboard.putNumber("Encoder distance", robot.encoder.getDistance());
@@ -44,10 +45,10 @@ public class UI
         
         SmartDashboard.putData("talonPID", robot.pidController);
         
-        //AutonomousCommand Chooser
-        SmartDashboard.putData("Autonomous Command Chooser", robot.autoChooser);
-        
         SmartDashboard.putBoolean("Winches Limit Mode Enabled", robot.limitModeEnabled);
+        
+        //AUTO COMMAND Chooser
+        SmartDashboard.putData("Autonomous Command Chooser", robot.autoChooser);
         
         // Lidar Values 
         // SmartDashboard.putNumber("Get PID Lidar", robot.lidar.pidGet());
@@ -68,6 +69,11 @@ public class UI
     	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getAxisLStickY());
     	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getAxisRStickX());
     	SmartDashboard.putNumber("Current Speed Factor", robot.speedFactor);
+    	
+    	//DRIVING
+    	{
+    		SmartDashboard.putNumber("Speed_Factor", robot.speedFactor);
+    	}
     	
     	// Resets encoder
     	if (SmartDashboard.getBoolean("Reset Encoder"))
@@ -154,9 +160,13 @@ public class UI
     	
     	//WINCHES
     	{
+    		//positions
     		SmartDashboard.putNumber("Ladder TrashCanArmEncoder", robot.ladder.getWinchPosition());
     		SmartDashboard.putNumber("Hooks TotesEncoder", robot.hooks.getWinchPosition());
     		robot.limitModeEnabled = SmartDashboard.getBoolean("Winches Limit Mode Enabled");
+    		
+    		//level indexes
+    		SmartDashboard.putNumber("Hooks Target Index", robot.hooks.getCurrentTargetIndex());
     	}
     	
     }

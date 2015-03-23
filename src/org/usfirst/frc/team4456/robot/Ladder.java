@@ -27,6 +27,10 @@ public class Ladder
 	private boolean gripIsOpen;
 	private boolean buttonBPressed = false;
 	
+	//PID_VALUES
+	private double pValueUp = .5,
+				   pValueDn = .25;
+	
 	/**
 	 * Constructor for WinchLadder
 	 * This will construct a new talon motor object with the appropriate pid settings
@@ -38,12 +42,22 @@ public class Ladder
 		talon = new CANTalon(idTalon);
 		talon.changeControlMode(ControlMode.Position);
 		talon.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		talon.setPID(.25, 0.000001, 0);
+		talon.setPID(pValueDn, 0.000001, 0);
 		talon.setPosition(0);
 		talon.set(talon.get()); //talon1 will not move
 		
 		piston1 = new DoubleSolenoid(id1_1, id1_2);
 		piston2 = new DoubleSolenoid(id2_1, id2_2);
+	}
+	
+	public int getCurrentTargetIndex()
+	{
+		return currentTargetIndex;
+	}
+	
+	public void setIndex(int index)
+	{
+		talon.set(Constants.HOOK_LOADER_POSITIONS[index]);
 	}
 	
 	/**
@@ -55,6 +69,7 @@ public class Ladder
 	{
 		
 		//DPad_Down lowerLadder
+		/*
 		if(controller.getX() && !buttonXPress)
 		{
 			buttonXPress = true;
@@ -75,9 +90,10 @@ public class Ladder
 		{
 			buttonYPress = false;
 		}
+		*/
 		
 		//dpadLeft nudgeDown
-		if(controller.getDPadDown())
+		if(controller.getX())
 		{
 			double newSetPoint = talon.getSetpoint() - Constants.LADDER_NUDGE_FACTOR;
 			//set limit
@@ -87,7 +103,7 @@ public class Ladder
 		}
 		
 		//dpadRight nudgeUp
-		if(controller.getDPadUp())
+		if(controller.getY())
 		{
 			double newSetPoint = talon.getSetpoint() + Constants.LADDER_NUDGE_FACTOR;
 			//set limit
@@ -170,6 +186,7 @@ public class Ladder
 			targetIndex = closestIndex + 1;
 		}
 		talon.set(Constants.WINCH_LADDER_POSITIONS[targetIndex]);
+		this.talon.setP(this.pValueUp);
 		this.currentTargetIndex = targetIndex;
 	}
 	
@@ -186,6 +203,7 @@ public class Ladder
 			targetIndex = closestIndex-1;
 		}
 		talon.set(Constants.WINCH_LADDER_POSITIONS[targetIndex]);
+		this.talon.setP(this.pValueDn);
 		this.currentTargetIndex = targetIndex;
 	}
 	
