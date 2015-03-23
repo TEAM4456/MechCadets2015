@@ -36,7 +36,7 @@ public class AutonomousCommand1 extends Command
 		int arrayLength = Constants.WINCH_LADDER_POSITIONS.length;
 		if(robot.hooks.getWinchPosition() > Constants.HOOK_LOADER_POSITIONS[arrayLength - 2] - 200) // if hooks are above level 1 - 200 encoder units
 			robot.driver.driveRawPolar(.4, 180, 0);
-		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 2);
+		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 25);
 	}
 	
 	//returns true if the command is finished running

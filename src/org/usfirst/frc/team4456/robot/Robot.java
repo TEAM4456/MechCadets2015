@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -142,8 +143,26 @@ public class Robot extends IterativeRobot
     public void autonomousInit()
     {
     	super.autonomousInit();
+    	
+    	int hookPositionsLength = Constants.HOOK_LOADER_POSITIONS.length;
+		
+		Timer timer = new Timer();
+		
+		timer.start();
+		System.out.println("Running AutoCommand2");
+		float initialDisplacement = navx.getDisplacementY();
+		hooks.setIndex(hookPositionsLength - 2);
+		Timer.delay(1);
+		
+		
+		while(!timer.hasPeriodPassed(2))
+		{
+			driver.driveRawPolar(.4, 180, 0);
+		}
+    	/*
     	autoCommand1 = (Command) autoChooser.getSelected();
     	autoCommand1.start();
+    	*/
     }
     
     /**
@@ -151,9 +170,14 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
+		
 		super.autonomousPeriodic();
+		
+		
+		/*
 		Scheduler.getInstance().run();
 		ui.update(this);
+		*/
 		
 	}
 

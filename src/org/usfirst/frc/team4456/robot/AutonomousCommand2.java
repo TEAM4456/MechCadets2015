@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4456.robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutonomousCommand2 extends Command
@@ -8,6 +9,8 @@ public class AutonomousCommand2 extends Command
 	boolean isFinished = false;
 	double initialDisplacement;
 	int hookPositionsLength = Constants.HOOK_LOADER_POSITIONS.length;
+	
+	Timer timer = new Timer();
 	
 	public AutonomousCommand2(Robot robot)
 	{
@@ -18,37 +21,40 @@ public class AutonomousCommand2 extends Command
 	@Override
 	protected void initialize()
 	{
+		timer.start();
 		System.out.println("Running AutoCommand2");
 		initialDisplacement = robot.navx.getDisplacementY();
 		robot.hooks.setIndex(hookPositionsLength - 2);
+		Timer.delay(1);
 	}
 	
 	//periodically called until command finishes
 	@Override
 	protected void execute()
 	{
-		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 2);
-		if(robot.hooks.getWinchPosition() < Constants.HOOK_LOADER_POSITIONS[hookPositionsLength - 2])
-			robot.driver.driveRawPolar(.4, 180, 0);
+		robot.driver.driveRawPolar(.4, 180, 0);
 	}
 	
 	//returns true if the command is finished running
 	@Override
 	protected boolean isFinished()
 	{
-		return isFinished;
+		return timer.hasPeriodPassed(4);
 	}
 	
 	//called when command ends w/o interruption
 	@Override
 	protected void end()
 	{
+		robot.driver.driveRawPolar(0, 0, 0);
+		robot.hooks.setIndex(Constants.HOOK_LOADER_POSITIONS.length - 1); // set hooks back down to the lowest level
 	}
 	
 	//called when command is interupted
 	@Override
 	protected void interrupted()
-	{		
+	{
+		robot.driver.driveRawPolar(0, 0, 0);
 	}
 
 }
