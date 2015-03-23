@@ -2,6 +2,8 @@ package org.usfirst.frc.team4456.robot;
 
 import org.usfirst.frc.team4456.robot.util.Util;
 
+import com.kauailabs.navx_mxp.AHRS;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -15,15 +17,18 @@ public class Driver
 	RobotDrive robotDrive;
 	private CANTalon talon1, talon2, talon3, talon4;
 	private boolean buttonAPressed = false;
-	
+	private boolean autoStabilize;
+	private float initialGyroVal, destGyroVal;
 	/** 
 	 * Takes in robot type and initializes talon controllers depending on the robot type.
 	 * @param roboType RobotType to use. MAIN_ PRACTICE_ or BREADBOARD_BOT
 	 * @author samega15
 	 */
-	public Driver(RobotType roboType)
+	public Driver(RobotType roboType, float gyroValue)
 	{
-		System.err.println("THIS IS NOT AN ERROR.");
+		autoStabilize = true;
+		initialGyroVal = destGyroVal = gyroValue;
+		
 		if(roboType != null)
 		{
 			talon1 = new CANTalon(roboType.idRL);
@@ -34,8 +39,8 @@ public class Driver
 		else
 		{
 			System.err.println("ERROR: Talon Controllers > RobotType\n"
-					+ "Driver.java\n"
-					+ "public Driver(RobotType roboType)");
+							+ "Driver.java\n"
+							+ "public Driver(RobotType roboType)");
 		}
 		
 		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
@@ -85,12 +90,13 @@ public class Driver
 	 * @param robot
 	 * @author oom2013
 	 */
-	public void drive(XBoxController controller, Gyro gyro, Robot robot)
+	public void drive(XBoxController controller, float gyroVal, Robot robot)
 	{
 		// Set speed control
 		if(controller.getA() && !buttonAPressed)
 		{
 			buttonAPressed = true;
+			
 			if(robot.speedFactor == .70)
 			{
 				robot.speedFactor = 1;
@@ -105,12 +111,13 @@ public class Driver
 			buttonAPressed = false;
 		}
 		
+		
 		//drive
 		if(robot.useMechanum)
 		{
 			if(robot.useGyro)
 	    	{
-	    		this.driveCartesian(controller, gyro, robot);
+	    		this.driveCartesian(controller, gyroVal, robot);
 	    	}
 	    	else
 	    	{
@@ -143,9 +150,27 @@ public class Driver
 	{
 		// Parameters are Magnitude, Direction, Rotation
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
-		robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude(), robot), 
-    			controller.getDirectionDegrees(), 
-    			-1 * Util.lowerSensitivity(controller.getAxisRStickX(), robot));
+		
+		double rotAmount;
+		double gyroDiff;
+		
+		if(this.autoStabilize)
+		{
+			//will determine rotation value in order to minimize strafe error.
+			destGyroVal += controller.getAxisRStickX() * Constants.RS_GYRO_FACTOR_1;
+			gyroDiff = robot.navx.getYaw() - destGyroVal;
+			rotAmount = Math.min(1, Math.pow(gyroDiff, 3) * Constants.RS_GYRO_FACTOR_2);
+			
+			robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude(),robot),
+										controller.getDirectionDegrees(),
+										rotAmount*robot.speedFactor);
+		}
+		else
+		{
+			robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude(), robot), 
+					    			controller.getDirectionDegrees(), 
+					    			-1 * Util.lowerSensitivity(controller.getAxisRStickX(), robot));
+		}
 	}
 	
 	/**
@@ -154,14 +179,14 @@ public class Driver
 	 * @param gyro
 	 * @author oom2013
 	 */
-	private void driveCartesian(XBoxController controller, Gyro gyro, Robot robot)
+	private void driveCartesian(XBoxController controller, float gyroVal, Robot robot)
 	{
 		// Parameters are X, Y, Rotation, and Gyro Angle
 		// Arguments are the values given by the left-stick x-value, left-stick y-value, right-stick x-value, and the angle produced by the gyroscope
 		robotDrive.mecanumDrive_Cartesian(Util.lowerSensitivity(controller.getAxisLStickX(), robot),
 				Util.lowerSensitivity(controller.getAxisLStickY(), robot),
 				-1 * Util.lowerSensitivity(controller.getAxisRStickX(), robot),
-    			gyro.getAngle());
+    			gyroVal);
 	}
 	
 	/**

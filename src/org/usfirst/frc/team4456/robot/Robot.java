@@ -63,11 +63,7 @@ public class Robot extends IterativeRobot
 	SendableChooser autoChooser;
 	
     public void robotInit()
-    {
-    	// Driver init
-    	speedFactor = 1;
-    	driver = new Driver(roboType);
-    	
+    {	
     	// Hooks and Ladder init
     	ladder = new Ladder(11, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
     	hooks = new Hooks(22);
@@ -119,9 +115,13 @@ public class Robot extends IterativeRobot
     		System.out.println("ERROR!: NAVX INIT" + "\n" + ex);
     	}
     	
+    	// Driver init
+    	speedFactor = 1;
+    	driver = new Driver(roboType, navx.getYaw());
+    	
     	compressor = new Compressor(0);
     	
-    	//Autonomous Command Code
+    	//Autonomous Command Code init
     	autoChooser = new SendableChooser();
     	autoChooser.addDefault("Autonomous1", new AutonomousCommand1(this));
     	
@@ -171,7 +171,7 @@ public class Robot extends IterativeRobot
     	 * It also switches between Cartesian and Polar Mechanum Drives based on 
     	 * whether or not we are using a gyro.
     	 */
-    	driver.drive(xboxController, gyro, this);
+    	driver.drive(xboxController, (float)gyro.getAngle(), this);
     	hooks.cycle(xboxController, this);
     	ladder.cycle(xboxController, this);
     	

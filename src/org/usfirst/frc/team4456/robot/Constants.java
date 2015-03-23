@@ -42,6 +42,10 @@ public class Constants
 	public static final double LADDER_NUDGE_FACTOR = 80;
 	public static final int piston1Port1 = 0, piston1Port2 = 1, piston2Port1 = 2, piston2Port2 = 3;
 	
+	//Driver stuff
+	public static final double RS_GYRO_FACTOR_1 = 1;
+	public static final double RS_GYRO_FACTOR_2 = 1;
 	
+	//vision
 	public static final String filePathRoborio = "/home/lvuser/";
 }

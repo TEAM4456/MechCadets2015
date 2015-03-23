@@ -2,6 +2,13 @@ package org.usfirst.frc.team4456.robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Autonomous Command 1
+ * >pick up tote
+ * >move backward for a certain distance
+ * @author serge-olivieramega
+ *
+ */
 public class AutonomousCommand1 extends Command
 {
 	Robot robot;
@@ -26,8 +33,8 @@ public class AutonomousCommand1 extends Command
 	@Override
 	protected void execute()
 	{
-		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 10);
 		robot.driver.driveRawPolar(.4, 180, 0);
+		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 5); //TODO not final, needs to be tested.
 	}
 	
 	//returns true if the command is finished running
@@ -41,12 +48,14 @@ public class AutonomousCommand1 extends Command
 	@Override
 	protected void end()
 	{
+		robot.driver.driveRawPolar(0, 0, 0);
 	}
 	
-	//called when command is interupted
+	//called when command is interrupted
 	@Override
 	protected void interrupted()
-	{		
+	{
+		robot.driver.driveRawPolar(0, 0, 0);
 	}
 
 }
