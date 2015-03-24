@@ -35,6 +35,7 @@ public class Constants
 	public static final double ULTRASONIC_FACTOR_VOLTS = 40.2969;
 	
 	// Hooks Stuff
+	public static final double HOOK_LOADER_AUTO_CHECK_POSITION = -2700;
 	public static final double[] HOOK_LOADER_POSITIONS = {-11688, -10355, -8224, -5884, -4500, 0}; //In reverse order, from HIGH to LOW
 	public static final double MAX_HOOK_NUDGE = 90;
 	

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
+import java.util.Iterator;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -31,7 +33,7 @@ public class AutonomousCommand2 extends Command
 	//periodically called until command finishes
 	@Override
 	protected void execute()
-	{
+	{		
 		robot.driver.driveRawPolar(.4, 180, 0);
 	}
 	

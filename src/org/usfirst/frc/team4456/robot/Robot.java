@@ -64,6 +64,8 @@ public class Robot extends IterativeRobot
 	
 	Command autoCommand1, autoCommand2;
 	SendableChooser autoChooser;
+
+	boolean useAutoChooser = false;
 	
     public void robotInit()
     {	
@@ -143,26 +145,33 @@ public class Robot extends IterativeRobot
     public void autonomousInit()
     {
     	super.autonomousInit();
+		
+    	if(useAutoChooser)
+    	{
+	    	autoCommand1 = (Command) autoChooser.getSelected();
+	    	autoCommand1.start();
+    	}
+    	else
+    	{
+    		int hookPositionsLength = Constants.HOOK_LOADER_POSITIONS.length;
+    		
+    		Timer timer = new Timer();
+    		
+    		timer.start();
+    		System.out.println("Running AutoCommand2");
+    		hooks.setIndex(hookPositionsLength - 2);
+    		Timer.delay(.7);
+    		
+    		
+    		while(!timer.hasPeriodPassed(2.9))
+    		{
+    			driver.driveRawPolar(.4, 180, 0);
+    		}
+    		
+    		Timer.delay(.2);
+    		hooks.setIndex(hookPositionsLength - 1);
+    	}
     	
-    	int hookPositionsLength = Constants.HOOK_LOADER_POSITIONS.length;
-		
-		Timer timer = new Timer();
-		
-		timer.start();
-		System.out.println("Running AutoCommand2");
-		float initialDisplacement = navx.getDisplacementY();
-		hooks.setIndex(hookPositionsLength - 2);
-		Timer.delay(1);
-		
-		
-		while(!timer.hasPeriodPassed(2))
-		{
-			driver.driveRawPolar(.4, 180, 0);
-		}
-    	/*
-    	autoCommand1 = (Command) autoChooser.getSelected();
-    	autoCommand1.start();
-    	*/
     }
     
     /**
@@ -173,11 +182,13 @@ public class Robot extends IterativeRobot
 		
 		super.autonomousPeriodic();
 		
+		if(useAutoChooser)
+		{
+			Scheduler.getInstance().run();
+			ui.update(this);
+		}
 		
-		/*
-		Scheduler.getInstance().run();
-		ui.update(this);
-		*/
+		
 		
 	}
 

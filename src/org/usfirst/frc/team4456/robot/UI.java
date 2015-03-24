@@ -53,6 +53,9 @@ public class UI
         // Lidar Values 
         // SmartDashboard.putNumber("Get PID Lidar", robot.lidar.pidGet());
     	// SmartDashboard.putNumber("Lidar Distance", robot.lidar.getDistance());
+        
+        //AUTONOMOUS
+        SmartDashboard.putBoolean("Use Auto Chooser", robot.useAutoChooser);
     }
     
     public void update(Robot robot)
@@ -63,17 +66,13 @@ public class UI
     	//robot.pidController = (PIDController) SmartDashboard.getData("talonPID");
     	SmartDashboard.putData("talonPID", robot.pidController);
     	
-    	// Driver Values
-    	SmartDashboard.putNumber("Current Magnitude", robot.xboxController.getMagnitude());
-    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getAxisLStickX());
-    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getAxisLStickY());
-    	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getAxisRStickX());
-    	SmartDashboard.putNumber("Current Speed Factor", robot.speedFactor);
-    	
     	//DRIVING
     	{
     		SmartDashboard.putNumber("Speed_Factor", robot.speedFactor);
     	}
+    	
+    	//AUTONOMOUS
+    	robot.useAutoChooser = SmartDashboard.getBoolean("Use Auto Chooser");
     	
     	// Resets encoder
     	if (SmartDashboard.getBoolean("Reset Encoder"))
@@ -168,6 +167,13 @@ public class UI
     		//level indexes
     		SmartDashboard.putNumber("Hooks Target Index", robot.hooks.getCurrentTargetIndex());
     	}
+    	
+    	// Driver Values
+    	SmartDashboard.putNumber("Current Magnitude", robot.xboxController.getMagnitude());
+    	SmartDashboard.putNumber("Cartesian X Value", robot.xboxController.getAxisLStickX());
+    	SmartDashboard.putNumber("Cartesian Y Value", robot.xboxController.getAxisLStickY());
+    	SmartDashboard.putNumber("Current Rotation", robot.xboxController.getAxisRStickX());
+    	SmartDashboard.putNumber("Current Speed Factor", robot.speedFactor);
     	
     }
 }
