@@ -2,6 +2,11 @@ package org.usfirst.frc.team4456.robot;
 
 import java.util.Date;
 
+import org.usfirst.frc.team4456.robot.autonomous.Auto1SimpleBackup;
+import org.usfirst.frc.team4456.robot.autonomous.Auto2SimpleForwards;
+import org.usfirst.frc.team4456.robot.autonomous.Auto3PickToteBackup;
+import org.usfirst.frc.team4456.robot.autonomous.AutoSequence;
+
 import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
@@ -19,6 +24,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,37 +41,35 @@ public class Robot extends IterativeRobot
 	
 	XBoxController xboxController;
 	
-	Driver driver;
+	public Driver driver;
 	
 	boolean limitModeEnabled = true;
-	Hooks hooks;
+	public Hooks hooks;
 	Ladder ladder;
 	
-	Gyro gyro;
-	Encoder encoder;
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
 	UltrasonicSensor ultrasonic;
 	Lidar lidar;
 	Compressor compressor;
 	
-	AHRS navx;
+	public AHRS navx;
 	
 	UI ui;
-	SmartUI smartUi;
 	//Vision vision;
 	SerialPort serialUSB, serialPortMXP;
 	PIDController pidController;
-	Talon talon;
 	
-	double pValue;
 	public double speedFactor;
 	boolean useGyro, useMechanum;
 	
 	Command autoCommand1, autoCommand2;
 	SendableChooser autoChooser;
-
+	
 	boolean useAutoChooser = false;
+	
+	SendableChooser autoSelector;
+	AutoSequence autoSequence;
 	
     public void robotInit()
     {	
@@ -73,19 +77,12 @@ public class Robot extends IterativeRobot
     	ladder = new Ladder(11, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
     	hooks = new Hooks(22);
     	
-    	// Gyro init 
-    	gyro = new Gyro(0);
-    	
     	// Mechanum and Gyro booleans for Driver
     	useMechanum = true;
     	useGyro = false;
     	
     	// Controller init
     	xboxController = new XBoxController(1);
-    	
-    	// Encoder init
-    	encoder = new Encoder(0, 1, false, CounterBase.EncodingType.k1X);
-        encoder.setDistancePerPulse(1.0/360);
     	
     	// Serial init
     	//serialUSB = new SerialPort(9600,SerialPort.Port.kUSB);
@@ -98,12 +95,6 @@ public class Robot extends IterativeRobot
     	
     	// Ultrasonic Sensor init
     	ultrasonic = new UltrasonicSensor(1);
-    	
-    	// Talon init
-    	talon = new Talon(0);
-    	
-    	// PID Controller init
-    	pidController = new PIDController(1, 0, 0, encoder, talon);
     	
     	// Lidar init
     	lidar = new Lidar(this);
@@ -131,6 +122,13 @@ public class Robot extends IterativeRobot
     	autoChooser.addDefault("Autonomous1", new AutonomousCommand1(this));
     	autoChooser.addObject("Autonomous2", new AutonomousCommand2(this));
     	
+    	//auto
+    	autoSelector = new SendableChooser();
+    	autoSelector.addDefault(Constants.auto1SimpleBackupName, new Auto1SimpleBackup(this));
+    	autoSelector.addObject(Constants.auto2SimpleForwardsName, new Auto2SimpleForwards(this));
+    	autoSelector.addObject(Constants.auto3PickToteBackupName, new Auto3PickToteBackup(this));
+    	
+    	
     	// UI init
     	ui = new UI(this);
     	//smartUi = new SmartUI(this);
@@ -148,8 +146,14 @@ public class Robot extends IterativeRobot
 		
     	if(useAutoChooser)
     	{
+    		//get auto selected sequence from the auto selector.
+    		autoSequence = (AutoSequence) autoSelector.getSelected();
+    		autoSequence.runInit();
+    		
+    		/*
 	    	autoCommand1 = (Command) autoChooser.getSelected();
 	    	autoCommand1.start();
+	    	*/
     	}
     	else
     	{
@@ -162,8 +166,8 @@ public class Robot extends IterativeRobot
     		hooks.setIndex(hookPositionsLength - 2);
     		Timer.delay(.7);
     		
-    		
-    		while(!timer.hasPeriodPassed(2.9))
+    		//go backwards for 2.5 seconds
+    		while(!timer.hasPeriodPassed(2.5))
     		{
     			driver.driveRawPolar(.4, 180, 0);
     		}
@@ -184,9 +188,13 @@ public class Robot extends IterativeRobot
 		
 		if(useAutoChooser)
 		{
-			Scheduler.getInstance().run();
-			ui.update(this);
+			autoSequence.runPeriodic();
 		}
+		
+		/*
+		 * Scheduler.getInstance().run();
+		 *	ui.update(this);
+		 */
 		
 		
 		
@@ -198,13 +206,12 @@ public class Robot extends IterativeRobot
     public void teleopInit()
     {
     	super.teleopInit();
-    	gyro.reset();
     	compressor.start();
     }
     public void teleopPeriodic()
     {
     	super.teleopPeriodic();
-    	ui.update(this);
+    	ui.update();
     	
     	lidar.getDistance();
     	
@@ -213,7 +220,7 @@ public class Robot extends IterativeRobot
     	 * It also switches between Cartesian and Polar Mechanum Drives based on 
     	 * whether or not we are using a gyro.
     	 */
-    	driver.drive(xboxController, (float)gyro.getAngle(), this);
+    	driver.drive(xboxController, (float)navx.getYaw(), this);
     	hooks.cycle(xboxController, this);
     	ladder.cycle(xboxController, this);
     	
@@ -228,7 +235,7 @@ public class Robot extends IterativeRobot
     public void disabledPeriodic()
     {
     	super.disabledPeriodic();
-    	ui.update(this);
+    	ui.update();
     }
     
     public void testInit()

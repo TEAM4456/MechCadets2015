@@ -86,7 +86,7 @@ public class Driver
 	/**
 	 *  Executes the Polar, Cartesian, or Tank method based on the useMechanum and useGyro booleans
 	 * @param controller
-	 * @param gyro
+	 * @param gyroVal - gyro value in degrees
 	 * @param robot
 	 * @author oom2013
 	 */

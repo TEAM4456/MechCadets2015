@@ -50,4 +50,11 @@ public class Constants
 	
 	//vision
 	public static final String filePathRoborio = "/home/lvuser/";
+	
+	//AUTO
+	public static String auto1SimpleBackupName = "Auto1SimpleBackup";
+	public static String auto2SimpleForwardsName = "Auto2SimpleForwards";
+	public static String auto3PickToteBackupName = "Auto3PickToteBackup";
+	
+
 }
