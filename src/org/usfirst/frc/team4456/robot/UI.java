@@ -2,6 +2,8 @@ package org.usfirst.frc.team4456.robot;
 
 import org.usfirst.frc.team4456.robot.util.Util;
 import org.usfirst.frc.team4456.robot.SDashUI.*;
+import org.usfirst.frc.team4456.robot.autonomous.AutoSequence;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -31,10 +33,8 @@ public class UI
         // Button for whether we use Mechanum or Tank
         SmartDashboard.putBoolean("Using Mechanum", true);
         
-        
-        SmartDashboard.putData("talonPID", robot.pidController);
-        
         this.autonomousUIInit();
+        this.driverInit();
         
         System.out.println("UI Init Done. UI Running.");
     }
@@ -45,7 +45,6 @@ public class UI
     	SmartDashboard.putBoolean("Enabled", robot.isEnabled());
     	
     	//robot.pidController = (PIDController) SmartDashboard.getData("talonPID");
-    	SmartDashboard.putData("talonPID", robot.pidController);
     	
     	//AUTONOMOUS
     	robot.useAutoChooser = SmartDashboard.getBoolean("Use Auto Chooser");
@@ -98,10 +97,15 @@ public class UI
 	private void autonomousUIInit()
     {
     	SmartDashboard.putBoolean("Use Auto Chooser", robot.useAutoChooser);
-        SmartDashboard.putData("Auto Sequence Selector", robot.autoSelector);
         SmartDashboard.putData("Autonomous Command Chooser", robot.autoChooser);
+        SmartDashboard.putData("Auto Sequence Selector", robot.autoSelector);
     }
     
+	private void autonomousUpdate()
+	{
+		//robot.useAutoChooser = (AutoSequence) SmartDashboard.getData("Auto Sequence Selector");
+	}
+	
 	private void winchesInformation()
     {
     	//positions
@@ -112,6 +116,12 @@ public class UI
 		//level indexes
 		SmartDashboard.putNumber("Hooks Target Index", robot.hooks.getCurrentTargetIndex());
     }
+	
+	private void driverInit()
+	{
+		SmartDashboard.putBoolean("Auto Stabilize", robot.driver.getAutostabilize());
+		SmartDashboard.putNumber("Auto Stabilize Factor 2", Constants.RS_GYRO_FACTOR_2);
+	}
 	
 	private void driverValues()
 	{
@@ -125,6 +135,10 @@ public class UI
     		SmartDashboard.putString("Speed", "Quick");
     	else
     		SmartDashboard.putString("Speed", "Slow");
+    	
+    	robot.driver.setAutostabilize(SmartDashboard.getBoolean("Auto Stabilize"));
+    	
+    	Constants.RS_GYRO_FACTOR_2 = SmartDashboard.getNumber("Auto Stabilize Factor 2");
 	}
 
 }

@@ -72,4 +72,16 @@ public class Util
     	}
     	return value;
     }
+
+	public static double findAngleDiff(float angle1, float angle2)
+	{
+		float result = angle1 - angle2;
+		
+		if(result < -180)
+			result += 360;
+		if(result > 180)
+			result -= 360;
+		
+		return result;
+	}
 }

@@ -41,7 +41,7 @@ public class Auto3PickToteBackup implements AutoSequence
 			//if hooks encoder value is under -2700 encoder units
 			//reminder:lower encoder value = higher hooks position
 			if(robot.hooks.getWinchPosition() < Constants.HOOK_LOADER_AUTO_CHECK_POSITION)
-				robot.driver.driveRawPolar(.4, 180, 0);
+				robot.driver.driveRawPolar(.4, 180, 0, robot);
 			
 			if(Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 15)
 				this.stop();
@@ -61,8 +61,7 @@ public class Auto3PickToteBackup implements AutoSequence
 
 	private void stop()
 	{
-		// TODO Auto-generated method stub
-		
+		stop = true;
 	}
 
 }

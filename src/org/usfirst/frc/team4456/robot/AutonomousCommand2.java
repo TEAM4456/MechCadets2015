@@ -34,7 +34,7 @@ public class AutonomousCommand2 extends Command
 	@Override
 	protected void execute()
 	{		
-		robot.driver.driveRawPolar(.4, 180, 0);
+		robot.driver.driveRawPolar(.4, 180, 0, robot);
 	}
 	
 	//returns true if the command is finished running
@@ -48,7 +48,7 @@ public class AutonomousCommand2 extends Command
 	@Override
 	protected void end()
 	{
-		robot.driver.driveRawPolar(0, 0, 0);
+		robot.driver.driveRawPolar(0, 0, 0, robot);
 		robot.hooks.setIndex(Constants.HOOK_LOADER_POSITIONS.length - 1); // set hooks back down to the lowest level
 	}
 	
@@ -56,7 +56,7 @@ public class AutonomousCommand2 extends Command
 	@Override
 	protected void interrupted()
 	{
-		robot.driver.driveRawPolar(0, 0, 0);
+		robot.driver.driveRawPolar(0, 0, 0, robot);
 	}
 
 }

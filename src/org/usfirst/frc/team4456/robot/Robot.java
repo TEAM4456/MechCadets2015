@@ -2,10 +2,7 @@ package org.usfirst.frc.team4456.robot;
 
 import java.util.Date;
 
-import org.usfirst.frc.team4456.robot.autonomous.Auto1SimpleBackup;
-import org.usfirst.frc.team4456.robot.autonomous.Auto2SimpleForwards;
-import org.usfirst.frc.team4456.robot.autonomous.Auto3PickToteBackup;
-import org.usfirst.frc.team4456.robot.autonomous.AutoSequence;
+import org.usfirst.frc.team4456.robot.autonomous.*;
 
 import com.kauailabs.navx_mxp.AHRS;
 
@@ -37,7 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot
 {
 	//Change the current robot used HERE
-	RobotType roboType = RobotType.PRACTICE_BOT;
+	RobotType roboType = RobotType.MAIN_BOT;
 	
 	XBoxController xboxController;
 	
@@ -45,7 +42,7 @@ public class Robot extends IterativeRobot
 	
 	boolean limitModeEnabled = true;
 	public Hooks hooks;
-	Ladder ladder;
+	public Ladder ladder;
 	
 	DigitalInput limitSwitch;
 	ADXL345_I2C accelerometer;
@@ -58,7 +55,6 @@ public class Robot extends IterativeRobot
 	UI ui;
 	//Vision vision;
 	SerialPort serialUSB, serialPortMXP;
-	PIDController pidController;
 	
 	public double speedFactor;
 	boolean useGyro, useMechanum;
@@ -74,8 +70,8 @@ public class Robot extends IterativeRobot
     public void robotInit()
     {	
     	// Hooks and Ladder init
-    	ladder = new Ladder(11, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
-    	hooks = new Hooks(22);
+    	ladder = new Ladder(15, Constants.piston1Port1, Constants.piston1Port2, Constants.piston2Port1, Constants.piston2Port2);
+    	hooks = new Hooks(13);
     	
     	// Mechanum and Gyro booleans for Driver
     	useMechanum = true;
@@ -112,7 +108,7 @@ public class Robot extends IterativeRobot
     	}
     	
     	// Driver init
-    	speedFactor = 1;
+    	speedFactor = .7;
     	driver = new Driver(roboType, navx.getYaw());
     	
     	compressor = new Compressor(0);
@@ -127,6 +123,8 @@ public class Robot extends IterativeRobot
     	autoSelector.addDefault(Constants.auto1SimpleBackupName, new Auto1SimpleBackup(this));
     	autoSelector.addObject(Constants.auto2SimpleForwardsName, new Auto2SimpleForwards(this));
     	autoSelector.addObject(Constants.auto3PickToteBackupName, new Auto3PickToteBackup(this));
+    	autoSelector.addObject(Constants.auto4PickToteBackupName, new Auto4PickToteRotateFwd(this));
+    	autoSelector.addObject(Constants.auto5PickTrashBinLandfillName, new Auto5PickTrashBinLandfill(this));
     	
     	
     	// UI init
@@ -142,7 +140,7 @@ public class Robot extends IterativeRobot
     
     public void autonomousInit()
     {
-    	super.autonomousInit();
+    	compressor.start();
 		
     	if(useAutoChooser)
     	{
@@ -157,23 +155,69 @@ public class Robot extends IterativeRobot
     	}
     	else
     	{
+    		/*
+    		//AUTO1
     		int hookPositionsLength = Constants.HOOK_LOADER_POSITIONS.length;
     		
     		Timer timer = new Timer();
     		
     		timer.start();
-    		System.out.println("Running AutoCommand2");
     		hooks.setIndex(hookPositionsLength - 2);
     		Timer.delay(.7);
     		
-    		//go backwards for 2.5 seconds
+    		//go backwards for _ seconds
     		while(!timer.hasPeriodPassed(2.5))
     		{
-    			driver.driveRawPolar(.4, 180, 0);
+    			driver.driveRawPolar(.4, 180, 0, this);
     		}
     		
     		Timer.delay(.2);
     		hooks.setIndex(hookPositionsLength - 1);
+    		*/
+    		
+    		Timer timer = new Timer();
+    		timer.start();
+    		while(!timer.hasPeriodPassed(1.3))
+    		{
+    			driver.driveRawPolar(.4, 0, 0, this);
+    		}
+    		
+    		/*
+    		//AUTO5
+    		int ladderPosLength = Constants.WINCH_LADDER_POSITIONS.length;
+    		
+    		Timer timer = new Timer();
+    		
+    		System.out.println("Running Auto");
+    		
+    		//open grabber
+    		ladder.open();
+    		
+    		//bring ladder down
+    		ladder.setIndex(2); // not sure about this index
+    		
+    		//move robot-back
+    		timer.start();
+    		while(timer.hasPeriodPassed(.3))
+    			driver.driveRawPolar(.3, 180, 0, this);
+    		driver.driveRawPolar(0, 0, 0, this);
+    		timer.stop();
+    		timer.reset();
+    		
+    		//grab trashcan & raise ladder
+    		ladder.close();
+    		Timer.delay(1.0);
+    		ladder.setIndex(ladderPosLength - 2);
+    		Timer.delay(1.0);
+    		
+    		//move robot-fwd
+    		timer.start();
+    		while(timer.hasPeriodPassed(1.9))
+    			driver.driveRawPolar(.3, 0, 0, this);
+    		driver.driveRawPolar(0, 0, 0, this);
+    		timer.stop();
+    		timer.reset();
+    		*/
     	}
     	
     }
@@ -231,6 +275,10 @@ public class Robot extends IterativeRobot
     {
     	super.disabledInit();
     	compressor.stop();
+    	System.out.println("\n---DISABLED---\n\n"
+				+ "RobotType:\t\t" + roboType.robotTypeName + "\n"
+				+ "Robot TeamNum:\t" + roboType.teamNum + "\n"
+				+ "DATE:\t\t\t" + (new Date()).toString() + "\n");
     }
     public void disabledPeriodic()
     {

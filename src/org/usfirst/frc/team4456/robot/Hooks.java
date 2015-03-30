@@ -23,7 +23,7 @@ public class Hooks
 	 */
 	private CANTalon talon;
 	private boolean leftBumperPress, rightBumperPress;
-	private int currentTargetIndex;
+	private int currentTargetIndex = 0;
 	
 	/** 
 	 * Constructor makes the motor for the winch and sets it up for use

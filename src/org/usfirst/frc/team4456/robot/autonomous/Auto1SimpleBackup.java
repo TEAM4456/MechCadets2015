@@ -35,9 +35,9 @@ public class Auto1SimpleBackup implements AutoSequence
 		
 		//if displacement_Y is NOT over 15, move backwards
 		if(!(Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 15))
-			robot.driver.driveRawPolar(.4, 180, 0);
+			robot.driver.driveRawPolar(.4, 180, 0, robot);
 		else
-			robot.driver.driveRawPolar(0, 0, 0);
+			robot.driver.driveRawPolar(0, 0, 0, robot);
 		
 		//TIME BASED -------
 		/*

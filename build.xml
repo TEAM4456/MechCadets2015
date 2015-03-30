@@ -25,7 +25,7 @@
   <property file="build.properties"/>
   <property file="${user.home}/wpilib/java/${version}/ant/build.properties"/>
   
-	<property name ="team-number" value="6000" />
+	<property name ="team-number" value="4456" />
 	
   <import file="${wpilib.ant.dir}/build.xml"/>
 

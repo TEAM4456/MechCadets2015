@@ -40,13 +40,13 @@ public class Constants
 	public static final double MAX_HOOK_NUDGE = 90;
 	
 	// Ladder Stuff
-	public static final double[] WINCH_LADDER_POSITIONS = {-15067, -11995, -10228, -7948, -5692, -501, 500};
+	public static final double[] WINCH_LADDER_POSITIONS = {-12100, -11995, -10228, -7948, -5692, -501, 500};
 	public static final double LADDER_NUDGE_FACTOR = 150;
 	public static final int piston1Port1 = 0, piston1Port2 = 1, piston2Port1 = 2, piston2Port2 = 3;
 	
 	//Driver stuff
 	public static final double RS_GYRO_FACTOR_1 = 1;
-	public static final double RS_GYRO_FACTOR_2 = 1;
+	public static double RS_GYRO_FACTOR_2 = 0.01;
 	
 	//vision
 	public static final String filePathRoborio = "/home/lvuser/";
@@ -55,6 +55,8 @@ public class Constants
 	public static String auto1SimpleBackupName = "Auto1SimpleBackup";
 	public static String auto2SimpleForwardsName = "Auto2SimpleForwards";
 	public static String auto3PickToteBackupName = "Auto3PickToteBackup";
+	public static String auto4PickToteBackupName = "Auto4PickToteRotateBackup";
+	public static String auto5PickTrashBinLandfillName = "Auto5PickTrashBinLandfill";
 	
 
 }

@@ -26,9 +26,9 @@ public class Auto2SimpleForwards implements AutoSequence {
 	public void runPeriodic()
 	{
 		if(!(Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 15))
-			robot.driver.driveRawPolar(.4, 0, 0); // drive fwd magnitude .4
+			robot.driver.driveRawPolar(.4, 0, 0, robot); // drive fwd magnitude .4
 		else
-			robot.driver.driveRawPolar(0, 0, 0);
+			robot.driver.driveRawPolar(0, 0, 0, robot);
 		
 		//TIME BASED -------
 		/*

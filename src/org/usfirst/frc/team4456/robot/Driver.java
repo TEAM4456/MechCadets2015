@@ -7,6 +7,7 @@ import com.kauailabs.navx_mxp.AHRS;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Class for the wheels on the chassis that drive the robot.
@@ -19,6 +20,8 @@ public class Driver
 	private boolean buttonAPressed = false;
 	private boolean autoStabilize;
 	private float initialGyroVal, destGyroVal;
+	private int autoStabilizeCount = 0;
+	
 	/** 
 	 * Takes in robot type and initializes talon controllers depending on the robot type.
 	 * @param roboType RobotType to use. MAIN_ PRACTICE_ or BREADBOARD_BOT
@@ -93,19 +96,8 @@ public class Driver
 	public void drive(XBoxController controller, float gyroVal, Robot robot)
 	{
 		// Set speed control
-		if(controller.getA() && !buttonAPressed)
-		{
-			buttonAPressed = true;
-			
-			if(robot.speedFactor == .70)
-			{
-				robot.speedFactor = 1;
-			}
-			else
-			{
-				robot.speedFactor = .70;
-			}
-		}
+		updateSpeed(controller, robot);
+		
 		if(!controller.getA())
 		{
 			buttonAPressed = false;
@@ -131,9 +123,36 @@ public class Driver
 		}
 	}
 	
-	public void driveRawPolar(double magnitude, double direction, double rotation)
+	public void driveRawPolar(double magnitude, double direction, double rotation, Robot robot)
 	{
-		robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
+		double rotAmount;
+		double gyroDiff;
+		
+		if(this.autoStabilize)
+		{
+			autoStabilizeCount++;
+			if(autoStabilizeCount > 100)
+				destGyroVal = robot.navx.getYaw();
+			
+			destGyroVal += rotation * Constants.RS_GYRO_FACTOR_1;
+			if(destGyroVal > 180)
+				destGyroVal-=360;
+			if(destGyroVal < -180)
+				destGyroVal+=360;
+			
+			//gyroDiff = destGyroVal - robot.navx.getYaw();
+			gyroDiff = Util.findAngleDiff(robot.navx.getYaw(), destGyroVal);
+			
+			rotAmount = Math.min(1, Math.pow(gyroDiff, 1) * Constants.RS_GYRO_FACTOR_2);
+			
+			robotDrive.mecanumDrive_Polar(magnitude,
+										  direction,
+										  rotAmount*robot.speedFactor);
+		}
+		else
+		{
+			robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
+		}
 	}
 	
 	public void driveRawCartesian(double x, double y, double rotation, double gyroAngle)
@@ -141,6 +160,33 @@ public class Driver
 		robotDrive.mecanumDrive_Cartesian(x, y, rotation, gyroAngle);
 	}
 	
+	public boolean getAutostabilize()
+	{
+		return autoStabilize;
+	}
+
+	public void setAutostabilize(boolean setValue)
+	{
+		this.autoStabilize = setValue;
+	}
+	
+	private void updateSpeed(XBoxController controller, Robot robot)
+	{
+		if(controller.getA() && !buttonAPressed)
+		{
+			buttonAPressed = true;
+			
+			if(robot.speedFactor == .70)
+			{
+				robot.speedFactor = 1;
+			}
+			else
+			{
+				robot.speedFactor = .70;
+			}
+		}
+	}
+
 	/**
 	 *  This will be used if we do not have a gyroscope
 	 * @param controller
@@ -151,9 +197,13 @@ public class Driver
 		// Parameters are Magnitude, Direction, Rotation
 		// Arguments are the magnitude of the joysticks, the direction of the joysticks, and the value given by the right-stick x-value
 		
-		double rotAmount;
-		double gyroDiff;
 		
+		this.driveRawPolar(Util.lowerSensitivity(controller.getMagnitude(),robot),
+							controller.getDirectionDegrees(),
+							Util.lowerSensitivity(controller.getAxisRStickX(),robot),
+							robot);
+							
+		/*
 		if(this.autoStabilize)
 		{
 			//will determine rotation value in order to minimize strafe error.
@@ -164,13 +214,16 @@ public class Driver
 			robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude(),robot),
 										controller.getDirectionDegrees(),
 										rotAmount*robot.speedFactor);
+			
+			SmartDashboard.putNumber("rotAmount", rotAmount);
 		}
 		else
 		{
 			robotDrive.mecanumDrive_Polar(Util.lowerSensitivity(controller.getMagnitude(), robot), 
 					    			controller.getDirectionDegrees(), 
-					    			-1 * Util.lowerSensitivity(controller.getAxisRStickX(), robot));
+					    			Util.lowerSensitivity(controller.getAxisRStickX(), robot));
 		}
+		*/
 	}
 	
 	/**

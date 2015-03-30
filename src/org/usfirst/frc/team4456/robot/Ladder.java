@@ -57,7 +57,7 @@ public class Ladder
 	
 	public void setIndex(int index)
 	{
-		talon.set(Constants.HOOK_LOADER_POSITIONS[index]);
+		talon.set(Constants.WINCH_LADDER_POSITIONS[index]);
 	}
 	
 	/**
@@ -154,13 +154,13 @@ public class Ladder
 	 * Extend the pistons to close
 	 * @author samega15
 	 */
-	private void close()
+	public void close()
 	{
 		piston1.set(Value.kForward);
 		piston2.set(Value.kForward);
 		gripIsOpen = false;
 	}
-	private void open()
+	public void open()
 	{
 		piston1.set(Value.kReverse);
 		piston2.set(Value.kReverse);

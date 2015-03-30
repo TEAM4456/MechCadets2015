@@ -36,7 +36,7 @@ public class AutonomousCommand1 extends Command
 	{
 		int arrayLength = Constants.WINCH_LADDER_POSITIONS.length;
 		if(robot.hooks.getWinchPosition() > Constants.HOOK_LOADER_AUTO_CHECK_POSITION) // if hooks are above level 1 - 200 encoder units
-			robot.driver.driveRawPolar(.4, 180, 0);
+			robot.driver.driveRawPolar(.4, 180, 0, robot);
 		isFinished = (Math.abs(robot.navx.getDisplacementY() - initialDisplacement) > 15);
 	}
 	
@@ -51,7 +51,7 @@ public class AutonomousCommand1 extends Command
 	@Override
 	protected void end()
 	{
-		robot.driver.driveRawPolar(0, 0, 0);
+		robot.driver.driveRawPolar(0, 0, 0, robot);
 		robot.hooks.setIndex(Constants.HOOK_LOADER_POSITIONS.length - 1); // set hooks back down to the lowest level
 	}
 	
@@ -59,7 +59,7 @@ public class AutonomousCommand1 extends Command
 	@Override
 	protected void interrupted()
 	{
-		robot.driver.driveRawPolar(0, 0, 0);
+		robot.driver.driveRawPolar(0, 0, 0, robot);
 	}
 
 }
