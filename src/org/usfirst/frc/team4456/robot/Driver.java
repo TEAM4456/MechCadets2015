@@ -7,6 +7,7 @@ import com.kauailabs.navx_mxp.AHRS;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -152,6 +153,30 @@ public class Driver
 		else
 		{
 			robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
+		}
+	}
+	
+	/*using PID to rotate to a certain value*/
+	public void rotateInDegrees(double rotAmount, double time, Robot robot)
+	{
+		double error = 0;
+		double pConstant = 4;
+		double targetValue = robot.navx.getYaw() + rotAmount;
+		double output = 0;
+		
+		if(targetValue > 180)
+			targetValue-=360;
+		if(targetValue < -180)
+			targetValue+=360;
+		
+		Timer timer = new Timer();
+		timer.start();
+		//will adjust rot for time
+		while(!timer.hasPeriodPassed(time))
+		{
+			error = Util.findAngleDiff(targetValue, robot.navx.getYaw());
+			output = pConstant * error;
+			this.driveRawPolar(0, 0, output, robot);
 		}
 	}
 	
