@@ -6,6 +6,9 @@ import com.kauailabs.navx_mxp.AHRS;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,6 +53,9 @@ public class Driver
 		// Sets the RobotDrive object to the talon motors that are assigned by the boolean parameter.
 		//order RL FL RR FR
 		robotDrive = new RobotDrive(talon1, talon2, talon3, talon4);
+		
+		SmartDashboard.putNumber("P", .008);
+		SmartDashboard.putNumber("I", .0001);
 	}
 	
 	/** 
@@ -156,13 +162,96 @@ public class Driver
 		}
 	}
 	
+	/*
+	public void translateYAxisMeters(double displaceAmount, double time, Robot robot)
+	{
+		PIDSource pidSource = new PIDSource() {
+			@Override
+			public double pidGet() {
+				return robot.navx.getDisplacementY();
+			}
+		};
+		
+		PIDOutput pidOutput = new PIDOutput() {
+			@Override
+			public void pidWrite(double output) {
+				robotDrive.tankDrive(output, output);
+			}
+		};
+		
+		PIDController pidCtrl = new PIDController(1, 0, 0, pidSource, pidOutput);
+		
+		pidCtrl.setSetpoint(displaceAmount);
+		pidCtrl.setOutputRange(-1.0, 1.0);
+		pidCtrl.enable();
+		Timer.delay(time);
+		pidCtrl.disable();
+	}
+	*/
+	
+	/*
+	public void rotateInDegreesPIDLib(double rotAmount, double time, Robot robot)
+	{
+		PIDSource pidSource = new PIDSource() {
+			@Override
+			public double pidGet()
+			{
+				return robot.navx.getYaw();
+			}
+		};
+		PIDOutput pidOut = new PIDOutput(){
+			@Override
+			public void pidWrite(double output){
+				driveRawPolar(0, 0, output, robot);
+			}
+		};
+		PIDController pidCtrl = new PIDController(.0056, .000001, 0, pidSource, pidOut){
+			@Override
+			public synchronized double getError() {
+				double error = super.getError();
+				if(error > 180)
+					error-=360;
+				if(error < -180)
+					error+=360;
+				return error;
+			}
+		};
+		
+		pidCtrl.setSetpoint(rotAmount);
+		pidCtrl.setOutputRange(-1.0, 1.0);
+		pidCtrl.enable();
+		Timer.delay(time);
+		pidCtrl.disable();
+	}
+	*/
+	
 	/*using PID to rotate to a certain value*/
 	public void rotateInDegrees(double rotAmount, double time, Robot robot)
 	{
 		double error = 0;
-		double pConstant = 4;
+		double prevError = 0;
+		
+		double pConstant = .0056;
+		double pOutput = 0;
+		
+		double iConstant = .000001;
+		double iOutput = 0;
+		
+		double dConstant = 0;
+		double dOutput = 0;
+		
+		//integral is a Right Riemann Sum approximation
+		double integralOfError = 0; //integral of error(t) w respect to time in seconds
+		
+		double currentTime = 0;
+		double prevTime = 0;
+		double deltaTime = 0;
+		
 		double targetValue = robot.navx.getYaw() + rotAmount;
 		double output = 0;
+		
+		pConstant = SmartDashboard.getNumber("P");
+		iConstant = SmartDashboard.getNumber("I");
 		
 		if(targetValue > 180)
 			targetValue-=360;
@@ -174,10 +263,35 @@ public class Driver
 		//will adjust rot for time
 		while(!timer.hasPeriodPassed(time))
 		{
+			prevError = error;
 			error = Util.findAngleDiff(targetValue, robot.navx.getYaw());
-			output = pConstant * error;
+			
+			//time
+			prevTime = currentTime;
+			currentTime = timer.get();
+			deltaTime = currentTime - prevTime;
+			
+			//P output
+			pOutput = pConstant * error;
+			
+			//I output
+			integralOfError += iConstant * (error * deltaTime);
+			iOutput = integralOfError;
+			
+			//D output
+			dOutput = dConstant * deltaTime * (error - prevError);
+			
+			output = pOutput + iOutput + dOutput;
+			output = Math.min(Math.max(-1.0, output) , 1.0);
+			
 			this.driveRawPolar(0, 0, output, robot);
 		}
+		timer.stop();
+	}
+	
+	public void stop()
+	{
+		robotDrive.mecanumDrive_Polar(0, 0, 0);
 	}
 	
 	public void driveRawCartesian(double x, double y, double rotation, double gyroAngle)

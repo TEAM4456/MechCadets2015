@@ -156,14 +156,14 @@ public class Ladder
 	 */
 	public void close()
 	{
-		piston1.set(Value.kForward);
-		piston2.set(Value.kForward);
+		piston1.set(Value.kReverse);
+		piston2.set(Value.kReverse);
 		gripIsOpen = false;
 	}
 	public void open()
 	{
-		piston1.set(Value.kReverse);
-		piston2.set(Value.kReverse);
+		piston1.set(Value.kForward);
+		piston2.set(Value.kForward);
 		gripIsOpen = true;
 	}
 	

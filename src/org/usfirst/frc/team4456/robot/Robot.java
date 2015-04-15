@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4456.robot;
 
 import java.util.Date;
+import java.util.TimerTask;
 
 import org.usfirst.frc.team4456.robot.autonomous.*;
 
@@ -51,6 +52,10 @@ public class Robot extends IterativeRobot
 	Compressor compressor;
 	
 	public AHRS navx;
+	
+	float yawDeriv1 = 0;
+	float yawPrev = 0;
+	float yawCurr = 0;
 	
 	UI ui;
 	//Vision vision;
@@ -155,6 +160,10 @@ public class Robot extends IterativeRobot
     	}
     	else
     	{
+    		//ROTATE 90º:
+    		//rot value .4
+    		//time .8 sec
+    		
     		/*
     		//AUTO1
     		int hookPositionsLength = Constants.HOOK_LOADER_POSITIONS.length;
@@ -175,15 +184,48 @@ public class Robot extends IterativeRobot
     		hooks.setIndex(hookPositionsLength - 1);
     		*/
     		
+    		//AUTO - fwd into auto zone
+    		/*
     		Timer timer = new Timer();
     		timer.start();
     		while(!timer.hasPeriodPassed(1.3))
     		{
     			driver.driveRawPolar(.4, 0, 0, this);
     		}
+    		*/
     		
     		/*
-    		//AUTO5
+    		//AUTO - pick up tote, turn right 90º, go fwd to auto zone
+    		
+    		int hookPositionsLength = Constants.HOOK_LOADER_POSITIONS.length;
+    		
+    		Timer timer = new Timer();
+    		
+    		hooks.setIndex(hookPositionsLength - 2);
+    		Timer.delay(.7);
+    		
+    		//gyro based
+    		//driver.rotateInDegrees(90, 3, this); //MUST BE CALIBRATED
+    		
+    		//time based
+    		timer.start();
+    		while(timer.hasPeriodPassed(1.4)) //MUST BE CALIBRATED
+    			driver.driveRawPolar(0, 0, .5, this);
+    		
+    		//go backwards for
+    		while(!timer.hasPeriodPassed(2.5))
+    		{
+    			driver.driveRawPolar(.4, 180, 0, this);
+    		}
+    		
+    		Timer.delay(.2);
+    		hooks.setIndex(hookPositionsLength - 1);
+    		*/
+    		
+    		
+    		
+    		/*
+    		//AUTO5 - rotate 90º counterclock, pick up trash bin, backup, turn 90 clockwise
     		int ladderPosLength = Constants.WINCH_LADDER_POSITIONS.length;
     		
     		Timer timer = new Timer();
@@ -193,12 +235,16 @@ public class Robot extends IterativeRobot
     		//open grabber
     		ladder.open();
     		
+    		
+    		driver.rotateInDegrees(90, 3, this);
+    		
     		//bring ladder down
-    		ladder.setIndex(2); // not sure about this index
+    		ladder.setIndex(0);
+    		Timer.delay(2.5);
     		
     		//move robot-back
     		timer.start();
-    		while(timer.hasPeriodPassed(.3))
+    		while(!timer.hasPeriodPassed(.1))
     			driver.driveRawPolar(.3, 180, 0, this);
     		driver.driveRawPolar(0, 0, 0, this);
     		timer.stop();
@@ -207,19 +253,245 @@ public class Robot extends IterativeRobot
     		//grab trashcan & raise ladder
     		ladder.close();
     		Timer.delay(1.0);
-    		ladder.setIndex(ladderPosLength - 2);
+    		ladder.setIndex(ladderPosLength - 1);
     		Timer.delay(1.0);
     		
     		//move robot-fwd
     		timer.start();
-    		while(timer.hasPeriodPassed(1.9))
+    		while(!timer.hasPeriodPassed(1.45))
     			driver.driveRawPolar(.3, 0, 0, this);
     		driver.driveRawPolar(0, 0, 0, this);
     		timer.stop();
     		timer.reset();
+    		
+    		Timer.delay(.5);
+    		
+    		//rotate
+    		driver.rotateInDegrees(-90, 3, this);
     		*/
+    		if(isAutonomous())
+    		{
+    			//auto7();
+    			auto8();
+    		}
+    		
+    		
     	}
     	
+    }
+    
+    private void auto5()
+    {
+    	int ladderPosLength = Constants.WINCH_LADDER_POSITIONS.length;
+		
+		Timer timer = new Timer();
+		
+		System.out.println("Running Auto");
+		
+		//open grabber
+		ladder.open();
+		
+		
+		driver.rotateInDegrees(90, 3, this);
+		
+		//bring ladder down
+		ladder.setIndex(0);
+		Timer.delay(2.5);
+		
+		//move robot-back
+		timer.start();
+		while(!timer.hasPeriodPassed(.1))
+			driver.driveRawPolar(.3, 180, 0, this);
+		driver.driveRawPolar(0, 0, 0, this);
+		timer.stop();
+		timer.reset();
+		
+		//grab trashcan & raise ladder
+		ladder.close();
+		Timer.delay(1.0);
+		ladder.setIndex(ladderPosLength - 1);
+		Timer.delay(1.0);
+		
+		//move robot-fwd
+		timer.start();
+		while(!timer.hasPeriodPassed(1.45))
+			driver.driveRawPolar(.3, 0, 0, this);
+		driver.driveRawPolar(0, 0, 0, this);
+		timer.stop();
+		timer.reset();
+		
+		Timer.delay(.5);
+		
+		//rotate
+		driver.rotateInDegrees(-90, 3, this);
+    }
+    
+    private void auto6()
+    {
+    	int ladderPosLength = Constants.WINCH_LADDER_POSITIONS.length;
+		
+		Timer timer = new Timer();
+		
+		System.out.println("Running Auto");
+		
+		//open grabber
+		ladder.open();
+		
+		//bring ladder down
+		ladder.setIndex(0);
+		Timer.delay(2.5);
+		
+		//move robot to trashcan -- rBack
+		timer.start();
+		while(!timer.hasPeriodPassed(.1))
+			driver.driveRawPolar(.3, 180, 0, this);
+		driver.driveRawPolar(0, 0, 0, this);
+		timer.stop();
+		timer.reset();
+		
+		//grab trashcan & raise ladder
+		ladder.close();
+		Timer.delay(1.0);
+		ladder.setIndex(ladderPosLength - 1);
+		Timer.delay(1.0);
+		
+		//move robot-fwd -- rFwd
+		timer.start();
+		while(!timer.hasPeriodPassed(1.45))
+			driver.driveRawPolar(.3, 0, 0, this);
+		driver.driveRawPolar(0, 0, 0, this);
+		timer.stop();
+		timer.reset();
+		
+		Timer.delay(.5);
+		
+		//rotate 90º
+		driver.rotateInDegrees(90, 3, this);
+		
+		//bring down ladder and drop the trash can and bring the ladder back up.
+		ladder.setIndex(0);
+		Timer.delay(2.5);
+		ladder.open();
+		Timer.delay(.75);
+		ladder.setIndex(4);
+		
+		//rotate -45º
+		driver.rotateInDegrees(-45, 1.5, this);
+		
+		//Move towards trashcan
+		timer.start();
+		while(!timer.hasPeriodPassed(.5));
+			driver.driveRawPolar(.3, 0, 0, this);
+		driver.stop();
+		timer.stop();
+		timer.reset();
+		
+		//move ladder back down
+		ladder.setIndex(0);
+		Timer.delay(1.);
+		
+		//grab trash can
+		ladder.close();
+		Timer.delay(.25);
+		
+		//bring ladder up
+		ladder.setIndex(4);
+    }
+    
+    /**
+     * auto for 2 cans.
+     * */
+    private void auto7()
+    {
+    	if(isAutonomous())
+    	{
+	    	Timer timer = new Timer();
+	    	ladder.open();
+	    	int ladderTopIndex = Constants.WINCH_LADDER_POSITIONS.length - 1;
+	    	
+	    	//rotate +58º
+	    	driver.rotateInDegrees(66, 1.7, this);
+	    	
+	    	//drop ladder
+	    	ladder.setIndex(0);
+	    	Timer.delay(2.5);
+	    	
+	    	//pick up can
+	    	ladder.close();
+	    	Timer.delay(.1);
+	    	
+	    	//raise ladder
+	    	ladder.setIndex(ladderTopIndex);
+	    	Timer.delay(1.7);
+	    	
+	    	//rotate -58º
+	    	driver.rotateInDegrees(-66, 1.7, this);
+	    	
+	    	//drop can -- dont drop the ladder
+	    	ladder.open();
+	    	Timer.delay(.5);
+	    	
+	    	//rotate +122º
+	    	driver.rotateInDegrees(130, 3., this);
+	    	
+	    	//drop ladder
+	    	ladder.setIndex(0);
+	    	Timer.delay(2.5);
+	    	
+	    	//pick up can
+	    	ladder.close();
+	    	
+	    	//raise ladder
+	    	ladder.setIndex(ladderTopIndex);
+	    	Timer.delay(2.);
+    	}
+    }
+
+    
+    private void auto8()
+    {
+    	int ladderTopIndex = Constants.WINCH_LADDER_POSITIONS.length - 1;
+    	ladder.open();
+    	
+    	//bring down ladder
+    	ladder.setIndex(0);
+    	Timer.delay(2.5);
+    	
+    	//grab can
+    	ladder.close();
+    	Timer.delay(.5);
+    	
+    	//bring ladder up
+    	ladder.setIndex(ladderTopIndex);
+    	Timer.delay(2.9);
+    	
+    	//rotate -90
+    	driver.rotateInDegrees(-90, 3.0, this);
+    	
+    	//drop can
+    	ladder.open();
+    	Timer.delay(.5);
+    	
+    	//rotate +127
+    	driver.rotateInDegrees(127, 4.0, this);
+    	
+    	//bring down ladder
+    	ladder.setIndex(0);
+    }
+    /**
+     * @param clockwise if true, rot clockwise, if false, rotate counterclock
+     * 
+     * */
+    private void rotate90(boolean clockwise)
+    {
+    	Timer timer = new Timer();
+	    timer.start();
+	    double rotMagnitude = clockwise ? 0.4 : -0.4;
+		while(!timer.hasPeriodPassed(1.25))
+			driver.driveRawPolar(0, 0, rotMagnitude, this);
+		driver.stop();
+		timer.stop();
+		timer.reset();
     }
     
     /**
@@ -227,21 +499,19 @@ public class Robot extends IterativeRobot
 	 */
 	public void autonomousPeriodic()
 	{
-		
-		super.autonomousPeriodic();
-		
-		if(useAutoChooser)
+		if(isAutonomous())
 		{
-			autoSequence.runPeriodic();
+			
+			if(useAutoChooser)
+			{
+				autoSequence.runPeriodic();
+			}
+			
+			/*
+			 * Scheduler.getInstance().run();
+			 *	ui.update(this);
+			 */
 		}
-		
-		/*
-		 * Scheduler.getInstance().run();
-		 *	ui.update(this);
-		 */
-		
-		
-		
 	}
 
 	//----------------
@@ -249,12 +519,10 @@ public class Robot extends IterativeRobot
     //----------------
     public void teleopInit()
     {
-    	super.teleopInit();
     	compressor.start();
     }
     public void teleopPeriodic()
     {
-    	super.teleopPeriodic();
     	ui.update();
     	
     	lidar.getDistance();
@@ -297,6 +565,22 @@ public class Robot extends IterativeRobot
     public void testPeriodic()
     {
     	super.testPeriodic();
+    }
+    
+    private void updateYawDeriv()
+    {
+    		yawPrev = yawCurr;
+    		yawCurr = navx.getYaw();
+    		yawDeriv1 = yawCurr - yawPrev;
+    }
+    
+    private class Time extends TimerTask
+    {
+		@Override
+		public void run()
+		{
+			updateYawDeriv();
+		}
     }
     
 }
